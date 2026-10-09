@@ -300,6 +300,73 @@ service cloud.firestore {
 }
 ```
 
+erDiagram
+    USERS {
+        string uid PK
+        string nama
+        string email
+        string notlp
+        string alamat
+        string role "customer / admin"
+        timestamp createdAt
+    }
+
+    PAKET {
+        string docId PK
+        string nama
+        string kategori
+        number harga
+        string deskripsi
+        string imageUrl
+        array fasilitas
+        boolean tersedia
+        timestamp createAt
+    }
+
+    ITEMS {
+        string itemId PK
+        string nama
+        string imageUrl
+        timestamp createdAt
+    }
+
+    ORDERS {
+        string orderId PK
+        string userId FK
+        string namaPemesan
+        string telepon
+        string email
+        array items
+        string namaPaket
+        number jumlahPorsi
+        string namaKegiatan
+        string lokasiAcara
+        string tanggalAcara
+        timestamp waktuKegiatan
+        string metodePembayaran
+        string catatan
+        number totalHarga
+        string status "Pending / Diproses / Selesai"
+        string paymentStatus "Unpaid / Menunggu Verifikasi / Lunas"
+        string buktiPembayaranUrl
+        timestamp createdAt
+    }
+
+    PAYMENTS {
+        string paymentId PK
+        string orderId FK
+        number harga
+        number jumlah
+        string method
+        string buktiUrl
+        string status "Lunas"
+        timestamp createdAt
+    }
+
+    USERS ||--o{ ORDERS : "membuat"
+    PAKET ||--o{ ITEMS : "memiliki sub-koleksi"
+    ORDERS ||--o| PAYMENTS : "melakukan pembayaran"
+
 ---
 
 ## 🚀 Panduan Deployment ke Hostinger
