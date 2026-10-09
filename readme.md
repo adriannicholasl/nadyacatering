@@ -1,378 +1,270 @@
 # Nadya Catering Pineleng - Web Application
 
-Aplikasi web manajemen pemesanan katering berbasis arsitektur *Hybrid Web* yang mengintegrasikan antarmuka modern (Bootstrap & Tailwind CSS), backend basis data *real-time* berbasis cloud (**Google Firebase Authentication & Cloud Firestore**), serta upload berkas lokal berbasis **PHP** untuk penyimpanan bukti transaksi dan gambar menu.
+[![Tech Stack](https://img.shields.io/badge/Stack-HTML5%20%7C%20Bootstrap%203%20%7C%20TailwindCSS-orange?style=flat-square)]()
+[![Backend](https://img.shields.io/badge/Backend-Firebase%20Auth%20%7C%20Firestore%20%7C%20PHP-blue?style=flat-square)]()
+[![Deployment](https://img.shields.io/badge/Hosting-Hostinger%20Ready-purple?style=flat-square)]()
+
+Aplikasi web manajemen pemesanan katering profesional berbasis arsitektur *Hybrid Web* yang dikembangkan untuk **Nadya Catering Pineleng** (Minahasa & Manado, Sulawesi Utara). Platform ini mengintegrasikan antarmuka responsif modern, basis data *real-time* cloud, serta penyimpanan berkas lokal via PHP untuk efisiensi media tanpa ketergantungan pada penyimpanan cloud berbayar.
 
 ---
 
 ## 📌 Daftar Isi
+
 1. [Fitur Utama](#-fitur-utama)
-2. [Arsitektur & Konsep Hybrid](#-arsitektur--konsep-hybrid)
-3. [Akun Pengujian (Testing Credentials)](#-akun-pengujian-testing-credentials)
-4. [Diagram Sistem (UML & Flowchart)](#-diagram-sistem-uml--flowchart)
-   - [Use Case Diagram](#1-use-case-diagram)
-   - [Entity Relationship Diagram (Firestore Data Model)](#2-entity-relationship-diagram-firestore-data-model)
-   - [Flowchart Pemesanan Pelanggan](#3-flowchart-pemesanan-pelanggan)
-   - [Flowchart Verifikasi Admin](#4-flowchart-verifikasi-admin)
-5. [Panduan Instalasi & Menjalankan di Lokal (XAMPP)](#-panduan-instalasi--menjalankan-di-lokal-xampp)
-6. [Konfigurasi Firebase Agar Bisa Diakses Semua Device](#-konfigurasi-firebase-agar-bisa-diakses-semua-device)
-7. [Panduan Deployment ke Hostinger](#-panduan-deployment-ke-hostinger)
+2. [Arsitektur & Konsep Hybrid](#️-arsitektur--konsep-hybrid)
+3. [Teknologi yang Digunakan](#-teknologi-yang-digunakan)
+4. [Akun Pengujian (Testing Credentials)](#-akun-pengujian-testing-credentials)
+5. [UML Class & Entity Relationship Diagram (ERD)](#-uml-class--entity-relationship-diagram-erd)
+6. [Alur Diagram Sistem (Flowcharts)](#-alur-diagram-sistem-flowcharts)
+7. [Panduan Instalasi & Menjalankan di Lokal (XAMPP)](#-panduan-instalasi--menjalankan-di-lokal-xampp)
+8. [Konfigurasi Firebase Multi-Device](#-konfigurasi-firebase-multi-device)
+9. [Panduan Deployment ke Hostinger](#-panduan-deployment-ke-hostinger)
 
 ---
 
 ## 🚀 Fitur Utama
 
-### Sisi Pelanggan (Client-Side)
-- **Katalog Menu Interaktif**: Menampilkan daftar paket katering dengan format cover potret (rasio 9:16) dan rincian sub-hidangan langsung dari Cloud Firestore.
-- **Autentikasi Aman**: Login dan registrasi terintegrasi dengan Firebase Auth.
-- **Keranjang Belanja (Cart)**: Pengaturan kuantitas porsi dinamis dengan integrasi form alamat/lokasi acara serta tanggal kegiatan.
-- **Konfirmasi Transaksi Dinamis (`order-success.html`)**: Halaman instruksi transfer bank (BCA, Mandiri, BRI, DANA) dengan opsi *copy-to-clipboard*, tautan pesan otomatis WhatsApp, dan upload bukti transfer.
-- **Riwayat Pesanan (`riwayat-pesanan.html`)**: Melacak histori pesanan spesifik milik akun yang sedang masuk (difilter berdasarkan `userId`).
+### 👤 Sisi Pelanggan (Client-Side)
+* **Katalog Paket Potret (9:16)**: Menampilkan pilihan paket katering dengan format sampul penuh vertikal dan rincian sub-hidangan dinamis dari sub-koleksi database.
+* **Autentikasi Terintegrasi**: Sistem Masuk & Daftar akun yang diamankan oleh Firebase Authentication.
+* **Keranjang Belanja Pintar**: Pengaturan kuantitas porsi dinamis dengan proteksi wajib login sebelum menambahkan barang atau mengakses keranjang.
+* **Informasi & Lokasi Acara**: Form checkout yang mewajibkan input nama acara, alamat/lokasi pengantaran gedung, jadwal, dan catatan khusus.
+* **Konfirmasi & Pembayaran (`order-success.html`)**: Halaman rincian tagihan lengkap dengan opsi salin nomor rekening (BCA, Mandiri, BRI, DANA), tombol kirim pesan otomatis ke WhatsApp, serta fitur *upload* bukti transfer langsung.
+* **Riwayat Pesanan Saya (`riwayat-pesanan.html`)**: Dasbor pelacakan status transaksi (*Pending*, *Diproses*, *Selesai*) yang disaring murni berdasarkan `userId` akun yang aktif.
 
-### Sisi Pengelola (Admin Dashboard)
-- **Dashboard Statistik**: Metrik pendapatan, jumlah pesanan aktif, total pelanggan, dan grafik ringkasan pesanan.
-- **Kelola Pesanan (`admin-pesanan.html`)**: Pembaruan status pesanan (*Pending*, *Diproses*, *Selesai*, *Dibatalkan*), verifikasi pembayaran, dan pengecekan lokasi acara.
-- **Kelola Menu Paket (`admin-menu.html`)**: Penambahan dan pengeditan paket utama beserta sub-koleksi hidangan makanan dengan pembuatan jalur gambar otomatis.
-- **Kelola Pelanggan (`admin-pelanggan.html`)**: Tinjauan daftar pengguna terdaftar beserta peran (*role*).
+### 🛡️ Sisi Pengelola (Admin Dashboard)
+* **Dashboard Metrik (`admin.html`)**: Pemantauan statistik total paket aktif, pesanan masuk, dan ringkasan transaksi.
+* **Kelola Pesanan (`admin-pesanan.html`)**: Validasi bukti transfer, pembaruan status pembayaran (*Unpaid* ➔ *Menunggu Verifikasi* ➔ *Lunas*), dan pengubahan status pengerjaan katering.
+* **Kelola Menu Paket (`admin-menu.html`)**: Antarmuka berbasis Tailwind untuk menambah/menghapus paket dan sub-hidangan makanan dengan jalur gambar otomatis (`images/{Nama Paket}/{Nama Makanan}.jpg`).
+* **Kelola Pelanggan (`admin-pelanggan.html`)**: Tinjauan daftar seluruh pengguna terdaftar beserta peran aksesnya.
 
 ---
 
 ## ⚙️ Arsitektur & Konsep Hybrid
 
-Aplikasi ini menggunakan pendekatan **Hybrid**:
-1. **Data & State Management**: Menggunakan **Firebase Auth** (autentikasi pengguna) dan **Cloud Firestore** (NoSQL Realtime Database).
-2. **Media Storage**: Karena Firebase Storage memerlukan paket berbayar (Blaze) untuk skala tertentu, file gambar dan bukti transaksi disimpan langsung ke direktori server hosting/lokal (`uploads/payment/`) melalui skrip perantara `php/upload_bukti.php`. Path URL gambar kemudian disimpan ke dokumen Firestore.
+Aplikasi ini menerapkan pola **Hybrid Architecture**:
+1. **Cloud Realtime Database & Auth**: Seluruh data pengguna, katalog paket, sub-koleksi item, dan dokumen pesanan dikelola di **Google Cloud Firestore** dan **Firebase Auth**.
+2. **Local Server Media Storage**: Mengingat Firebase Storage memerlukan paket berbayar (*Blaze plan*), unggahan foto menu admin dan bukti pembayaran pelanggan dikirim melalui endpoint **PHP (`php/upload_bukti.php`)** untuk disimpan secara langsung ke direktori server lokal (`uploads/payment/`). Path URL relatifnya kemudian direkam ke dokumen Firestore.
+
+---
+
+## 🛠️ Teknologi yang Digunakan
+
+* **Frontend Framework**: Bootstrap 3 (Client pages) & Tailwind CSS v3 via CDN (Admin dashboard).
+* **Ikon & Tipografi**: Font Awesome & Google Fonts (*Plus Jakarta Sans*).
+* **Backend & Database**: Firebase Auth, Cloud Firestore (NoSQL v8 SDK).
+* **Server Processing**: PHP 7.4+ / 8.x (untuk fungsi penanganan `move_uploaded_file`).
+* **Deployment Target**: Hostinger (Apache / LiteSpeed Web Server).
 
 ---
 
 ## 🔑 Akun Pengujian (Testing Credentials)
 
-Gunakan akun administrator berikut untuk menguji fitur dashboard admin:
+Gunakan akun administrator berikut untuk menguji fitur pengelohan pesanan dan manajemen menu di halaman admin:
 
 | Peran (Role) | Email | Password | Hak Akses |
 | :--- | :--- | :--- | :--- |
-| **Administrator** | `arron@gmail.com` | `123456` | Akses penuh dashboard admin (`admin.html`) |
-| **Pelanggan** | *Daftar mandiri di web* | *Bebas (min. 6 karakter)* | Pemesanan menu & riwayat transaksi |
+| **Administrator** | `arron@gmail.com` | `123456` | Akses penuh seluruh panel `/admin*.html` |
+| **Pelanggan** | *Daftar sendiri via modal* | *Bebas (Min. 6 karakter)* | Akses katalog, keranjang, & riwayat pesanan |
 
-> **Catatan:** Dokumen pengguna untuk `arron@gmail.com` di koleksi `users` pada Firestore harus memiliki field `role: "admin"`.
+> *Catatan: Pastikan pada dokumen Firestore koleksi `users` untuk UID akun `arron@gmail.com` memiliki field tambahan `role: "admin"`.*
 
 ---
 
-## 📊 Diagram Sistem (UML & Flowchart)
+## 📊 UML Class & Entity Relationship Diagram (ERD)
 
-### 1. Use Case Diagram
+Berikut adalah pemodelan kelas dan struktur relasi data basis data NoSQL bersarang pada sistem:
 
 ```mermaid
-flowchart LR
-    subgraph Pelanggan ["Aktor: Pelanggan"]
-        C1((Pelanggan))
-    end
+classDiagram
+    direction LR
 
-    subgraph Admin ["Aktor: Admin"]
-        A1((Administrator))
-    end
+    class User {
+        +String uid (PK)
+        +String nama
+        +String email
+        +String notlp
+        +String alamat
+        +String role ("customer" | "admin")
+        +Timestamp createdAt
+        +login()
+        +register()
+    }
 
-    subgraph System ["Sistem Nadya Catering"]
-        UC1([Lihat Paket Catering])
-        UC2([Registrasi & Login])
-        UC3([Kelola Keranjang Belanja])
-        UC4([Checkout & Input Lokasi Acara])
-        UC5([Upload Bukti Transfer])
-        UC6([Konfirmasi via WhatsApp])
-        UC7([Lihat Riwayat Pesanan])
-        UC8([Kelola Menu & Sub-Item Paket])
-        UC9([Kelola & Verifikasi Pesanan])
-        UC10([Kelola Data Pelanggan])
-    end
+    class Paket {
+        +String docId (PK)
+        +String nama
+        +String kategori
+        +Number harga
+        +String deskripsi
+        +String imageUrl
+        +Array fasilitas
+        +Boolean tersedia
+        +Timestamp createAt
+    }
 
-    C1 --> UC1
-    C1 --> UC2
-    C1 --> UC3
-    C1 --> UC4
-    C1 --> UC5
-    C1 --> UC6
-    C1 --> UC7
+    class PaketItem {
+        +String itemId (PK)
+        +String nama
+        +String imageUrl
+        +Timestamp createdAt
+    }
 
-    A1 --> UC2
-    A1 --> UC8
-    A1 --> UC9
-    A1 --> UC10
+    class Order {
+        +String orderId (PK)
+        +String userId (FK)
+        +String namaPemesan
+        +String telepon
+        +String email
+        +Array items
+        +String namaPaket
+        +Number jumlahPorsi
+        +String namaKegiatan
+        +String lokasiAcara
+        +String tanggalAcara
+        +Timestamp waktuKegiatan
+        +String metodePembayaran
+        +String catatan
+        +Number totalHarga
+        +String status ("Pending" | "Diproses" | "Selesai")
+        +String paymentStatus ("Unpaid" | "Menunggu Verifikasi" | "Lunas")
+        +String buktiPembayaranUrl
+        +Timestamp createdAt
+    }
+
+    class Payment {
+        +String paymentId (PK)
+        +String orderId (FK)
+        +Number harga
+        +Number jumlah
+        +String method
+        +String buktiUrl
+        +String status ("Lunas")
+        +Timestamp createdAt
+    }
+
+    User "1" --> "*" Order : "membuat"
+    Paket "1" *-- "*" PaketItem : "sub-koleksi /paket/{id}/items"
+    Order "1" --> "0..1" Payment : "pembayaran"
 ```
 
 ---
 
-### 2. Entity Relationship Diagram (Firestore Data Model)
+## 🔀 Alur Diagram Sistem (Flowcharts)
 
-```mermaid
-erDiagram
-    USERS {
-        string uid PK "ID Autentikasi Firebase"
-        string nama "Nama Lengkap"
-        string email "Email Pengguna"
-        string notlp "Nomor Telepon / WhatsApp"
-        string alamat "Alamat Tempat Tinggal"
-        string role "admin / customer"
-        timestamp createdAt "Waktu Dibuat"
-    }
-
-    PAKET {
-        string docId PK "ID Paket"
-        string nama "Nama Paket (e.g. Paket A)"
-        string kategori "Kategori Acara"
-        number harga "Harga Dasar Paket"
-        string imageUrl "Path Gambar Cover"
-        string deskripsi "Deskripsi Singkat"
-        array fasilitas "List Fasilitas Paket"
-        boolean tersedia "Status Ketersediaan"
-        timestamp createAt "Waktu Dibuat"
-    }
-
-    ITEMS {
-        string itemId PK "ID Menu Makanan"
-        string nama "Nama Makanan"
-        string imageUrl "Path Gambar Makanan"
-        timestamp createdAt "Waktu Penambahan"
-    }
-
-    ORDERS {
-        string orderId PK "ID Pesanan"
-        string userId FK "ID Pemesan (users.uid)"
-        string namaPemesan "Nama Pelanggan"
-        string telepon "No. Telepon"
-        string namaKegiatan "Nama Acara"
-        string lokasiAcara "Alamat / Lokasi Pengantaran"
-        timestamp waktuKegiatan "Waktu Acara"
-        string namaPaket "Ringkasan Paket"
-        number jumlahPorsi "Total Porsi"
-        number totalHarga "Total Biaya Transaksi"
-        string metodePembayaran "Bank Transfer / Tunai"
-        string status "Pending / Diproses / Selesai"
-        string paymentStatus "Unpaid / Menunggu Verifikasi / Lunas"
-        string buktiPembayaranUrl "Path Bukti Transfer"
-        timestamp createdAt "Waktu Pemesanan"
-    }
-
-    PAYMENTS {
-        string paymentId PK "ID Pembayaran"
-        string orderId FK "ID Referensi Pesanan"
-        number jumlah "Nominal yang Dibayarkan"
-        string method "Metode Transfer"
-        string buktiUrl "Path File Gambar Bukti"
-        string status "Lunas"
-        timestamp createdAt "Waktu Pembayaran"
-    }
-
-    PAKET ||--o{ ITEMS : "memiliki sub-koleksi"
-    USERS ||--o{ ORDERS : "melakukan pemesanan"
-    ORDERS ||--o{ PAYMENTS : "memiliki data pembayaran"
-```
-
----
-
-### 3. Flowchart Pemesanan Pelanggan
-
+### 1. Alur Pemesanan Pelanggan (Customer Checkout Flow)
 ```mermaid
 flowchart TD
-    Start([Buka Website]) --> Browse[Jelajahi Paket Catering]
-    Browse --> ClickDetail[Buka Detail Paket]
-    ClickDetail --> AddCart{Tambah ke Keranjang?}
+    Start([Buka Website]) --> AuthCheck{Sudah Login?}
+    AuthCheck -- Belum --> Browse[Jelajahi Paket & Katalog]
+    AuthCheck -- Sudah --> Browse
+    Browse --> Detail[Buka Detail Paket / menu.html]
+    Detail --> AddCart[Tekan Tambah ke Keranjang]
     
-    AddCart -- Belum Login --> ShowModal[Tampilkan Modal Login]
-    ShowModal --> LoginSuccess[Login / Daftar Berhasil]
-    LoginSuccess --> AddCart
+    AddCart --> CheckLoginSession{Sesi Login Aktif?}
+    CheckLoginSession -- Tidak --> ShowModal[Munculkan Modal Login / Daftar]
+    ShowModal --> DoLogin[Login Berhasil] --> GoCart
+    CheckLoginSession -- Ya --> GoCart[Masuk ke cart.html]
     
-    AddCart -- Sudah Login --> InCart[Item Masuk ke Keranjang]
-    InCart --> OpenCart[Buka Halaman cart.html]
-    OpenCart --> InputDetails[Isi Nama Acara, Lokasi Pengantaran & Jadwal]
-    InputDetails --> SubmitOrder[Klik Proses & Konfirmasi Pesanan]
+    GoCart --> InputForm[Isi Nama Acara, Lokasi Pengantaran & Jadwal]
+    InputForm --> Submit[Proses & Konfirmasi Pesanan]
+    Submit --> SaveDB[(Simpan ke Firestore /orders/)]
+    SaveDB --> SuccessPage[Redirect ke order-success.html]
     
-    SubmitOrder --> SaveFirestore[Simpan Dokumen ke Firestore /orders/]
-    SaveFirestore --> RedirectSuccess[Arahkan ke order-success.html]
-    
-    RedirectSuccess --> Choice{Pilihan Pelanggan}
-    Choice -- Kirim Bukti Sekarang --> UploadFile[Upload Bukti Transfer via PHP]
-    UploadFile --> UpdateStatus[Update Status: Menunggu Verifikasi]
-    Choice -- Konfirmasi WA --> OpenWA[Redirect ke WhatsApp Admin dengan Detail Pesanan]
-    UpdateStatus --> Done([Selesai])
-    OpenWA --> Done
+    SuccessPage --> Opt{Pilih Aksi}
+    Opt -- Upload Bukti Sekarang --> UploadPHP[Kirim File via PHP ke Server]
+    Opt -- Konfirmasi WhatsApp --> OpenWA[Buka WhatsApp dengan Detail Pesanan]
+    UploadPHP --> Finish([Selesai])
+    OpenWA --> Finish
 ```
 
----
-
-### 4. Flowchart Verifikasi Admin
-
+### 2. Alur Verifikasi Admin (Admin Dashboard Flow)
 ```mermaid
 flowchart TD
-    AdminStart([Login Admin]) --> CheckRole{Role == 'admin'?}
-    CheckRole -- Tidak --> Reject[Akses Ditolak -> Redirect Beranda]
-    CheckRole -- Ya --> Dashboard[Masuk admin.html]
-    
-    Dashboard --> ViewOrders[Buka admin-pesanan.html]
-    ViewOrders --> ListenRealtime[Listener Snapshot Firestore Realtime]
-    ListenRealtime --> SelectOrder[Pilih Pesanan Masuk]
-    
-    SelectOrder --> CheckProof{Cek Bukti Transfer}
-    CheckProof -- Valid --> UpdatePaid[Ubah Status: Lunas & Pesanan Diproses]
-    CheckProof -- Belum / Tidak Valid --> ContactCustomer[Hubungi Pelanggan via WhatsApp]
-    
-    UpdatePaid --> UpdateFirestore[(Update Cloud Firestore)]
-    ContactCustomer --> UpdateFirestore
-    UpdateFirestore --> End([Selesai])
+    A[Admin Login dengan arron@gmail.com] --> B{Cek Role di Firestore}
+    B -- Non-Admin --> C[Akses Ditolak / Lempar ke Beranda]
+    B -- Admin --> D[Masuk ke admin.html]
+    D --> E[Buka Halaman admin-pesanan.html]
+    E --> F[Terima Data Realtime dari Koleksi orders]
+    F --> G[Tinjau Lokasi Acara & Bukti Transfer Pelanggan]
+    G --> H{Validasi Pembayaran}
+    H -- Valid --> I[Ubah Status: Lunas & Pesanan Diproses]
+    H -- Belum Valid --> J[Hubungi Pelanggan via WhatsApp]
+    I --> K[(Update Dokumen di Firestore)]
+    J --> K
+    K --> L([Selesai])
 ```
 
 ---
 
 ## 💻 Panduan Instalasi & Menjalankan di Lokal (XAMPP)
 
-Jika rekan tim Anda mendownload repository ini untuk dijalankan di komputer lokal:
+Jika rekan tim Anda ingin mengunduh dan menjalankan proyek ini di komputer lokal:
 
-### 1. Prasyarat
-- **XAMPP** (sudah terpasang Apache & PHP versi 7.4 / 8.x).
-- Koneksi Internet aktif (karena Firebase SDK dan basis data menggunakan Cloud Firestore).
+1. **Prasyarat**:
+   * Terpasang **XAMPP** (Modul Apache & PHP aktif).
+   * Koneksi internet aktif (karena Firestore & Firebase Auth berjalan secara cloud).
 
-### 2. Langkah Pemasangan
-1. Salin atau clone repository ke dalam folder `htdocs` XAMPP:
-   ```bash
-   cd C:\xampp\htdocs
-   git clone https://github.com/adriannicholasl/nadyacatering.git Aaron
-   ```
-   *(Atau ekstrak file zip ke dalam folder `C:\xampp\htdocs\Aaron\`)*.
-
-2. Buka **XAMPP Control Panel**, lalu klik **Start** pada modul **Apache**.
-
-3. Pastikan folder upload bukti pembayaran ada:
-   - Periksa apakah folder `C:\xampp\htdocs\Aaron\uploads\payment\` sudah tersedia. Jika belum, buat folder tersebut secara manual.
-
-4. Buka peramban (browser) dan akses:
-   ```text
-   http://localhost/Aaron/index.html
-   ```
+2. **Langkah Pemasangan**:
+   * Kloning repositori atau ekstrak arsip ZIP ke dalam direktori server lokal Anda:
+     ```bash
+     C:\xampp\htdocs\Aaron\
+     ```
+   * Buka **XAMPP Control Panel**, lalu klik **Start** pada modul **Apache**.
+   * Pastikan struktur direktori folder penampung upload tersedia:
+     ```text
+     C:\xampp\htdocs\Aaron\uploads\payment\
+     ```
+   * Buka browser dan akses aplikasi melalui URL:
+     ```text
+     http://localhost/Aaron/index.html
+     ```
 
 ---
 
 ## 🌐 Konfigurasi Firebase Agar Bisa Diakses Semua Device
 
-Karena basis data Cloud Firestore berbasis cloud, **semua komputer/HP yang menjalankan aplikasi ini akan otomatis terhubung ke database yang sama** asalkan pengaturan berikut diterapkan di [Firebase Console](https://console.firebase.google.com/):
+Karena basis data berbasis cloud, perangkat lain (seperti HP atau laptop teman Anda) dapat terhubung ke database yang sama asalkan pengaturan berikut dikonfigurasi di [Firebase Console](https://console.firebase.google.com/):
 
-### 1. Pengaturan Authorized Domains (Wajib)
-Firebase Auth memblokir upaya login dari domain yang tidak dikenal. Agar teman Anda bisa login baik dari localhost maupun domain lain:
-1. Buka **Firebase Console** -> Proyek Anda.
-2. Masuk ke menu **Build** -> **Authentication** -> Tab **Settings**.
-3. Gulir ke bagian **Authorized domains**.
-4. Pastikan entri berikut terdaftar:
-   - `localhost`
-   - `127.0.0.1`
-   - Domain hosting Anda (misal: `nadyacatering.com` atau domain Hostinger).
+1. **Authorized Domains (Wajib)**:
+   * Masuk ke **Firebase Console** ➔ **Authentication** ➔ **Settings** ➔ **Authorized domains**.
+   * Tambahkan domain lokal dan produksi Anda:
+     * `localhost`
+     * `127.0.0.1`
+     * Domain hosting Anda (misal: `nadyacatering.com`)
 
-### 2. Aturan Keamanan Firestore (Security Rules)
-Buka menu **Firestore Database** -> Tab **Rules**, lalu pastikan aturan berikut sudah dipublikasikan (*Publish*) agar sub-koleksi paket dan pesanan tidak diblokir izin aksesnya:
-
-```javascript
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-
-    // KOLEKSI USERS
-    match /users/{userId} {
-      allow read, write: if request.auth != null;
-    }
-
-    // KOLEKSI PAKET & SUB-KOLEKSI ITEMS
-    match /paket/{document=**} {
-      allow read: if true;
-      allow write: if request.auth != null;
-    }
-
-    // KOLEKSI ORDERS
-    match /orders/{orderId} {
-      allow read, write: if request.auth != null;
-    }
-
-    // KOLEKSI PAYMENTS
-    match /payments/{paymentId} {
-      allow read, write: if request.auth != null;
-    }
-
-    // FALLBACK READ
-    match /{document=**} {
-      allow read: if true;
-    }
-  }
-}
-```
-
-erDiagram
-    USERS {
-        string uid PK
-        string nama
-        string email
-        string notlp
-        string alamat
-        string role "customer / admin"
-        timestamp createdAt
-    }
-
-    PAKET {
-        string docId PK
-        string nama
-        string kategori
-        number harga
-        string deskripsi
-        string imageUrl
-        array fasilitas
-        boolean tersedia
-        timestamp createAt
-    }
-
-    ITEMS {
-        string itemId PK
-        string nama
-        string imageUrl
-        timestamp createdAt
-    }
-
-    ORDERS {
-        string orderId PK
-        string userId FK
-        string namaPemesan
-        string telepon
-        string email
-        array items
-        string namaPaket
-        number jumlahPorsi
-        string namaKegiatan
-        string lokasiAcara
-        string tanggalAcara
-        timestamp waktuKegiatan
-        string metodePembayaran
-        string catatan
-        number totalHarga
-        string status "Pending / Diproses / Selesai"
-        string paymentStatus "Unpaid / Menunggu Verifikasi / Lunas"
-        string buktiPembayaranUrl
-        timestamp createdAt
-    }
-
-    PAYMENTS {
-        string paymentId PK
-        string orderId FK
-        number harga
-        number jumlah
-        string method
-        string buktiUrl
-        string status "Lunas"
-        timestamp createdAt
-    }
-
-    USERS ||--o{ ORDERS : "membuat"
-    PAKET ||--o{ ITEMS : "memiliki sub-koleksi"
-    ORDERS ||--o| PAYMENTS : "melakukan pembayaran"
+2. **Cloud Firestore Rules**:
+   * Masuk ke menu **Firestore Database** ➔ Tab **Rules**, pastikan aturan izin akses diset sebagai berikut:
+     ```javascript
+     rules_version = '2';
+     service cloud.firestore {
+       match /databases/{database}/documents {
+         match /users/{userId} {
+           allow read, write: if request.auth != null;
+         }
+         match /paket/{document=**} {
+           allow read: if true;
+           allow write: if request.auth != null;
+         }
+         match /orders/{orderId} {
+           allow read, write: if request.auth != null;
+         }
+         match /payments/{paymentId} {
+           allow read, write: if request.auth != null;
+         }
+         match /{document=**} {
+           allow read: if true;
+         }
+       }
+     }
+     ```
 
 ---
 
 ## 🚀 Panduan Deployment ke Hostinger
 
-1. Kompres semua file di direktori kerja menjadi file `.zip` (pastikan file `index.html` berada di root zip).
-2. Masuk ke **hPanel Hostinger** -> **File Manager** -> buka direktori **`public_html`**.
-3. Unggah file zip dan ekstrak langsung di dalam `public_html`.
-4. Atur hak akses (*Permissions*) pada folder `uploads` dan `uploads/payment` menjadi **`755`** atau **`775`** agar script PHP diizinkan menulis file bukti pembayaran.
-5. Daftarkan nama domain Hostinger Anda ke menu **Authorized Domains** di Firebase Console.
+1. Kompres seluruh isi folder proyek menjadi satu file arsip berformat `.zip` (pastikan file utama seperti `index.html` berada tepat di dalam root direktori arsip).
+2. Masuk ke **hPanel Hostinger** ➔ **File Manager** ➔ Buka direktori **`public_html`**.
+3. Unggah file `.zip` tersebut dan pilih menu **Extract**.
+4. Atur izin akses (*Permissions*) pada direktori `uploads` dan `uploads/payment` menjadi **`755`** agar skrip PHP diizinkan membuat dan menulis berkas gambar baru dari peramban.
+5. Daftarkan domain publik Hostinger Anda ke daftar **Authorized Domains** di Firebase Console. Website siap digunakan secara online!
