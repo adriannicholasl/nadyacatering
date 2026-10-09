@@ -1,35 +1,38 @@
-# 🍛 Nadya Catering Web Application
+# Nadya Catering Pineleng - Web Application
 
-Aplikasi manajemen dan pemesanan jasa katering berbasis web (*Nadya Catering Pineleng*) yang dirancang khusus untuk memenuhi kebutuhan kuliner acara pernikahan, syukuran, dan ulang tahun di area Minahasa & Manado, Sulawesi Utara. Proyek ini dibangun menggunakan arsitektur *Hybrid Web* yang mengintegrasikan basis data cloud *real-time* dan penyimpanan file lokal berbasis PHP.
+[![Tech Stack](https://img.shields.io/badge/Stack-HTML5%20%7C%20Bootstrap%203%20%7C%20TailwindCSS-orange?style=flat-square)]()
+[![Backend](https://img.shields.io/badge/Backend-Firebase%20Auth%20%7C%20Firestore%20%7C%20PHP-blue?style=flat-square)]()
+[![Deployment](https://img.shields.io/badge/Hosting-Hostinger%20Ready-purple?style=flat-square)]()
+
+Aplikasi web manajemen pemesanan katering profesional berbasis arsitektur *Hybrid Web* yang dikembangkan untuk **Nadya Catering Pineleng** (Minahasa & Manado, Sulawesi Utara). Platform ini mengintegrasikan antarmuka responsif modern, basis data *real-time* cloud, serta penyimpanan berkas lokal via PHP untuk efisiensi media tanpa ketergantungan pada penyimpanan cloud berbayar.
 
 ---
 
 ## 📌 Daftar Isi
+
 1. [Fitur Utama](#-fitur-utama)
 2. [Arsitektur & Konsep Hybrid](#️-arsitektur--konsep-hybrid)
-3. [Stack Teknologi](#-stack-teknologi)
-4. [UML & Pemodelan Sistem](#-uml--pemodelan-sistem)
-   - [Use Case Diagram](#1-use-case-diagram)
-   - [Class & ERD Diagram (Firestore NoSQL)](#2-class--erd-diagram-firestore-nosql)
-   - [Flowchart Alur Pemesanan & Verifikasi](#3-flowchart-alur-pesanan--verifikasi)
-5. [Akun Pengujian (Testing Credentials)](#-akun-pengujian-testing-credentials)
-6. [Panduan Instalasi & Menjalankan di Lokal (XAMPP)](#-panduan-instalasi--menjalankan-di-lokal-xampp)
-7. [Konfigurasi Firebase Multi-Device](#-konfigurasi-firebase-multi-device)
-8. [Panduan Deployment ke Hostinger](#-panduan-deployment-ke-hostinger)
+3. [Teknologi yang Digunakan](#-teknologi-yang-digunakan)
+4. [Akun Pengujian (Testing Credentials)](#-akun-pengujian-testing-credentials)
+5. [UML Class & Entity Relationship Diagram (ERD)](#-uml-class--entity-relationship-diagram-erd)
+6. [Alur Diagram Sistem (Flowcharts)](#-alur-diagram-sistem-flowcharts)
+7. [Panduan Instalasi & Menjalankan di Lokal (XAMPP)](#-panduan-instalasi--menjalankan-di-lokal-xampp)
+8. [Konfigurasi Firebase Multi-Device](#-konfigurasi-firebase-multi-device)
+9. [Panduan Deployment ke Hostinger](#-panduan-deployment-ke-hostinger)
 
 ---
 
 ## 🚀 Fitur Utama
 
-### 1. Sisi Pelanggan (Customer)
-* **Katalog Paket Potret (9:16)**: Menampilkan pilihan paket katering dengan format sampul penuh vertikal dan rincian sub-hidangan dinamis.
-* **Autentikasi Aman**: Sistem Masuk & Daftar akun yang diamankan oleh Firebase Authentication.
-* **Keranjang Belanja Pintar**: Pengaturan kuantitas porsi dinamis dengan proteksi wajib login sebelum menambahkan barang atau mengakses keranjang (`cart.html`).
-* **Form Informasi Acara**: Pengisian nama acara, waktu, **lokasi/alamat pengantaran gedung**, metode pembayaran, dan catatan khusus.
+### 👤 Sisi Pelanggan (Client-Side)
+* **Katalog Paket Potret (9:16)**: Menampilkan pilihan paket katering dengan format sampul penuh vertikal dan rincian sub-hidangan dinamis dari sub-koleksi database.
+* **Autentikasi Terintegrasi**: Sistem Masuk & Daftar akun yang diamankan oleh Firebase Authentication.
+* **Keranjang Belanja Pintar**: Pengaturan kuantitas porsi dinamis dengan proteksi wajib login sebelum menambahkan barang atau mengakses keranjang.
+* **Informasi & Lokasi Acara**: Form checkout yang mewajibkan input nama acara, alamat/lokasi pengantaran gedung, jadwal, dan catatan khusus.
 * **Konfirmasi & Pembayaran (`order-success.html`)**: Halaman rincian tagihan lengkap dengan opsi salin nomor rekening (BCA, Mandiri, BRI, DANA), tombol kirim pesan otomatis ke WhatsApp, serta fitur *upload* bukti transfer langsung.
 * **Riwayat Pesanan Saya (`riwayat-pesanan.html`)**: Dasbor pelacakan status transaksi (*Pending*, *Diproses*, *Selesai*) yang disaring murni berdasarkan `userId` akun yang aktif.
 
-### 2. Sisi Administrator (Admin Dashboard)
+### 🛡️ Sisi Pengelola (Admin Dashboard)
 * **Dashboard Metrik (`admin.html`)**: Pemantauan statistik total paket aktif, pesanan masuk, dan ringkasan transaksi.
 * **Kelola Pesanan (`admin-pesanan.html`)**: Validasi bukti transfer, pembaruan status pembayaran (*Unpaid* ➔ *Menunggu Verifikasi* ➔ *Lunas*), dan pengubahan status pengerjaan katering.
 * **Kelola Menu Paket (`admin-menu.html`)**: Antarmuka berbasis Tailwind untuk menambah/menghapus paket dan sub-hidangan makanan dengan jalur gambar otomatis (`images/{Nama Paket}/{Nama Makanan}.jpg`).
@@ -45,7 +48,8 @@ Aplikasi ini menerapkan pola **Hybrid Architecture**:
 
 ---
 
-## 🛠️ Stack Teknologi
+## 🛠️ Teknologi yang Digunakan
+
 * **Frontend Framework**: Bootstrap 3 (Client pages) & Tailwind CSS v3 via CDN (Admin dashboard).
 * **Ikon & Tipografi**: Font Awesome & Google Fonts (*Plus Jakarta Sans*).
 * **Backend & Database**: Firebase Auth, Cloud Firestore (NoSQL v8 SDK).
@@ -54,61 +58,23 @@ Aplikasi ini menerapkan pola **Hybrid Architecture**:
 
 ---
 
-## 📊 UML & Pemodelan Sistem
+## 🔑 Akun Pengujian (Testing Credentials)
 
-### 1. Use Case Diagram
-```mermaid
-usecaseDiagram
-    actor Tamu as "Pengunjung / Tamu"
-    actor Pelanggan as "Pelanggan (Customer)"
-    actor Admin as "Administrator"
+Gunakan akun administrator berikut untuk menguji fitur pengelohan pesanan dan manajemen menu di halaman admin:
 
-    rectangle "Sistem Web Nadya Catering" {
-        usecase UC1 as "Melihat Beranda & Katalog Paket"
-        usecase UC2 as "Melihat Detail & Menu Makanan"
-        usecase UC3 as "Mendaftar Akun Baru (Register)"
-        usecase UC4 as "Masuk ke Akun (Login)"
-        usecase UC5 as "Mengelola Profil Pengguna"
-        usecase UC6 as "Menambah Paket ke Keranjang"
-        usecase UC7 as "Checkout & Mengisi Lokasi Acara"
-        usecase UC8 as "Membuat Pesanan & Konfirmasi WhatsApp"
-        usecase UC9 as "Mengunggah Bukti Pembayaran"
-        usecase UC10 as "Melihat Riwayat Pesanan Saya"
-        
-        usecase UC11 as "Mengelola Dashboard Statistik"
-        usecase UC12 as "Mengelola Data & Kategori Paket"
-        usecase UC13 as "Mengelola Menu Sub-Koleksi Items"
-        usecase UC14 as "Memverifikasi Pesanan & Pembayaran"
-        usecase UC15 as "Mengelola Data Pelanggan"
-    }
+| Peran (Role) | Email | Password | Hak Akses |
+| :--- | :--- | :--- | :--- |
+| **Administrator** | `arron@gmail.com` | `123456` | Akses penuh seluruh panel `/admin*.html` |
+| **Pelanggan** | *Daftar sendiri via modal* | *Bebas (Min. 6 karakter)* | Akses katalog, keranjang, & riwayat pesanan |
 
-    Tamu --> UC1
-    Tamu --> UC2
-    Tamu --> UC3
-    Tamu --> UC4
+> *Catatan: Pastikan pada dokumen Firestore koleksi `users` untuk UID akun `arron@gmail.com` memiliki field tambahan `role: "admin"`.*
 
-    Pelanggan --> UC1
-    Pelanggan --> UC2
-    Pelanggan --> UC4
-    Pelanggan --> UC5
-    Pelanggan --> UC6
-    Pelanggan --> UC7
-    Pelanggan --> UC8
-    Pelanggan --> UC9
-    Pelanggan --> UC10
+---
 
-    Admin --> UC11
-    Admin --> UC12
-    Admin --> UC13
-    Admin --> UC14
-    Admin --> UC15
+## 📊 UML Class & Entity Relationship Diagram (ERD)
 
-    UC6 .> UC4 : "include"
-    UC7 .> UC4 : "include"
-    UC10 .> UC4 : "include"
-```
+Berikut adalah pemodelan kelas dan struktur relasi data basis data NoSQL bersarang pada sistem:
 
-### 2. Class & ERD Diagram (Firestore NoSQL)
 ```mermaid
 classDiagram
     direction LR
@@ -121,6 +87,8 @@ classDiagram
         +String alamat
         +String role ("customer" | "admin")
         +Timestamp createdAt
+        +login()
+        +register()
     }
 
     class Paket {
@@ -132,12 +100,14 @@ classDiagram
         +String imageUrl
         +Array fasilitas
         +Boolean tersedia
+        +Timestamp createAt
     }
 
     class PaketItem {
         +String itemId (PK)
         +String nama
         +String imageUrl
+        +Timestamp createdAt
     }
 
     class Order {
@@ -145,29 +115,44 @@ classDiagram
         +String userId (FK)
         +String namaPemesan
         +String telepon
+        +String email
         +Array items
+        +String namaPaket
+        +Number jumlahPorsi
+        +String namaKegiatan
         +String lokasiAcara
         +String tanggalAcara
+        +Timestamp waktuKegiatan
         +String metodePembayaran
+        +String catatan
         +Number totalHarga
-        +String status
-        +String paymentStatus
+        +String status ("Pending" | "Diproses" | "Selesai")
+        +String paymentStatus ("Unpaid" | "Menunggu Verifikasi" | "Lunas")
+        +String buktiPembayaranUrl
+        +Timestamp createdAt
     }
 
     class Payment {
         +String paymentId (PK)
         +String orderId (FK)
+        +Number harga
         +Number jumlah
         +String method
         +String buktiUrl
+        +String status ("Lunas")
+        +Timestamp createdAt
     }
 
     User "1" --> "*" Order : "membuat"
-    Paket "1" *-- "*" PaketItem : "sub-koleksi items"
+    Paket "1" *-- "*" PaketItem : "sub-koleksi /paket/{id}/items"
     Order "1" --> "0..1" Payment : "pembayaran"
 ```
 
-### 3. Flowchart Alur Pesanan & Verifikasi
+---
+
+## 🔀 Alur Diagram Sistem (Flowcharts)
+
+### 1. Alur Pemesanan Pelanggan (Customer Checkout Flow)
 ```mermaid
 flowchart TD
     Start([Buka Website]) --> AuthCheck{Sudah Login?}
@@ -193,16 +178,22 @@ flowchart TD
     OpenWA --> Finish
 ```
 
----
-
-## 🔑 Akun Pengujian (Testing Credentials)
-
-Gunakan akun administrator berikut untuk menguji fitur pengelolaan pesanan dan manajemen menu di halaman admin:
-
-| Peran (Role) | Email | Password | Hak Akses |
-| :--- | :--- | :--- | :--- |
-| **Administrator** | `arron@gmail.com` | `123456` | Akses penuh seluruh panel `/admin*.html` |
-| **Pelanggan** | *Daftar sendiri via modal* | *Bebas (Min. 6 karakter)* | Akses katalog, keranjang, & riwayat pesanan |
+### 2. Alur Verifikasi Admin (Admin Dashboard Flow)
+```mermaid
+flowchart TD
+    A[Admin Login dengan arron@gmail.com] --> B{Cek Role di Firestore}
+    B -- Non-Admin --> C[Akses Ditolak / Lempar ke Beranda]
+    B -- Admin --> D[Masuk ke admin.html]
+    D --> E[Buka Halaman admin-pesanan.html]
+    E --> F[Terima Data Realtime dari Koleksi orders]
+    F --> G[Tinjau Lokasi Acara & Bukti Transfer Pelanggan]
+    G --> H{Validasi Pembayaran}
+    H -- Valid --> I[Ubah Status: Lunas & Pesanan Diproses]
+    H -- Belum Valid --> J[Hubungi Pelanggan via WhatsApp]
+    I --> K[(Update Dokumen di Firestore)]
+    J --> K
+    K --> L([Selesai])
+```
 
 ---
 
@@ -213,13 +204,14 @@ Jika rekan tim Anda ingin mengunduh dan menjalankan proyek ini di komputer lokal
 1. **Prasyarat**:
    * Terpasang **XAMPP** (Modul Apache & PHP aktif).
    * Koneksi internet aktif (karena Firestore & Firebase Auth berjalan secara cloud).
+
 2. **Langkah Pemasangan**:
    * Kloning repositori atau ekstrak arsip ZIP ke dalam direktori server lokal Anda:
-     ```text
+     ```bash
      C:\xampp\htdocs\Aaron\
      ```
    * Buka **XAMPP Control Panel**, lalu klik **Start** pada modul **Apache**.
-   * Pastikan direktori penampung upload tersedia:
+   * Pastikan struktur direktori folder penampung upload tersedia:
      ```text
      C:\xampp\htdocs\Aaron\uploads\payment\
      ```
@@ -232,7 +224,7 @@ Jika rekan tim Anda ingin mengunduh dan menjalankan proyek ini di komputer lokal
 
 ## 🌐 Konfigurasi Firebase Agar Bisa Diakses Semua Device
 
-Karena basis data berbasis cloud, perangkat lain dapat terhubung ke database yang sama asalkan pengaturan berikut dikonfigurasi di [Firebase Console](https://console.firebase.google.com/):
+Karena basis data berbasis cloud, perangkat lain (seperti HP atau laptop teman Anda) dapat terhubung ke database yang sama asalkan pengaturan berikut dikonfigurasi di [Firebase Console](https://console.firebase.google.com/):
 
 1. **Authorized Domains (Wajib)**:
    * Masuk ke **Firebase Console** ➔ **Authentication** ➔ **Settings** ➔ **Authorized domains**.
@@ -240,6 +232,7 @@ Karena basis data berbasis cloud, perangkat lain dapat terhubung ke database yan
      * `localhost`
      * `127.0.0.1`
      * Domain hosting Anda (misal: `nadyacatering.com`)
+
 2. **Cloud Firestore Rules**:
    * Masuk ke menu **Firestore Database** ➔ Tab **Rules**, pastikan aturan izin akses diset sebagai berikut:
      ```javascript
