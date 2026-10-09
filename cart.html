@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Keranjang Pesanan - Nadya Catering Pineleng</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/custom-ui.css">
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar custom-navbar navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon icon-bar"></span>
+          <span class="icon icon-bar"></span>
+          <span class="icon icon-bar"></span>
+        </button>
+        <a href="index.html" class="navbar-brand">
+          <img src="images/nadyalogo.png" alt="Nadya Catering Logo" class="nav-logo">
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-nav-first">
+          <li><a href="index.html#home">Beranda</a></li>
+          <li><a href="index.html#menu">Paket Catering</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="index.html#menu">
+              <i class="fa fa-arrow-left"></i> Tambah Menu Lain
+            </a>
+          </li>
+          <li class="user-menu-wrapper">
+            <a href="javascript:void(0)" id="userMenuBtn" class="btn-auth">
+              <i class="fa fa-user-circle"></i> <span id="userMenuName">Login / Daftar</span>
+            </a>
+            <div class="user-dropdown" id="userDropdown">
+              <a href="profil.html"><i class="fa fa-id-card"></i> Profil Saya</a>
+              <a href="riwayat-pesanan.html"><i class="fa fa-history"></i> Riwayat Pesanan</a>
+              <div id="adminDropdownContainer"></div>
+              <a href="#" id="logoutBtn"><i class="fa fa-sign-out"></i> Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HALAMAN KERANJANG -->
+  <div class="cart-page">
+    <div class="container">
+      <h2><i class="fa fa-shopping-cart"></i> Keranjang & Form Pemesanan</h2>
+
+      <div class="row">
+        <!-- ITEM KERANJANG -->
+        <div class="col-md-7 col-sm-12">
+          <div class="cart-card">
+            <h4><i class="fa fa-list"></i> Daftar Paket Pilihan</h4>
+            <div id="cartItemsContainer"></div>
+          </div>
+        </div>
+
+        <!-- FORM DETAIL ACARA -->
+        <div class="col-md-5 col-sm-12">
+          <div class="cart-card">
+            <h4><i class="fa fa-map-marker"></i> Informasi Acara & Pengantaran</h4>
+
+            <form id="cartCheckoutForm">
+              <div class="form-group">
+                <label>Nama Acara / Kegiatan <span class="text-danger">*</span></label>
+                <input type="text" id="cartNamaKegiatan" class="form-control"
+                  placeholder="Contoh: Pernikahan / Acara Kantor" required>
+              </div>
+
+              <div class="form-group">
+                <label>Alamat / Lokasi Acara <span class="text-danger">*</span></label>
+                <textarea id="cartLokasiAcara" class="form-control" rows="2"
+                  placeholder="Contoh: Gedung Wale Ne Tou, Tomohon / Jl. Raya Pineleng No. 12" required></textarea>
+                <small class="text-muted">Alamat lengkap tujuan pengantaran catering oleh tim kami.</small>
+              </div>
+
+              <div class="form-group">
+                <label>Tanggal & Waktu Acara <span class="text-danger">*</span></label>
+                <input type="datetime-local" id="cartWaktuKegiatan" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label>Metode Pembayaran Pilihan</label>
+                <select id="cartMetodePembayaran" class="form-control" required>
+                  <option value="Transfer BCA">Transfer Bank BCA</option>
+                  <option value="Transfer Mandiri">Transfer Bank Mandiri</option>
+                  <option value="Transfer BRI">Transfer Bank BRI</option>
+                  <option value="DANA / E-Wallet">DANA / QRIS E-Wallet</option>
+                  <option value="Tunai / COD">Tunai / Bayar di Tempat</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Catatan Tambahan (Opsional)</label>
+                <textarea id="cartCatatan" class="form-control" rows="2"
+                  placeholder="Contoh: Makanan siap sebelum jam 11 siang, pedas dikurangi."></textarea>
+              </div>
+
+              <hr>
+
+              <div class="cart-total-box">
+                <span>Total Biaya:</span>
+                <strong id="cartTotalPrice">Rp 0</strong>
+              </div>
+
+              <button type="submit" id="btnSubmitCartOrder" class="btn-checkout-order">
+                <i class="fa fa-arrow-right"></i> Proses & Konfirmasi Pesanan
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL AUTH -->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm-custom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" id="authModalTitle">Masuk Akun</h4>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="loginEmail" class="form-control custom-input" placeholder="contoh@gmail.com"
+                required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="loginPassword" class="form-control custom-input" placeholder="Password Anda"
+                required>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary-custom">
+              Masuk Sekarang
+            </button>
+            <p class="text-center">
+              Belum punya akun? <a href="javascript:void(0)" id="switchToRegister">Daftar Akun Baru</a>
+            </p>
+          </form>
+          <form id="registerForm" style="display: none;">
+            <div class="form-group">
+              <label>Nama Lengkap</label>
+              <input type="text" id="regNama" class="form-control custom-input" placeholder="Nama Anda" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="regEmail" class="form-control custom-input" placeholder="contoh@gmail.com"
+                required>
+            </div>
+            <div class="form-group">
+              <label>Nomor Telepon / WA</label>
+              <input type="tel" id="regNotlp" class="form-control custom-input" placeholder="0821xxxxxx" required>
+            </div>
+            <div class="form-group">
+              <label>Alamat Tempat Tinggal</label>
+              <input type="text" id="regAlamat" class="form-control custom-input"
+                placeholder="Alamat di Pineleng/Manado" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="regPassword" class="form-control custom-input" placeholder="Minimal 6 Karakter"
+                required>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary-custom">
+              Daftar Akun
+            </button>
+            <p class="text-center">
+              Sudah punya akun? <a href="javascript:void(0)" id="switchToLogin">Masuk di Sini</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="js/firebase-init.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/cart.js"></script>
+</body>
+
+</html>

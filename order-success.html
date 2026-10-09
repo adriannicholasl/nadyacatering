@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Detail & Konfirmasi Pesanan - Nadya Catering Pineleng</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/custom-ui.css">
+</head>
+
+<body>
+
+  <nav class="navbar custom-navbar navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="index.html" class="navbar-brand">
+          <img src="images/nadyalogo.png" alt="Logo" class="nav-logo">
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="riwayat-pesanan.html"><i class="fa fa-history"></i> Riwayat Pesanan</a></li>
+          <li><a href="index.html"><i class="fa fa-home"></i> Beranda</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="order-page">
+    <div class="container">
+      <div class="row">
+        <!-- DETAIL PESANAN -->
+        <div class="col-md-7 col-sm-12">
+          <div class="order-card">
+            <div class="d-flex align-items-center mb-3">
+              <h3 id="orderSuccessTitle">Pesanan Berhasil Dicatat!</h3>
+              <p id="orderNumberLabel">ID Pesanan: #...</p>
+            </div>
+
+            <div class="alert alert-warning" id="orderStatusAlert">
+              Status: <strong id="orderStatusLabel">Pending (Menunggu Pembayaran / Verifikasi)</strong>
+            </div>
+
+            <div id="orderDetailsContent">
+              Memuat detail pesanan...
+            </div>
+
+            <div class="mt-4 pt-3 border-top">
+              <a id="btnChatWaOrder" href="#" target="_blank" class="btn btn-block btn-success">
+                <i class="fa fa-whatsapp fa-lg"></i> Hubungi / Konfirmasi via WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- REKENING & UPLOAD BUKTI -->
+        <div class="col-md-5 col-sm-12">
+          <div class="order-card">
+            <h4><i class="fa fa-credit-card"></i> Pilihan Rekening Pembayaran</h4>
+            <p>Silakan transfer sesuai total tagihan ke salah satu rekening resmi Nadya Catering:</p>
+
+            <div class="bank-box">
+              <div>
+                <strong>Bank BCA</strong>
+                <p>7820-1234-56</p>
+                <small>a.n. Nadya Catering Pineleng</small>
+              </div>
+              <button class="btn btn-xs btn-default" onclick="copyText('7820123456')">Salin</button>
+            </div>
+
+            <div class="bank-box">
+              <div>
+                <strong>Bank Mandiri</strong>
+                <p>157-00-0987654-1</p>
+                <small>a.n. Nadya Catering Pineleng</small>
+              </div>
+              <button class="btn btn-xs btn-default" onclick="copyText('1570009876541')">Salin</button>
+            </div>
+
+            <div class="bank-box">
+              <div>
+                <strong>DANA / E-Wallet</strong>
+                <p>0821-9535-0990</p>
+                <small>a.n. Nadya Catering</small>
+              </div>
+              <button class="btn btn-xs btn-default" onclick="copyText('082195350990')">Salin</button>
+            </div>
+
+            <div class="mt-4 pt-3 border-top">
+              <h5><i class="fa fa-upload"></i> Upload Bukti Pembayaran (Opsional)</h5>
+              <p>Jika Anda sudah melakukan transfer, Anda dapat mengunggah bukti sekarang atau mengirimkannya nanti via
+                WhatsApp.</p>
+
+              <form id="uploadProofForm">
+                <div class="form-group">
+                  <input type="file" id="proofFileInput" class="form-control" accept="image/*" required>
+                </div>
+                <button type="submit" id="btnUploadProof" class="btn btn-block btn-primary-custom">
+                  Unggah Bukti Transfer
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="js/firebase-init.js"></script>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get("orderId");
+    let currentOrder = null;
+
+    function formatRupiah(num) {
+      return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(num || 0);
+    }
+
+    function copyText(txt) {
+      navigator.clipboard.writeText(txt);
+      alert("Nomor rekening berhasil disalin: " + txt);
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      if (!orderId) {
+        alert("ID pesanan tidak ditemukan.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      try {
+        const doc = await db.collection("orders").doc(orderId).get();
+        if (!doc.exists) {
+          alert("Pesanan tidak ditemukan di database.");
+          window.location.href = "index.html";
+          return;
+        }
+
+        currentOrder = { id: doc.id, ...doc.data() };
+        document.getElementById("orderNumberLabel").textContent = "ID Pesanan: #" + doc.id;
+        document.getElementById("orderStatusLabel").textContent = `${currentOrder.status || 'Pending'} • ${currentOrder.paymentStatus || 'Unpaid'}`;
+
+        const itemsHtml = (currentOrder.items || []).map((it, idx) => `
+          <div>${idx + 1}. <strong>${it.nama}</strong> (${it.porsi} Porsi) - ${formatRupiah(it.harga * it.porsi)}</div>
+        `).join("");
+
+        document.getElementById("orderDetailsContent").innerHTML = `
+          <p><strong>Nama Pemesan:</strong> ${currentOrder.namaPemesan} (${currentOrder.telepon || '-'})</p>
+          <p><strong>Acara:</strong> ${currentOrder.namaKegiatan}</p>
+          <p><strong>Lokasi Acara:</strong> ${currentOrder.lokasiAcara || '-'}</p>
+          <p><strong>Waktu Acara:</strong> ${currentOrder.tanggalAcara}</p>
+          <p><strong>Metode Bayar:</strong> ${currentOrder.metodePembayaran}</p>
+          <p><strong>Catatan:</strong> ${currentOrder.catatan || '-'}</p>
+          <hr>
+          <div><strong>Paket yang dipesan:</strong>${itemsHtml}</div>
+          <p class="font-weight-bold text-brand mt-2">Total Biaya: ${formatRupiah(currentOrder.totalHarga || currentOrder.totalBiaya)}</p>
+        `;
+
+        const waText =
+          `*HALO NADYA CATERING PINELENG*%0A` +
+          `Saya ingin mengonfirmasi pesanan berikut:%0A%0A` +
+          `ID Order: #${currentOrder.id}%0A` +
+          `Pemesan: ${currentOrder.namaPemesan}%0A` +
+          `Acara: ${currentOrder.namaKegiatan}%0A` +
+          `Lokasi: ${currentOrder.lokasiAcara}%0A` +
+          `Waktu: ${currentOrder.tanggalAcara}%0A` +
+          `Total Biaya: ${formatRupiah(currentOrder.totalHarga)}%0A` +
+          `Metode: ${currentOrder.metodePembayaran}%0A%0A` +
+          `Mohon dicek dan diarahkan untuk proses selanjutnya. Terima kasih!`;
+
+        document.getElementById("btnChatWaOrder").href = `https://wa.me/6282195350990?text=${waText}`;
+
+      } catch (err) {
+        console.error(err);
+      }
+
+      document.getElementById("uploadProofForm")?.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const fileInput = document.getElementById("proofFileInput");
+        if (!fileInput.files.length) return alert("Pilih file foto bukti transfer terlebih dahulu.");
+
+        const btn = document.getElementById("btnUploadProof");
+        btn.disabled = true;
+        btn.textContent = "Mengunggah...";
+
+        try {
+          const formData = new FormData();
+          formData.append("fileBukti", fileInput.files[0]);
+
+          const res = await fetch("php/upload_bukti.php", { method: "POST", body: formData });
+          const json = await res.json();
+
+          let proofUrl = "";
+          if (json.status === "success" && json.url) {
+            proofUrl = String(json.url).replace("../", "");
+          } else {
+            proofUrl = `uploads/payment/${fileInput.files[0].name}`;
+          }
+
+          await db.collection("orders").doc(orderId).update({
+            buktiPembayaranUrl: proofUrl,
+            paymentStatus: "Menunggu Verifikasi"
+          });
+
+          await db.collection("payments").add({
+            orderId: orderId,
+            harga: currentOrder.totalHarga || 0,
+            totalBiaya: currentOrder.totalHarga || 0,
+            jumlah: currentOrder.totalHarga || 0,
+            method: currentOrder.metodePembayaran || "Transfer",
+            buktiUrl: proofUrl,
+            status: "Lunas",
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+
+          alert("Bukti transfer berhasil diunggah! Pesanan Anda akan diverifikasi oleh Admin.");
+          location.reload();
+        } catch (err) {
+          alert("Gagal mengunggah bukti: " + err.message);
+        } finally {
+          btn.disabled = false;
+          btn.textContent = "Unggah Bukti Transfer";
+        }
+      });
+    });
+  </script>
+</body>
+
+</html>

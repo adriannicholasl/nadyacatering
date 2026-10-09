@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+
+  <title>Nadya Catering Pineleng - Profil</title>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/custom-ui.css">
+
+  <style>
+    /* === PROFIL PAGE STYLES === */
+    .profile-dashboard {
+      padding: 60px 0 80px;
+      background: var(--bg-app);
+      min-height: calc(100vh - 70px);
+    }
+
+    .profile-sidebar {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 32px 24px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-md);
+      text-align: center;
+      position: sticky;
+      top: 90px;
+    }
+
+    .profile-avatar-lg {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      overflow: hidden;
+      margin: 0 auto 20px;
+      border: 3px solid var(--primary-light);
+      box-shadow: 0 0 0 5px var(--primary-light);
+    }
+
+    .profile-avatar-lg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .profile-sidebar h4 {
+      font-size: 18px;
+      font-weight: 800;
+      color: var(--text-dark);
+      margin-bottom: 4px;
+    }
+
+    .profile-sidebar > p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .profile-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      text-align: left;
+    }
+
+    .profile-menu li {
+      border-radius: var(--radius-sm);
+      margin-bottom: 4px;
+    }
+
+    .profile-menu li a,
+    .profile-menu li.active {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border-radius: var(--radius-sm);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .profile-menu li a:hover {
+      background: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .profile-menu li.active {
+      background: var(--primary-light);
+      color: var(--primary) !important;
+      font-weight: 700;
+    }
+
+    .profile-content {
+      background: var(--surface);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-md);
+    }
+
+    .profile-content h3 {
+      font-size: 20px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .profile-content .form-control {
+      border-radius: var(--radius-sm) !important;
+      border: 1px solid var(--border-subtle) !important;
+      padding: 10px 14px !important;
+      font-size: 14px !important;
+      font-family: "Plus Jakarta Sans", sans-serif !important;
+      transition: var(--transition) !important;
+      height: auto !important;
+    }
+
+    .profile-content .form-control:focus {
+      border-color: var(--primary) !important;
+      box-shadow: 0 0 0 3px var(--primary-glow) !important;
+      outline: none !important;
+    }
+
+    .profile-content label {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 6px;
+    }
+
+    .btn-save-profile {
+      background: linear-gradient(135deg, var(--primary) 0%, #ff732e 100%);
+      color: #fff !important;
+      font-weight: 700;
+      padding: 12px 28px;
+      border-radius: var(--radius-full);
+      border: none;
+      font-size: 14px;
+      box-shadow: var(--shadow-glow);
+      transition: var(--transition);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-save-profile:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 35px -5px var(--primary-glow);
+    }
+
+    #footer .footer-info p {
+      color: #94a3b8;
+    }
+  </style>
+
+</head>
+
+<body>
+  <!-- PRE LOADER -->
+  <section class="preloader">
+    <div class="spinner">
+      <span class="spinner-rotate"></span>
+    </div>
+  </section>
+
+  <!-- NAVBAR -->
+  <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+    <div class="container">
+      <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon icon-bar"></span>
+          <span class="icon icon-bar"></span>
+          <span class="icon icon-bar"></span>
+        </button>
+        <a href="index.html" class="navbar-brand">
+          <img src="images/nadyalogo.png" alt="Nadya Catering Pineleng" class="nav-logo">
+        </a>
+      </div>
+
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-nav-first">
+          <li><a href="index.html#home">Beranda</a></li>
+          <li><a href="index.html#features">Keunggulan</a></li>
+          <li><a href="index.html#menu">Paket Catering</a></li>
+          <li><a href="index.html#about">Tentang Kami</a></li>
+          <li><a href="index.html#contact">Kontak</a></li>
+        </ul>
+
+        <ul class="nav navbar-nav navbar-right">
+          <li>
+            <a href="cart.html" class="cart-nav-btn"
+              style="position: relative; display: flex; align-items: center; gap: 6px;">
+              <i class="fa fa-shopping-cart" style="font-size: 18px; color: #FF5200;"></i>
+              <span>Keranjang</span>
+            </a>
+          </li>
+          <li class="user-menu-wrapper">
+            <a href="javascript:void(0)" id="userMenuBtn" class="btn-auth">
+              <i class="fa fa-user-circle"></i> <span id="userMenuName">Login / Daftar</span>
+            </a>
+            <div class="user-dropdown" id="userDropdown">
+              <a href="profil.html"><i class="fa fa-id-card"></i> Profil Saya</a>
+              <a href="riwayat.html"><i class="fa fa-history"></i> Riwayat Pesanan</a>
+              <a href="#" id="logoutBtn" style="color: #EF4444 !important;"><i class="fa fa-sign-out"></i> Logout</a>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ================= PROFILE DASHBOARD ================= -->
+  <section class="profile-dashboard">
+    <div class="container">
+      <div class="row">
+
+        <!-- SIDEBAR PROFIL -->
+        <div class="col-md-4 col-sm-12" style="margin-bottom: 24px;">
+          <div class="profile-sidebar">
+            <div class="profile-avatar-lg">
+              <img src="images/default-avatar.png" alt="Foto Profil">
+            </div>
+
+            <h4 id="profileSidebarName">Memuat...</h4>
+            <p id="profileSidebarEmail">-</p>
+
+            <hr style="border-color: var(--border-light);">
+
+            <ul class="profile-menu">
+              <li class="active">
+                <i class="fa fa-user"></i> Profil Saya
+              </li>
+              <li>
+                <a href="riwayat.html">
+                  <i class="fa fa-history"></i> Riwayat Pesanan
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- FORM PROFIL -->
+        <div class="col-md-8 col-sm-12">
+          <div class="profile-content">
+            <h3>Informasi Akun</h3>
+            <p class="text-muted" style="margin-bottom: 24px; font-size: 14px;">Perbarui informasi akun Anda di bawah ini</p>
+            <hr style="border-color: var(--border-light);">
+
+            <form id="profileForm">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Nama Lengkap</label>
+                    <input type="text" id="profileNama" class="form-control" placeholder="Nama lengkap Anda" required>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="profileEmail" class="form-control" disabled
+                      style="background: #F8FAFC; cursor: not-allowed; color: #64748B;">
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Nomor Telepon / WhatsApp</label>
+                <input type="text" id="profileNotlp" class="form-control" placeholder="0821xxxxxx">
+              </div>
+
+              <div class="form-group">
+                <label>Alamat Lengkap</label>
+                <textarea id="profileAlamat" class="form-control" rows="4"
+                  placeholder="Alamat lengkap Anda..."></textarea>
+              </div>
+
+              <button type="submit" class="btn-save-profile">
+                <i class="fa fa-save"></i> Simpan Perubahan
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+
+  <!-- FOOTER -->
+  <footer id="footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6 col-sm-6">
+          <div class="footer-info">
+            <img src="images/nadyalogo.png" alt="Nadya Catering Logo" style="height: 42px; margin-bottom: 18px;">
+            <p>Nadya Catering Pineleng - Solusi catering terpercaya dengan cita rasa lezat dan pelayanan profesional di Minahasa & Manado.</p>
+          </div>
+        </div>
+        <div class="col-md-6 col-sm-6 text-right">
+          <p class="copyright-text">
+            &copy; 2026 <strong>Nadya Catering Pineleng</strong>. All Rights Reserved.
+          </p>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+  <!-- MODAL AUTHENTICATION (LOGIN & REGISTER) -->
+  <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-sm-custom" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title" id="authModalTitle" style="text-align: center;">Masuk Akun</h4>
+        </div>
+        <div class="modal-body">
+          <form id="loginForm">
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="loginEmail" class="form-control custom-input" placeholder="contoh@gmail.com" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="loginPassword" class="form-control custom-input" placeholder="Password Anda" required>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary-custom"
+              style="width: 100%; justify-content: center; margin-top: 24px;">
+              Masuk Sekarang
+            </button>
+            <p class="text-center" style="margin-top: 18px; font-size: 13px; color: #64748B;">
+              Belum punya akun? <a href="javascript:void(0)" id="switchToRegister"
+                style="color: #FF5200; font-weight: 700;">Daftar Akun Baru</a>
+            </p>
+          </form>
+          <form id="registerForm" style="display: none;">
+            <div class="form-group">
+              <label>Nama Lengkap</label>
+              <input type="text" id="regNama" class="form-control custom-input" placeholder="Nama Anda" required>
+            </div>
+            <div class="form-group">
+              <label>Email Address</label>
+              <input type="email" id="regEmail" class="form-control custom-input" placeholder="contoh@gmail.com" required>
+            </div>
+            <div class="form-group">
+              <label>Nomor Telepon / WA</label>
+              <input type="tel" id="regNotlp" class="form-control custom-input" placeholder="0821xxxxxx" required>
+            </div>
+            <div class="form-group">
+              <label>Alamat Lengkap</label>
+              <input type="text" id="regAlamat" class="form-control custom-input" placeholder="Alamat di Pineleng/Manado" required>
+            </div>
+            <div class="form-group">
+              <label>Password</label>
+              <input type="password" id="regPassword" class="form-control custom-input" placeholder="Minimal 6 Karakter" required>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary-custom"
+              style="width: 100%; justify-content: center; margin-top: 24px;">
+              Daftar Akun
+            </button>
+            <p class="text-center" style="margin-top: 18px; font-size: 13px; color: #64748B;">
+              Sudah punya akun? <a href="javascript:void(0)" id="switchToLogin"
+                style="color: #FF5200; font-weight: 700;">Masuk di Sini</a>
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- SCRIPTS -->
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/smoothscroll.js"></script>
+  <script src="js/custom.js"></script>
+
+  <!-- Firebase v8 -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <script src="js/firebase-init.js"></script>
+  <script src="js/modal.js"></script>
+  <script src="js/profil.js"></script>
+
+</body>
+
+</html>

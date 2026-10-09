@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Menu Paket - TailAdmin Nadya Catering</title>
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#465FFF',
+              600: '#3A50E0',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+
+  <style>
+    #mainSidebar {
+      transition: width 0.25s ease, transform 0.25s ease;
+    }
+
+    #mainContentWrapper {
+      transition: margin-left 0.25s ease;
+    }
+
+    .sidebar-collapsed {
+      width: 0 !important;
+      transform: translateX(-100%);
+      overflow: hidden;
+    }
+
+    .content-expanded {
+      margin-left: 0 !important;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F8F9FA] text-[#1D2939] font-sans antialiased">
+  <div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside id="mainSidebar"
+      class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between fixed top-0 bottom-0 left-0 z-40">
+      <div>
+        <div class="h-20 flex items-center gap-3 px-6 border-b border-slate-100">
+          <div
+            class="w-9 h-9 rounded-lg bg-brand-500 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h7"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-extrabold text-slate-800 tracking-tight whitespace-nowrap">TailAdmin</span>
+        </div>
+
+        <div class="p-4">
+          <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-3">MENU</p>
+          <ul class="space-y-1 text-sm font-semibold">
+            <li>
+              <a href="admin.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-th-large text-base"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="admin-pesanan.html"
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <div class="flex items-center gap-3">
+                  <i class="fa fa-shopping-basket text-base"></i>
+                  <span>Kelola Pesanan</span>
+                </div>
+                <span
+                  class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full border border-emerald-100">LIVE</span>
+              </a>
+            </li>
+            <li>
+              <a href="admin-menu.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-brand-50 text-brand-600 transition">
+                <i class="fa fa-list-alt text-base"></i>
+                <span>Kelola Menu Paket</span>
+              </a>
+            </li>
+            <li>
+              <a href="admin-pelanggan.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-users text-base"></i>
+                <span>Kelola Pelanggan</span>
+              </a>
+            </li>
+            <li>
+              <a href="index.html" target="_blank"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-external-link text-base"></i>
+                <span>Lihat Website</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-100">
+        <a href="#" id="adminLogoutBtn"
+          class="flex items-center gap-3 px-3.5 py-2.5 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-xl transition">
+          <i class="fa fa-sign-out"></i>
+          <span>Keluar / Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT WRAPPER -->
+    <div id="mainContentWrapper" class="flex-1 ml-64 flex flex-col min-h-screen">
+
+      <!-- TOPBAR -->
+      <header class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-4">
+          <button id="btnToggleSidebar" type="button"
+            class="p-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h16"></path>
+            </svg>
+          </button>
+
+          <div class="relative w-72 sm:w-80">
+            <i class="fa fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input id="inputSearchGlobal" type="text" placeholder="Cari nama paket atau kategori..."
+              class="w-full bg-[#F8FAFC] border border-slate-200 text-sm rounded-xl pl-10 pr-12 py-2 focus:outline-none focus:border-brand-500 focus:bg-white transition">
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded-md shadow-xs">⌘K</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-4">
+          <button type="button" onclick="openModalAddPaket()"
+            class="inline-flex items-center gap-2 px-4 py-2 bg-brand-500 hover:bg-brand-600 text-white rounded-xl text-xs font-bold shadow-sm transition cursor-pointer">
+            <i class="fa fa-plus"></i>
+            <span>Tambah Paket Baru</span>
+          </button>
+
+          <!-- Profil User Dropdown -->
+          <div class="relative pl-2 border-l border-slate-100">
+            <button id="btnUserDropdown" type="button"
+              class="flex items-center gap-3 focus:outline-none cursor-pointer">
+              <div
+                class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold overflow-hidden">
+                <img src="images/default-avatar.png"
+                  onerror="this.src='https://ui-avatars.com/api/?name=Admin+Aaron&background=465FFF&color=fff'"
+                  alt="Avatar" class="w-full h-full object-cover">
+              </div>
+              <div class="hidden sm:flex flex-col text-left">
+                <span id="adminMenuName" class="text-sm font-bold text-slate-700">Administrator</span>
+                <span class="text-[11px] text-slate-400">Admin Pengelola</span>
+              </div>
+              <i class="fa fa-angle-down text-slate-400 text-xs"></i>
+            </button>
+
+            <div id="menuUserProfile"
+              class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 py-1.5 z-50 text-sm font-semibold">
+              <a href="profil.html" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50">
+                <i class="fa fa-user-circle-o text-slate-400"></i> Profil Saya
+              </a>
+              <a href="admin-pesanan.html" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50">
+                <i class="fa fa-shopping-basket text-slate-400"></i> Data Pesanan
+              </a>
+              <hr class="my-1 border-slate-100">
+              <a href="#" id="dropdownLogoutBtn"
+                class="flex items-center gap-2 px-4 py-2 text-rose-500 hover:bg-rose-50">
+                <i class="fa fa-sign-out"></i> Keluar
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="p-6 sm:p-8 space-y-6">
+
+        <!-- 3 KARTU STATISTIK MENU -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-indigo-50 text-brand-600 flex items-center justify-center mb-4">
+              <i class="fa fa-cutlery text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Total Paket Catering</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statTotalPaket" class="text-3xl font-extrabold text-slate-900">0</h3>
+              <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full">Paket</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <i class="fa fa-check-circle text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Paket Aktif Tersedia</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statPaketAktif" class="text-3xl font-extrabold text-emerald-600">0</h3>
+              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Tersedia</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
+              <i class="fa fa-ban text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Paket Nonaktif / Habis</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statPaketNonaktif" class="text-3xl font-extrabold text-amber-600">0</h3>
+              <span class="text-xs font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">Habis</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- TABEL DAFTAR PAKET -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h4 class="text-base font-bold text-slate-900">Daftar Paket Catering</h4>
+              <p class="text-xs text-slate-400 mt-0.5">Kelola paket, gambar sampul, fasilitas, dan detail hidangan
+                makanan</p>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead
+                class="bg-[#F8FAFC] border-y border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                <tr>
+                  <th class="py-3 px-4 w-20">Sampul</th>
+                  <th class="py-3 px-4">Nama & Kategori</th>
+                  <th class="py-3 px-4">Harga Dasar</th>
+                  <th class="py-3 px-4">Fasilitas & Deskripsi</th>
+                  <th class="py-3 px-4">Status</th>
+                  <th class="py-3 px-4 text-center">Aksi & Item Makanan</th>
+                </tr>
+              </thead>
+              <tbody id="packagesTableBody" class="divide-y divide-slate-100 font-medium">
+                <tr>
+                  <td colspan="6" class="py-8 text-center text-slate-400 text-xs">
+                    <i class="fa fa-spinner fa-spin text-lg mb-2 block text-brand-500"></i>
+                    Memuat data paket catering dari Cloud Firestore...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL 1: FORM TAMBAH / EDIT PAKET UTAMA -->
+  <div id="packageModal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div
+      class="bg-white rounded-2xl shadow-xl border border-slate-100 w-full max-w-xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+        <h5 id="modalTitle" class="text-base font-extrabold text-slate-800">Tambah Paket Baru</h5>
+        <button type="button" id="btnClosePkgModal"
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
+      <form id="packageForm" class="p-6 overflow-y-auto space-y-4 flex-1 text-xs">
+        <input type="hidden" id="packageId">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Nama Paket</label>
+            <input type="text" id="pkgName" required placeholder="Contoh: Paket A"
+              class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-brand-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Kategori Acara</label>
+            <input type="text" id="pkgKategori" required placeholder="Contoh: Pernikahan / Syukuran"
+              class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-brand-500">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Harga Dasar (Rp)</label>
+            <input type="number" id="pkgHarga" required min="0" placeholder="2500000"
+              class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-brand-500">
+          </div>
+          <div>
+            <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Status Ketersediaan</label>
+            <select id="pkgTersedia"
+              class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-brand-500 cursor-pointer">
+              <option value="true">Tersedia (Aktif)</option>
+              <option value="false">Habis (Nonaktif)</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- UPLOAD SAMPUL COVER PAKET -->
+        <div class="border border-slate-200 rounded-xl p-3 bg-slate-50/50 space-y-2">
+          <label class="block font-bold text-slate-700 uppercase tracking-wider">Sampul Cover Paket</label>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <div>
+              <span class="text-[11px] text-slate-500 block mb-1 font-semibold">Upload File Gambar</span>
+              <input type="file" id="pkgImageFile" accept="image/*"
+                class="w-full bg-white border border-slate-200 rounded-lg p-1 text-[11px] cursor-pointer">
+            </div>
+            <div>
+              <span class="text-[11px] text-slate-500 block mb-1 font-semibold">Atau Masukkan Path / URL</span>
+              <input type="text" id="pkgImageUrl" placeholder="images/menu/paket-a.png"
+                class="w-full bg-white border border-slate-200 rounded-lg p-1.5 text-slate-700 focus:outline-none focus:border-brand-500">
+            </div>
+          </div>
+          <div id="pkgCoverPreviewContainer" class="hidden pt-2 flex items-center gap-3">
+            <img id="pkgCoverPreviewImg" src="" alt="Cover Preview"
+              class="w-16 h-16 rounded-lg object-cover border border-slate-200">
+            <span class="text-[11px] text-slate-500 font-medium">Pratinjau Sampul Paket</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Deskripsi Singkat</label>
+          <textarea id="pkgDeskripsi" rows="2" placeholder="Deskripsi paket katering..."
+            class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-brand-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block font-bold text-slate-700 uppercase tracking-wider mb-1">Fasilitas (Pisahkan Koma)</label>
+          <textarea id="pkgFasilitas" rows="3"
+            placeholder="Termasuk Piring & Sendok 100 set, Meja Prasmanan & Taplak, 2 Orang Pramusaji"
+            class="w-full bg-[#F8FAFC] border border-slate-200 rounded-xl p-2.5 text-slate-800 focus:outline-none focus:border-brand-500"></textarea>
+          <span class="text-[11px] text-slate-400 block mt-1">*Otomatis dipecah menjadi array list fasilitas di
+            Firestore</span>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-3">
+          <button type="button" id="btnCancelPkgModal"
+            class="px-4 py-2.5 rounded-xl border border-slate-200 font-bold text-slate-600 hover:bg-slate-50 transition cursor-pointer">
+            Batal
+          </button>
+          <button type="submit" id="btnSavePackage"
+            class="px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white font-bold shadow-sm transition cursor-pointer">
+            Simpan Paket
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL 2: KELOLA DETAIL MAKANAN (SUB-KOLEKSI ITEMS - TANPA FIELD ORDER) -->
+  <div id="subItemsModal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div
+      class="bg-white rounded-2xl shadow-xl border border-slate-100 w-full max-w-3xl overflow-hidden flex flex-col max-h-[90vh]">
+      <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h5 class="text-base font-extrabold text-slate-800" id="subItemsModalTitle">Kelola Menu Makanan Paket</h5>
+          <p class="text-xs text-slate-400 mt-0.5" id="subItemsModalSubtitle">Sub-koleksi: paket/{id}/items</p>
+        </div>
+        <button type="button" id="btnCloseSubItemsModal"
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto space-y-6 flex-1 text-xs">
+        <!-- FORM TAMBAH ITEM MAKANAN BARU -->
+        <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4">
+          <h6 class="font-extrabold text-slate-800 text-xs mb-3 flex items-center gap-1.5">
+            <i class="fa fa-plus-circle text-brand-500"></i> Tambah Menu Makanan ke <span id="labelNamaPaketAktif"
+              class="text-brand-600 font-extrabold"></span>
+          </h6>
+          <form id="addItemForm" class="space-y-3">
+            <input type="hidden" id="activePaketId">
+            <input type="hidden" id="activePaketName">
+
+            <div>
+              <label class="block font-bold text-slate-600 mb-1">Nama Menu Makanan</label>
+              <input type="text" id="itemName" required placeholder="Contoh: Babi Tore / Ayam Woku"
+                class="w-full bg-white border border-slate-200 rounded-lg p-2.5 text-slate-800 focus:outline-none focus:border-brand-500">
+            </div>
+
+            <!-- Upload Gambar & Preview Path Otomatis -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label class="block font-bold text-slate-600 mb-1">Upload File Foto Menu (Opsional)</label>
+                <input type="file" id="itemImageFile" accept="image/*"
+                  class="w-full bg-white border border-slate-200 rounded-lg p-1.5 cursor-pointer">
+              </div>
+              <div>
+                <label class="block font-bold text-slate-600 mb-1">Path Gambar Otomatis</label>
+                <input type="text" id="itemImageUrl" readonly
+                  class="w-full bg-slate-100 border border-slate-200 rounded-lg p-2 text-slate-500 font-mono text-[11px] cursor-not-allowed">
+              </div>
+            </div>
+
+            <div class="flex justify-end pt-2">
+              <button type="submit" id="btnAddItemSubmit"
+                class="px-5 py-2.5 bg-brand-500 hover:bg-brand-600 text-white rounded-xl font-bold shadow-xs transition cursor-pointer">
+                <i class="fa fa-plus mr-1"></i> Simpan Item Makanan
+              </button>
+            </div>
+          </form>
+        </div>
+
+        <!-- LIST DAFTAR ITEM MAKANAN YANG SUDAH ADA -->
+        <div>
+          <h6 class="font-extrabold text-slate-800 text-xs mb-3 flex items-center justify-between">
+            <span>Daftar Hidangan Makanan</span>
+            <span id="subItemsCountBadge" class="text-brand-600 bg-brand-50 px-2.5 py-0.5 rounded-full font-bold">0
+              Menu</span>
+          </h6>
+          <div id="subItemsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="col-span-2 py-6 text-center text-slate-400">Memuat daftar menu makanan...</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 border-t border-slate-100 flex justify-end bg-slate-50">
+        <button type="button" id="btnCloseSubItemsFooter"
+          class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-white transition cursor-pointer">
+          Selesai
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIREBASE SDKs (v8) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <script src="js/firebase-init.js"></script>
+  <script src="js/auth.js"></script>
+
+  <script>
+    let allPackagesData = [];
+    let currentPaketIdForItems = "";
+    let currentPaketNameForItems = "";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setupLayoutUI();
+      loadPackagesRealtime();
+
+      document.getElementById("inputSearchGlobal")?.addEventListener("input", filterPackages);
+      document.getElementById("packageForm")?.addEventListener("submit", savePackageData);
+      document.getElementById("addItemForm")?.addEventListener("submit", saveSubItemData);
+
+      // 1. KETIKA MEMILIH FILE GAMBAR: BACA NAMA FILE ASLINYA SECARA OTOMATIS
+      document.getElementById("itemImageFile")?.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const fileName = file.name; // Mengambil nama asli file, contoh: "Babi Tore.jpeg" atau "ayam.png"
+          const cleanPaket = currentPaketNameForItems || "Paket";
+
+          // Set otomatis path lengkap persis dengan nama file yang dipilih
+          const autoPath = `images/${cleanPaket}/${fileName}`;
+          const inputPath = document.getElementById("itemImageUrl");
+          if (inputPath) inputPath.value = autoPath;
+
+          // Opsional: otomatis isi nama menu jika input nama masih kosong
+          const itemNameInput = document.getElementById("itemName");
+          if (itemNameInput && !itemNameInput.value.trim()) {
+            // Hapus ekstensi (.jpg, .png, .jpeg) untuk dijadikan nama menu
+            const nameWithoutExt = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+            itemNameInput.value = nameWithoutExt;
+          }
+        }
+      });
+
+      // 2. KETIKA MENGETIK NAMA MENU (JIKA BELUM PILIH FILE)
+      document.getElementById("itemName")?.addEventListener("input", (e) => {
+        const fileInput = document.getElementById("itemImageFile");
+        // Jika belum ada file foto yang dipilih, buat format default dari nama yang diketik
+        if (!fileInput || !fileInput.files.length) {
+          updateAutoImagePath(e.target.value);
+        }
+      });
+
+      // Preview Cover Paket Utama Saat File Dipilih
+      document.getElementById("pkgImageFile")?.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = (evt) => {
+            document.getElementById("pkgCoverPreviewImg").src = evt.target.result;
+            document.getElementById("pkgCoverPreviewContainer")?.classList.remove("hidden");
+          };
+          reader.readAsDataURL(file);
+
+          // Pasang otomatis path cover sesuai nama file asli
+          const pkgName = document.getElementById("pkgName")?.value.trim() || "menu";
+          const inputCoverUrl = document.getElementById("pkgImageUrl");
+          if (inputCoverUrl) {
+            inputCoverUrl.value = `images/menu/${file.name}`;
+          }
+        }
+      });
+    });
+
+    function setupLayoutUI() {
+      // Toggle Sidebar
+      const btnToggle = document.getElementById("btnToggleSidebar");
+      const sidebar = document.getElementById("mainSidebar");
+      const content = document.getElementById("mainContentWrapper");
+
+      btnToggle?.addEventListener("click", () => {
+        sidebar?.classList.toggle("sidebar-collapsed");
+        content?.classList.toggle("content-expanded");
+      });
+
+      // User Profile Dropdown
+      const btnUser = document.getElementById("btnUserDropdown");
+      const menuUser = document.getElementById("menuUserProfile");
+      btnUser?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        menuUser?.classList.toggle("hidden");
+      });
+
+      document.addEventListener("click", () => {
+        menuUser?.classList.add("hidden");
+      });
+
+      // Logout
+      const handleLogout = (e) => {
+        e.preventDefault();
+        if (confirm("Apakah Anda yakin ingin keluar?")) {
+          auth.signOut().then(() => window.location.href = "index.html");
+        }
+      };
+      document.getElementById("adminLogoutBtn")?.addEventListener("click", handleLogout);
+      document.getElementById("dropdownLogoutBtn")?.addEventListener("click", handleLogout);
+
+      // Shortcut ⌘K / Ctrl+K
+      window.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          document.getElementById("inputSearchGlobal")?.focus();
+        }
+      });
+
+      // Modal Package Closers
+      const pkgModal = document.getElementById("packageModal");
+      const closePkg = () => pkgModal?.classList.add("hidden");
+      document.getElementById("btnClosePkgModal")?.addEventListener("click", closePkg);
+      document.getElementById("btnCancelPkgModal")?.addEventListener("click", closePkg);
+
+      // Modal Sub-items Closers
+      const subModal = document.getElementById("subItemsModal");
+      const closeSub = () => subModal?.classList.add("hidden");
+      document.getElementById("btnCloseSubItemsModal")?.addEventListener("click", closeSub);
+      document.getElementById("btnCloseSubItemsFooter")?.addEventListener("click", closeSub);
+    }
+
+    // Generator Path Gambar Otomatis: images/{Nama Paket}/{Nama Makanan}.jpg
+    function updateAutoImagePath(foodName) {
+      const cleanFood = foodName.trim() || "Nama_Makanan";
+      const cleanPaket = currentPaketNameForItems || "Paket";
+      const autoPath = `images/${cleanPaket}/${cleanFood}.jpg`;
+      const inputPath = document.getElementById("itemImageUrl");
+      if (inputPath) inputPath.value = autoPath;
+    }
+
+    // 1. LOAD DATA DARI KOLEKSI "paket"
+    function loadPackagesRealtime() {
+      db.collection("paket").onSnapshot((snapshot) => {
+        allPackagesData = [];
+        let aktif = 0;
+        let nonaktif = 0;
+
+        snapshot.forEach((doc) => {
+          const p = { id: doc.id, ...doc.data() };
+          allPackagesData.push(p);
+
+          if (p.tersedia) aktif++;
+          else nonaktif++;
+        });
+
+        const elTotal = document.getElementById("statTotalPaket");
+        const elAktif = document.getElementById("statPaketAktif");
+        const elNonaktif = document.getElementById("statPaketNonaktif");
+
+        if (elTotal) elTotal.textContent = snapshot.size.toLocaleString("id-ID");
+        if (elAktif) elAktif.textContent = aktif.toLocaleString("id-ID");
+        if (elNonaktif) elNonaktif.textContent = nonaktif.toLocaleString("id-ID");
+
+        filterPackages();
+      }, (err) => {
+        console.error("Gagal memuat paket:", err);
+      });
+    }
+
+    function filterPackages() {
+      const q = (document.getElementById("inputSearchGlobal")?.value || "").toLowerCase().trim();
+      const filtered = allPackagesData.filter((p) => {
+        const nama = (p.nama || "").toLowerCase();
+        const kat = (p.kategori || "").toLowerCase();
+        const desc = (p.deskripsi || "").toLowerCase();
+        return nama.includes(q) || kat.includes(q) || desc.includes(q);
+      });
+      renderPackagesTable(filtered);
+    }
+
+    function renderPackagesTable(packages) {
+      const tbody = document.getElementById("packagesTableBody");
+      if (!tbody) return;
+
+      if (!packages.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-xs">Belum ada data paket catering.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = packages.map((p) => {
+        const img = p.imageUrl || "images/default-menu.png";
+        const isTersedia = p.tersedia === true || String(p.tersedia) === "true";
+        const statusBadge = isTersedia
+          ? `<span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">Tersedia</span>`
+          : `<span class="inline-flex px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">Habis</span>`;
+
+        let fasilitasHtml = "";
+        if (Array.isArray(p.fasilitas) && p.fasilitas.length) {
+          fasilitasHtml = `<div class="mt-1 flex flex-wrap gap-1">` +
+            p.fasilitas.map(f => `<span class="inline-block text-[10px] font-semibold bg-slate-100 text-slate-600 px-1.5 py-0.5 rounded">${escapeHtml(f)}</span>`).join('') +
+            `</div>`;
+        }
+
+        const dataJson = encodeURIComponent(JSON.stringify(p));
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3 px-4">
+              <img src="${escapeHtml(img)}" onerror="this.src='images/default-menu.png'" class="w-14 h-14 rounded-xl object-cover border border-slate-200">
+            </td>
+            <td class="py-3 px-4 font-bold text-slate-800">
+              <span class="block">${escapeHtml(p.nama || "Tanpa Nama")}</span>
+              <span class="text-xs font-bold text-brand-600">${escapeHtml(p.kategori || "-")}</span>
+            </td>
+            <td class="py-3 px-4 font-extrabold text-slate-900">${formatRupiah(p.harga || 0)}</td>
+            <td class="py-3 px-4 max-w-xs">
+              <p class="text-xs text-slate-600 line-clamp-2">${escapeHtml(p.deskripsi || "-")}</p>
+              ${fasilitasHtml}
+            </td>
+            <td class="py-3 px-4">${statusBadge}</td>
+            <td class="py-3 px-4 text-center">
+              <div class="inline-flex items-center gap-1.5">
+                <!-- Tombol Kelola Detail Makanan (Sub-Koleksi) -->
+                <button type="button" onclick="openSubItemsModal('${escapeJs(p.id)}', '${escapeJs(p.nama)}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-50 text-brand-600 hover:bg-indigo-100 border border-indigo-200 transition cursor-pointer" title="Kelola Menu Hidangan">
+                  <i class="fa fa-cutlery mr-1"></i> Kelola Menu
+                </button>
+                <button type="button" onclick="openModalEditPaket('${dataJson}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 transition cursor-pointer" title="Edit Paket">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button type="button" onclick="deletePaket('${escapeJs(p.id)}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 transition cursor-pointer" title="Hapus Paket">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    // --- FORM MODAL PAKET UTAMA ---
+    function openModalAddPaket() {
+      document.getElementById("packageId").value = "";
+      document.getElementById("packageForm").reset();
+      document.getElementById("modalTitle").textContent = "Tambah Paket Baru";
+      document.getElementById("pkgCoverPreviewContainer")?.classList.add("hidden");
+      document.getElementById("packageModal")?.classList.remove("hidden");
+    }
+
+    function openModalEditPaket(dataJson) {
+      const data = JSON.parse(decodeURIComponent(dataJson));
+      document.getElementById("packageId").value = data.id;
+      document.getElementById("pkgName").value = data.nama || "";
+      document.getElementById("pkgKategori").value = data.kategori || "";
+      document.getElementById("pkgHarga").value = data.harga || 0;
+      document.getElementById("pkgImageUrl").value = data.imageUrl || "";
+      document.getElementById("pkgDeskripsi").value = data.deskripsi || "";
+      document.getElementById("pkgTersedia").value = data.tersedia ? "true" : "false";
+
+      let fasStr = "";
+      if (Array.isArray(data.fasilitas)) fasStr = data.fasilitas.join(", ");
+      document.getElementById("pkgFasilitas").value = fasStr;
+
+      if (data.imageUrl) {
+        document.getElementById("pkgCoverPreviewImg").src = data.imageUrl;
+        document.getElementById("pkgCoverPreviewContainer")?.classList.remove("hidden");
+      } else {
+        document.getElementById("pkgCoverPreviewContainer")?.classList.add("hidden");
+      }
+
+      document.getElementById("modalTitle").textContent = "Edit Data Paket";
+      document.getElementById("packageModal")?.classList.remove("hidden");
+    }
+
+    async function savePackageData(e) {
+      e.preventDefault();
+      const id = document.getElementById("packageId").value;
+      const fileInput = document.getElementById("pkgImageFile");
+      let imgPath = document.getElementById("pkgImageUrl").value.trim();
+
+      const btn = document.getElementById("btnSavePackage");
+      const oldText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin mr-1"></i> Menyimpan...';
+
+      try {
+        if (fileInput.files.length > 0) {
+          const formData = new FormData();
+          formData.append("fileBukti", fileInput.files[0]);
+          try {
+            const res = await fetch("php/upload_bukti.php", { method: "POST", body: formData });
+            const json = await res.json();
+            if (json.status === "success" && json.url) {
+              imgPath = String(json.url).replace("../", "");
+            }
+          } catch (errUpload) {
+            console.warn("Upload fisik PHP tidak tersedia, menggunakan path terdaftar:", errUpload);
+          }
+        }
+
+        const fasText = document.getElementById("pkgFasilitas").value;
+        const fasArray = fasText.split(",").map(f => f.trim()).filter(Boolean);
+
+        const dataObj = {
+          nama: document.getElementById("pkgName").value.trim(),
+          kategori: document.getElementById("pkgKategori").value.trim(),
+          harga: Number(document.getElementById("pkgHarga").value) || 0,
+          deskripsi: document.getElementById("pkgDeskripsi").value.trim(),
+          imageUrl: imgPath || "images/menu/paket-a.png",
+          fasilitas: fasArray,
+          tersedia: document.getElementById("pkgTersedia").value === "true"
+        };
+
+        if (id) {
+          await db.collection("paket").doc(id).update(dataObj);
+        } else {
+          dataObj.createAt = firebase.firestore.FieldValue.serverTimestamp();
+          await db.collection("paket").add(dataObj);
+        }
+
+        alert("Data paket catering berhasil disimpan!");
+        document.getElementById("packageModal")?.classList.add("hidden");
+      } catch (err) {
+        alert("Gagal menyimpan paket: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = oldText;
+      }
+    }
+
+    async function deletePaket(id) {
+      if (confirm("Apakah Anda yakin ingin menghapus paket ini beserta detail menunya?")) {
+        try {
+          await db.collection("paket").doc(id).delete();
+          alert("Paket berhasil dihapus.");
+        } catch (err) {
+          alert("Gagal menghapus paket: " + err.message);
+        }
+      }
+    }
+
+    // --- KELOLA SUB-KOLEKSI ITEMS MAKANAN (paket/{id}/items) ---
+    function openSubItemsModal(paketId, paketNama) {
+      currentPaketIdForItems = paketId;
+      currentPaketNameForItems = paketNama.trim();
+
+      document.getElementById("activePaketId").value = paketId;
+      document.getElementById("activePaketName").value = currentPaketNameForItems;
+      document.getElementById("labelNamaPaketAktif").textContent = currentPaketNameForItems;
+      document.getElementById("subItemsModalTitle").textContent = `Menu Makanan: ${currentPaketNameForItems}`;
+      document.getElementById("subItemsModalSubtitle").textContent = `ID Paket: #${paketId} (Sub-koleksi: items)`;
+
+      document.getElementById("addItemForm").reset();
+      updateAutoImagePath("");
+
+      loadSubItemsRealtime(paketId);
+      document.getElementById("subItemsModal")?.classList.remove("hidden");
+    }
+
+    function loadSubItemsRealtime(paketId) {
+      const container = document.getElementById("subItemsContainer");
+      const badge = document.getElementById("subItemsCountBadge");
+
+      db.collection("paket").doc(paketId).collection("items").onSnapshot((snap) => {
+        if (snap.empty) {
+          container.innerHTML = `<div class="col-span-2 py-6 text-center text-slate-400">Belum ada item makanan pada paket ini. Tambahkan melalui form di atas.</div>`;
+          if (badge) badge.textContent = "0 Menu";
+          return;
+        }
+
+        const items = [];
+        snap.forEach(doc => items.push({ id: doc.id, ...doc.data() }));
+
+        if (badge) badge.textContent = `${items.length} Menu`;
+
+        container.innerHTML = items.map((item) => {
+          const img = item.imageUrl || "images/default-menu.png";
+          return `
+            <div class="flex items-center justify-between p-2.5 bg-white border border-slate-200 rounded-xl shadow-xs">
+              <div class="flex items-center gap-3">
+                <img src="${escapeHtml(img)}" onerror="this.src='images/default-menu.png'" class="w-12 h-12 rounded-lg object-cover border border-slate-100">
+                <div>
+                  <strong class="text-xs text-slate-800 block">${escapeHtml(item.nama || "Menu")}</strong>
+                  <span class="text-[10px] text-slate-400 font-mono truncate max-w-[180px] block" title="${escapeHtml(img)}">${escapeHtml(img)}</span>
+                </div>
+              </div>
+              <button type="button" onclick="deleteSubItem('${escapeJs(paketId)}', '${escapeJs(item.id)}')" class="px-2.5 py-1 text-xs text-rose-600 hover:bg-rose-50 border border-rose-200 rounded-lg font-bold transition cursor-pointer" title="Hapus Menu">
+                <i class="fa fa-trash"></i>
+              </button>
+            </div>
+          `;
+        }).join("");
+      }, (err) => {
+        console.error("Gagal load items:", err);
+      });
+    }
+
+    async function saveSubItemData(e) {
+      e.preventDefault();
+      const paketId = currentPaketIdForItems;
+      if (!paketId) return;
+
+      const nameInput = document.getElementById("itemName").value.trim();
+      const fileInput = document.getElementById("itemImageFile");
+      let finalImgPath = document.getElementById("itemImageUrl").value.trim();
+
+      const btn = document.getElementById("btnAddItemSubmit");
+      const oldText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin mr-1"></i> Menyimpan...';
+
+      try {
+        if (fileInput.files.length > 0) {
+          const formData = new FormData();
+          formData.append("fileBukti", fileInput.files[0]);
+          try {
+            const res = await fetch("php/upload_bukti.php", { method: "POST", body: formData });
+            const json = await res.json();
+            if (json.status === "success" && json.url) {
+              finalImgPath = String(json.url).replace("../", "");
+            }
+          } catch (errUpload) {
+            console.warn("Upload fisik tidak aktif, menggunakan path otomatis:", errUpload);
+          }
+        }
+
+        // Simpan dokumen bersih ke sub-koleksi items TANPA field order
+        const newItemData = {
+          nama: nameInput,
+          imageUrl: finalImgPath,
+          createdAt: firebase.firestore.FieldValue.serverTimestamp()
+        };
+
+        await db.collection("paket").doc(paketId).collection("items").add(newItemData);
+
+        document.getElementById("addItemForm").reset();
+        updateAutoImagePath("");
+        alert(`Menu "${nameInput}" berhasil ditambahkan ke ${currentPaketNameForItems}!`);
+      } catch (err) {
+        alert("Gagal menambahkan menu makanan: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = oldText;
+      }
+    }
+
+    async function deleteSubItem(paketId, itemId) {
+      if (confirm("Apakah Anda yakin ingin menghapus item menu ini?")) {
+        try {
+          await db.collection("paket").doc(paketId).collection("items").doc(itemId).delete();
+        } catch (err) {
+          alert("Gagal menghapus item: " + err.message);
+        }
+      }
+    }
+
+    function formatRupiah(num) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0
+      }).format(num || 0);
+    }
+
+    function escapeHtml(val) {
+      return String(val ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeJs(val) {
+      return String(val ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/\r/g, "\\r")
+        .replace(/\n/g, "\\n");
+    }
+  </script>
+</body>
+
+</html>

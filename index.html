@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+     <title>Nadya Catering Pineleng - Layanan Catering Terbaik di Minahasa & Manado</title>
+     <meta charset="UTF-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+     <meta name="description"
+          content="Pesan paket catering lezat, higienis, dan terpercaya untuk acara pernikahan, syukuran, dan ulang tahun di Pineleng, Manado & Minahasa.">
+
+     <link rel="stylesheet" href="css/bootstrap.min.css">
+     <link rel="stylesheet" href="css/font-awesome.min.css">
+     <link rel="stylesheet" href="css/animate.css">
+     <link rel="stylesheet" href="css/custom-ui.css">
+</head>
+
+<body data-spy="scroll" data-target=".navbar-collapse" data-offset="50">
+
+     <section class="preloader">
+          <div class="spinner">
+               <span class="spinner-rotate"></span>
+          </div>
+     </section>
+
+     <section class="navbar custom-navbar navbar-fixed-top" role="navigation">
+          <div class="container">
+               <div class="navbar-header">
+                    <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                         <span class="icon icon-bar"></span>
+                    </button>
+                    <a href="index.html" class="navbar-brand">
+                         <img src="images/nadyalogo.png" alt="Nadya Catering Pineleng" class="nav-logo">
+                    </a>
+               </div>
+
+               <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-nav-first">
+                         <li class="active"><a href="#home" class="smoothScroll">Beranda</a></li>
+                         <li><a href="#features" class="smoothScroll">Keunggulan</a></li>
+                         <li><a href="#menu" class="smoothScroll">Paket Catering</a></li>
+                         <li><a href="#about" class="smoothScroll">Tentang Kami</a></li>
+                         <li><a href="#contact" class="smoothScroll">Kontak</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                         <li>
+                              <a href="cart.html" id="cartNavBtn" class="cart-nav-btn">
+                                   <i class="fa fa-shopping-cart"></i>
+                                   <span>Keranjang</span>
+                                   <span id="cartCountBadge" class="badge">0</span>
+                              </a>
+                         </li>
+
+                         <li class="user-menu-wrapper">
+                              <a href="javascript:void(0)" id="userMenuBtn" class="btn-auth">
+                                   <i class="fa fa-user-circle"></i> <span id="userMenuName">Login / Daftar</span>
+                              </a>
+                              <div class="user-dropdown" id="userDropdown">
+                                   <a href="profil.html"><i class="fa fa-id-card"></i> Profil Saya</a>
+                                   <a href="riwayat-pesanan.html"><i class="fa fa-history"></i> Riwayat Pesanan</a>
+                                   <div id="adminDropdownContainer"></div>
+                                   <a href="#" id="logoutBtn"><i class="fa fa-sign-out"></i> Logout</a>
+                              </div>
+                         </li>
+                    </ul>
+               </div>
+          </div>
+     </section>
+
+     <section id="home" class="hero-section">
+          <div class="container">
+               <div class="row">
+                    <div class="col-md-7 col-sm-12">
+                         <div class="hero-content">
+                              <span class="hero-badge">
+                                   <i class="fa fa-star"></i> Jasa Catering Pilihan No. 1 Pineleng
+                              </span>
+                              <h1>
+                                   Sajikan <span class="gradient-text">Cita Rasa Istimewa</span> untuk Momen Spesial
+                              </h1>
+                              <p>
+                                   Menyajikan aneka hidangan catering lezat, higienis, dan berkualitas tinggi untuk
+                                   Acara Pernikahan (Kaweng), Syukuran, Ulang Tahun, hingga Acara Kantor di area
+                                   Minahasa & Manado.
+                              </p>
+                              <div class="hero-btns">
+                                   <a href="#menu" class="btn-primary-custom smoothScroll">
+                                        <i class="fa fa-cutlery"></i> Lihat Paket Catering
+                                   </a>
+                                   <a href="https://wa.me/6282195350990" target="_blank" class="btn-wa-custom">
+                                        <i class="fa fa-whatsapp"></i> Konsultasi Gratis
+                                   </a>
+                              </div>
+
+                              <div class="hero-stats">
+                                   <div class="stat-item">
+                                        <h4>4.9 ★</h4>
+                                        <p>Rating Pelanggan</p>
+                                   </div>
+                                   <div class="stat-divider"></div>
+                                   <div class="stat-item">
+                                        <h4>100%</h4>
+                                        <p>Bahan Segar</p>
+                                   </div>
+                                   <div class="stat-divider"></div>
+                                   <div class="stat-item">
+                                        <h4>Ratusan+</h4>
+                                        <p>Acara Sukses</p>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="col-md-5 col-sm-12 text-center">
+                         <div class="hero-image-card">
+                              <div class="floating-card-top">
+                                   <i class="fa fa-heart"></i> 100% Halal & Higienis
+                              </div>
+
+                              <img src="images/menu-image1.jpg" alt="Sajian Catering Nadya"
+                                   class="img-responsive hero-img">
+
+                              <div class="floating-card">
+                                   <i class="fa fa-check-circle"></i>
+                                   <div>
+                                        <strong>Pemesanan Praktis</strong>
+                                        <p>Integrasi WhatsApp & Firestore</p>
+                                   </div>
+                              </div>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </section>
+
+     <section id="features" class="features-section">
+          <div class="container">
+               <div class="row">
+                    <div class="col-md-12 text-center">
+                         <div class="section-title">
+                              <h2>Mengapa Memilih Nadya Catering?</h2>
+                              <h4>Komitmen kami untuk memberikan kualitas terbaik di setiap hidangan</h4>
+                         </div>
+                    </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                         <div class="feature-box">
+                              <div class="feature-icon"><i class="fa fa-leaf"></i></div>
+                              <h3>Bahan Segar & Higienis</h3>
+                              <p>Semua bahan masakan dipilih secara segar setiap hari dan diolah dengan standar
+                                   kebersihan tinggi.</p>
+                         </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                         <div class="feature-box">
+                              <div class="feature-icon"><i class="fa fa-cutlery"></i></div>
+                              <h3>Cita Rasa Otentik</h3>
+                              <p>Bumbu kaya rasa khas Minahasa dan Nusantara yang diolah oleh koki berpengalaman.</p>
+                         </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                         <div class="feature-box">
+                              <div class="feature-icon"><i class="fa fa-money"></i></div>
+                              <h3>Harga Terjangkau</h3>
+                              <p>Pilihan paket fleksibel sesuai anggaran acara Anda tanpa mengurangi porsi dan kualitas.
+                              </p>
+                         </div>
+                    </div>
+
+                    <div class="col-md-3 col-sm-6">
+                         <div class="feature-box">
+                              <div class="feature-icon"><i class="fa fa-clock-o"></i></div>
+                              <h3>Tepat Waktu</h3>
+                              <p>Pengantaran dan penataan catering di lokasi acara selalu siap tepat sebelum tamu hadir.
+                              </p>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </section>
+
+     <section id="menu" class="menu-section">
+          <div class="container">
+               <div class="row">
+                    <div class="col-md-12 text-center">
+                         <div class="section-title">
+                              <h2>Pilihan Paket Catering</h2>
+                              <h4>Pilih paket impian untuk melengkapi momen istimewa Anda</h4>
+                         </div>
+                    </div>
+               </div>
+
+               <div class="row" id="menuContainer">
+                    <div class="text-center">
+                         <i class="fa fa-circle-o-notch fa-spin fa-3x"></i>
+                         <p>Memuat paket catering terbaik...</p>
+                    </div>
+               </div>
+          </div>
+     </section>
+
+     <section id="about" class="about-section">
+          <div class="container">
+               <div class="row">
+                    <div class="col-md-6 col-sm-12">
+                         <div class="about-img-group">
+                              <img src="images/about-image.jpg" class="img-responsive about-img-main"
+                                   alt="Dapur Nadya Catering">
+                              <div class="experience-badge">
+                                   <h3>Pineleng</h3>
+                                   <p>Sulawesi Utara</p>
+                              </div>
+                         </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-12">
+                         <div class="about-info">
+                              <span class="sub-title">Tentang Nadya Catering</span>
+                              <h2>Melayani Dengan Hati Untuk Setiap Momen Berharga</h2>
+                              <p>
+                                   Nadya Catering Pineleng adalah penyedia jasa catering terpercaya yang berlokasi di
+                                   Pineleng, Kabupaten Minahasa. Kami siap melayani berbagai kebutuhan catering pesta
+                                   pernikahan, acara keagamaan, ulang tahun, pertemuan keluarga, hingga konsumsi event
+                                   perusahaan.
+                              </p>
+                              <p>
+                                   Dengan variasi menu favorit seperti olahan Babi Tore, Ayam Woku, Daging Masak RW, Sup
+                                   Brenebon, hingga aneka es pencuci mulut, kami menjamin kepuasan rasa untuk setiap
+                                   tamu Anda.
+                              </p>
+
+                              <ul class="about-list">
+                                   <li><i class="fa fa-check-circle"></i> Melayani pemesanan area Pineleng, Manado,
+                                        Tomohon, & Minahasa</li>
+                                   <li><i class="fa fa-check-circle"></i> Pilihan pembayaran mudah (Transfer BCA, BRI,
+                                        Mandiri)</li>
+                                   <li><i class="fa fa-check-circle"></i> Bebas konsultasi penyesuaian porsi & menu</li>
+                              </ul>
+                         </div>
+                    </div>
+               </div>
+          </div>
+     </section>
+
+     <section id="contact" class="contact-section">
+          <div class="container">
+               <div class="row">
+                    <div class="col-md-12 text-center">
+                         <div class="section-title">
+                              <h2>Hubungi & Kunjungi Kami</h2>
+                              <h4>Siap melayani pertanyaan dan konsultasi menu acara Anda</h4>
+                         </div>
+                    </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-md-4 col-sm-6">
+                         <div class="contact-card">
+                              <div class="contact-icon"><i class="fa fa-map-marker"></i></div>
+                              <h4>Lokasi Catering</h4>
+                              <p>Pineleng, Kabupaten Minahasa, Sulawesi Utara</p>
+                         </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-6">
+                         <div class="contact-card">
+                              <div class="contact-icon"><i class="fa fa-whatsapp"></i></div>
+                              <h4>WhatsApp / Telepon</h4>
+                              <p>+62 821-9535-0990</p>
+                         </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-12">
+                         <div class="contact-card">
+                              <div class="contact-icon"><i class="fa fa-clock-o"></i></div>
+                              <h4>Jam Operasional</h4>
+                              <p>Senin - Minggu: 08:00 - 20:00 WITA</p>
+                         </div>
+                    </div>
+               </div>
+
+               <div class="row">
+                    <div class="col-md-12">
+                         <div class="map-wrapper">
+                              <iframe
+                                   src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15953.63351981144!2d124.8258384!3d1.4390022!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x328774e443adbb31%3A0x4030bfbca7d12f0!2sPineleng%2C%20Kabupaten%20Minahasa%2C%20Sulawesi%20Utara!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+                                   width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy">
+                              </iframe>
+                         </div>
+                    </div>
+               </div>
+
+          </div>
+     </section>
+
+     <footer id="footer">
+          <div class="container">
+               <div class="row">
+                    <div class="col-md-6 col-sm-6">
+                         <div class="footer-info">
+                              <img src="images/nadyalogo.png" alt="Nadya Catering Logo">
+                              <p>Nadya Catering Pineleng - Solusi catering terpercaya dengan cita rasa lezat dan
+                                   pelayanan profesional di Minahasa & Manado.</p>
+                         </div>
+                    </div>
+
+                    <div class="col-md-6 col-sm-6 text-right">
+                         <p class="copyright-text">
+                              &copy; 2026 <strong>Nadya Catering Pineleng</strong>. All Rights Reserved.
+                         </p>
+                    </div>
+               </div>
+          </div>
+     </footer>
+
+     <div class="modal fade" id="loginModal" tabindex="-1" role="dialog">
+          <div class="modal-dialog modal-sm-custom" role="document">
+               <div class="modal-content">
+                    <div class="modal-header">
+                         <button type="button" class="close" data-dismiss="modal">&times;</button>
+                         <h4 class="modal-title" id="authModalTitle">Masuk Akun</h4>
+                    </div>
+
+                    <div class="modal-body">
+                         <form id="loginForm">
+                              <div class="form-group">
+                                   <label>Email Address</label>
+                                   <input type="email" id="loginEmail" class="form-control custom-input"
+                                        placeholder="contoh@gmail.com" required>
+                              </div>
+                              <div class="form-group">
+                                   <label>Password</label>
+                                   <input type="password" id="loginPassword" class="form-control custom-input"
+                                        placeholder="Password Anda" required>
+                              </div>
+                              <button type="submit" class="btn btn-block btn-primary-custom">
+                                   Masuk Sekarang
+                              </button>
+                              <p class="text-center">
+                                   Belum punya akun? <a href="javascript:void(0)" id="switchToRegister">Daftar Akun
+                                        Baru</a>
+                              </p>
+                         </form>
+
+                         <form id="registerForm" style="display: none;">
+                              <div class="form-group">
+                                   <label>Nama Lengkap</label>
+                                   <input type="text" id="regNama" class="form-control custom-input"
+                                        placeholder="Nama Anda" required>
+                              </div>
+                              <div class="form-group">
+                                   <label>Email Address</label>
+                                   <input type="email" id="regEmail" class="form-control custom-input"
+                                        placeholder="contoh@gmail.com" required>
+                              </div>
+                              <div class="form-group">
+                                   <label>Nomor Telepon / WA</label>
+                                   <input type="tel" id="regNotlp" class="form-control custom-input"
+                                        placeholder="0821xxxxxx" required>
+                              </div>
+                              <div class="form-group">
+                                   <label>Alamat Lengkap</label>
+                                   <input type="text" id="regAlamat" class="form-control custom-input"
+                                        placeholder="Alamat di Pineleng/Manado" required>
+                              </div>
+                              <div class="form-group">
+                                   <label>Password</label>
+                                   <input type="password" id="regPassword" class="form-control custom-input"
+                                        placeholder="Minimal 6 Karakter" required>
+                              </div>
+                              <button type="submit" class="btn btn-block btn-primary-custom">
+                                   Daftar Akun
+                              </button>
+                              <p class="text-center">
+                                   Sudah punya akun? <a href="javascript:void(0)" id="switchToLogin">Masuk di Sini</a>
+                              </p>
+                         </form>
+                    </div>
+               </div>
+          </div>
+     </div>
+
+     <script src="js/jquery.js"></script>
+     <script src="js/bootstrap.min.js"></script>
+     <script src="js/jquery.stellar.min.js"></script>
+     <script src="js/wow.min.js"></script>
+     <script src="js/smoothscroll.js"></script>
+     <script src="js/custom.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+     <script src="js/firebase-init.js"></script>
+     <script src="js/auth.js"></script>
+     <script src="js/modal.js"></script>
+     <script src="js/menu.js"></script>
+
+     <script>
+          document.getElementById("cartNavBtn")?.addEventListener("click", function (e) {
+               if (!auth.currentUser) {
+                    e.preventDefault();
+                    alert("Silakan login terlebih dahulu untuk mengakses keranjang pesanan.");
+                    $("#loginModal").modal("show");
+               }
+          });
+     </script>
+
+</body>
+
+</html>

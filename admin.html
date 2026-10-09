@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard Admin - Nadya Catering</title>
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#465FFF',
+              600: '#3A50E0',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+
+  <!-- ApexCharts CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+  <style>
+    #mainSidebar {
+      transition: width 0.25s ease, transform 0.25s ease;
+    }
+
+    #mainContentWrapper {
+      transition: margin-left 0.25s ease;
+    }
+
+    .sidebar-collapsed {
+      width: 0 !important;
+      transform: translateX(-100%);
+      overflow: hidden;
+    }
+
+    .content-expanded {
+      margin-left: 0 !important;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F8F9FA] text-[#1D2939] font-sans antialiased">
+  <div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside id="mainSidebar"
+      class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between fixed top-0 bottom-0 left-0 z-40">
+      <div>
+        <div class="h-20 flex items-center gap-3 px-6 border-b border-slate-100">
+          <div
+            class="w-9 h-9 rounded-lg bg-brand-500 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h7"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-extrabold text-slate-800 tracking-tight whitespace-nowrap">TailAdmin</span>
+        </div>
+
+        <div class="p-4">
+          <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-3">MENU</p>
+          <ul class="space-y-1 text-sm font-semibold">
+            <li>
+              <button id="btnMenuDashboard" type="button"
+                class="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-brand-50 text-brand-600 transition">
+                <div class="flex items-center gap-3">
+                  <i class="fa fa-th-large text-base"></i>
+                  <span>Dashboard</span>
+                </div>
+                <i id="iconMenuDashboard" class="fa fa-angle-down text-xs transition-transform duration-200"></i>
+              </button>
+              <div id="submenuDashboard" class="pl-9 pr-2 py-1 space-y-1 text-xs font-semibold text-slate-500">
+                <a href="admin.html" class="block py-1.5 px-2 rounded-lg text-brand-600 bg-brand-50/50">Ikhtisar
+                  Toko</a>
+                <a href="#recentOrdersSection"
+                  class="block py-1.5 px-2 rounded-lg hover:text-slate-900 hover:bg-slate-50">Daftar Transaksi</a>
+              </div>
+            </li>
+
+            <li>
+              <a href="admin-pesanan.html"
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <div class="flex items-center gap-3">
+                  <i class="fa fa-shopping-basket text-base"></i>
+                  <span>Kelola Pesanan</span>
+                </div>
+                <span
+                  class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full border border-emerald-100">LIVE</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="admin-menu.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-list-alt text-base"></i>
+                <span>Kelola Menu Paket</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="admin-pelanggan.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-users text-base"></i>
+                <span>Kelola Pelanggan</span>
+              </a>
+            </li>
+
+            <li>
+              <a href="index.html" target="_blank"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-external-link text-base"></i>
+                <span>Lihat Website</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-100">
+        <a href="#" id="adminLogoutBtn"
+          class="flex items-center gap-3 px-3.5 py-2.5 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-xl transition">
+          <i class="fa fa-sign-out"></i>
+          <span>Keluar / Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div id="mainContentWrapper" class="flex-1 ml-64 flex flex-col min-h-screen">
+
+      <!-- TOPBAR -->
+      <header class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-4">
+          <button id="btnToggleSidebar" type="button"
+            class="p-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h16"></path>
+            </svg>
+          </button>
+
+          <div class="relative w-72 sm:w-80">
+            <i class="fa fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input id="inputSearchGlobal" type="text" placeholder="Cari nama pemesan atau acara..."
+              class="w-full bg-[#F8FAFC] border border-slate-200 text-sm rounded-xl pl-10 pr-12 py-2 focus:outline-none focus:border-brand-500 focus:bg-white transition">
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded-md shadow-xs">⌘K</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-4">
+          <!-- Filter Periode Waktu -->
+          <select id="selectPeriodFilter"
+            class="bg-white border border-slate-200 text-xs font-semibold rounded-xl px-3 py-2 text-slate-700 focus:outline-none focus:border-brand-500 cursor-pointer">
+            <option value="all">Semua Waktu</option>
+            <option value="year2026" selected>Tahun 2026</option>
+            <option value="thisMonth">Bulan Ini</option>
+            <option value="last7days">Mingguan (7 Hari)</option>
+          </select>
+
+          <!-- Ekspor CSV -->
+          <button id="btnDownloadData" type="button"
+            class="inline-flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer">
+            <i class="fa fa-download text-slate-400"></i>
+            <span class="hidden sm:inline">Ekspor CSV</span>
+          </button>
+
+          <!-- Notifikasi -->
+          <div class="relative">
+            <button id="btnNotifToggle" type="button"
+              class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 relative cursor-pointer">
+              <i class="fa fa-bell-o"></i>
+              <span id="notifDot"
+                class="w-2 h-2 rounded-full bg-brand-500 absolute top-2.5 right-2.5 ring-2 ring-white"></span>
+            </button>
+            <div id="notifDropdown"
+              class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-slate-100 p-3 z-50">
+              <div class="text-xs font-bold text-slate-500 px-2 py-1 uppercase">Notifikasi Transaksi Baru</div>
+              <div id="notifList" class="divide-y divide-slate-100 text-xs text-slate-600 max-h-64 overflow-y-auto">
+                <div class="py-2 px-2 text-slate-400">Memuat transaksi terbaru...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profil User -->
+          <div class="relative pl-2 border-l border-slate-100">
+            <button id="btnUserDropdown" type="button"
+              class="flex items-center gap-3 focus:outline-none cursor-pointer">
+              <div
+                class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold overflow-hidden">
+                <img src="images/default-avatar.png"
+                  onerror="this.src='https://ui-avatars.com/api/?name=Admin+Aaron&background=465FFF&color=fff'"
+                  alt="Avatar" class="w-full h-full object-cover">
+              </div>
+              <div class="hidden sm:flex flex-col text-left">
+                <span id="adminMenuName" class="text-sm font-bold text-slate-700">Administrator</span>
+                <span class="text-[11px] text-slate-400">Admin Pengelola</span>
+              </div>
+              <i class="fa fa-angle-down text-slate-400 text-xs"></i>
+            </button>
+
+            <div id="menuUserProfile"
+              class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 py-1.5 z-50 text-sm font-semibold">
+              <a href="profil.html" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50">
+                <i class="fa fa-user-circle-o text-slate-400"></i> Profil Saya
+              </a>
+              <a href="admin-pesanan.html" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50">
+                <i class="fa fa-shopping-basket text-slate-400"></i> Data Pesanan
+              </a>
+              <hr class="my-1 border-slate-100">
+              <a href="#" id="dropdownLogoutBtn"
+                class="flex items-center gap-2 px-4 py-2 text-rose-500 hover:bg-rose-50">
+                <i class="fa fa-sign-out"></i> Keluar
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="p-6 sm:p-8 space-y-6">
+
+        <!-- 4 KARTU STATISTIK UTAMA -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-indigo-50 text-brand-600 flex items-center justify-center mb-4">
+              <i class="fa fa-users text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Customers</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statTotalUser" class="text-3xl font-extrabold text-slate-900">0</h3>
+              <span
+                class="inline-flex items-center gap-1 text-xs font-bold text-emerald-600 bg-emerald-50 border border-emerald-100 px-2 py-0.5 rounded-full">
+                Terdaftar
+              </span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-amber-50 text-amber-600 flex items-center justify-center mb-4">
+              <i class="fa fa-shopping-cart text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Orders</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statTotalPesanan" class="text-3xl font-extrabold text-slate-900">0</h3>
+              <span id="statPesananPending"
+                class="inline-flex items-center gap-1 text-xs font-bold text-amber-600 bg-amber-50 border border-amber-100 px-2 py-0.5 rounded-full">
+                0 Pending
+              </span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <i class="fa fa-money text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Omset Bulan Ini</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="omsetBulanIni" class="text-2xl font-extrabold text-emerald-600">Rp 0</h3>
+              <span
+                class="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
+                Bulan Berjalan
+              </span>
+            </div>
+          </div>
+
+          <!-- KARTU DENGAN LABEL BARU: TOTAL SELURUH OMSET -->
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
+              <i class="fa fa-line-chart text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Total Seluruh Omset</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="omsetTotalAkumulasi" class="text-2xl font-extrabold text-slate-900">Rp 0</h3>
+              <span
+                class="inline-flex items-center gap-1 text-xs font-bold text-purple-600 bg-purple-50 border border-purple-100 px-2 py-0.5 rounded-full">
+                Akumulasi
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ROW 1: MONTHLY SALES BAR CHART -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+            <div>
+              <h4 class="text-base font-bold text-slate-900">Penjualan Bulanan (Monthly Sales)</h4>
+              <p class="text-xs text-slate-400 mt-0.5">Jumlah transaksi pesanan catering per bulan</p>
+            </div>
+            <div
+              class="inline-flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 bg-slate-50">
+              <i class="fa fa-calendar text-slate-400"></i>
+              <span id="salesChartPeriodLabel">Tahun 2026</span>
+            </div>
+          </div>
+          <div id="monthlySalesChart" style="min-height: 280px; width: 100%;"></div>
+        </div>
+
+        <!-- ROW 2: LARGE STATISTICS AREA CHART -->
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h4 class="text-base font-bold text-slate-900">Statistik Tren Usaha</h4>
+              <p class="text-xs text-slate-400 mt-1">Grafik dinamis pesanan & pendapatan riil dari pembayaran</p>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <div class="inline-flex p-1 bg-slate-100 rounded-xl text-xs font-bold text-slate-600">
+                <button id="tabOverview" type="button"
+                  class="stat-tab-btn px-3 py-1.5 rounded-lg bg-white shadow-xs text-slate-900 cursor-pointer">Ikhtisar</button>
+                <button id="tabSales" type="button"
+                  class="stat-tab-btn px-3 py-1.5 hover:text-slate-900 cursor-pointer">Pesanan</button>
+                <button id="tabRevenue" type="button"
+                  class="stat-tab-btn px-3 py-1.5 hover:text-slate-900 cursor-pointer">Omset (Rupiah)</button>
+              </div>
+
+              <div
+                class="inline-flex items-center gap-2 px-3 py-1.5 border border-slate-200 rounded-xl text-xs font-semibold text-slate-600 bg-white">
+                <i class="fa fa-calendar-o text-slate-400"></i>
+                <span id="statDateRangeLabel">Tahun 2026</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="statisticsAreaChart" style="min-height: 300px; width: 100%;"></div>
+        </div>
+
+        <!-- ROW 3: STATISTIK LOKASI & PAKET TERPOPULER (DATA RIIL FIRESTORE) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Sebaran Lokasi Acara</h4>
+                <p class="text-xs text-slate-400 mt-0.5">Destinasi pengantaran pesanan katering</p>
+              </div>
+            </div>
+            <div id="locationChart" style="min-height: 260px; width: 100%;"></div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h4 class="text-base font-bold text-slate-900">Popularitas Paket Menu</h4>
+                <p class="text-xs text-slate-400 mt-0.5">Distribusi pilihan paket yang dipesan pelanggan</p>
+              </div>
+            </div>
+            <div id="packagePopularityChart" style="min-height: 260px; width: 100%;"></div>
+          </div>
+        </div>
+
+        <!-- ROW 4: TABEL PESANAN TERBARU -->
+        <div id="recentOrdersSection" class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+          <div class="flex items-center justify-between mb-5">
+            <div>
+              <h4 class="text-base font-bold text-slate-900">Pesanan Masuk Terbaru</h4>
+              <p class="text-xs text-slate-400 mt-1">Data live langsung dari Cloud Firestore</p>
+            </div>
+            <a href="admin-pesanan.html"
+              class="text-xs font-bold text-brand-600 hover:text-brand-700 flex items-center gap-1.5">
+              <span>Buka Menu Pesanan</span>
+              <i class="fa fa-arrow-right text-[10px]"></i>
+            </a>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead
+                class="bg-[#F8FAFC] border-y border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                <tr>
+                  <th class="py-3 px-4">Order ID & Pemesan</th>
+                  <th class="py-3 px-4">Detail Acara & Lokasi</th>
+                  <th class="py-3 px-4">Porsi</th>
+                  <th class="py-3 px-4">Total Biaya</th>
+                  <th class="py-3 px-4">Status Transaksi</th>
+                </tr>
+              </thead>
+              <tbody id="recentOrdersBody" class="divide-y divide-slate-100 font-medium">
+                <tr>
+                  <td colspan="5" class="py-8 text-center text-slate-400 text-xs">
+                    <i class="fa fa-spinner fa-spin text-lg mb-2 block text-brand-500"></i>
+                    Menghubungkan ke database Cloud Firestore...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- FIREBASE SDKs (v8) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <!-- FIREBASE CONFIG & AUTH -->
+  <script src="js/firebase-init.js"></script>
+  <script src="js/auth.js"></script>
+
+  <!-- KONTROLLER SCRIPT DASHBOARD -->
+  <script src="js/admin-dashboard.js"></script>
+</body>
+
+</html>

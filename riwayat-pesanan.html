@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Riwayat Pesanan Saya - Nadya Catering Pineleng</title>
+  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" href="css/custom-ui.css">
+</head>
+
+<body>
+
+  <nav class="navbar custom-navbar navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a href="index.html" class="navbar-brand">
+          <img src="images/nadyalogo.png" alt="Logo" class="nav-logo">
+        </a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav navbar-right">
+          <li><a href="index.html#menu">Pesan Menu Lagi</a></li>
+          <li><a href="profil.html">Profil Saya</a></li>
+          <li><a href="index.html">Beranda</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <div class="history-page">
+    <div class="container">
+      <div class="mb-4">
+        <h2><i class="fa fa-history"></i> Riwayat Pesanan Saya</h2>
+        <p>Daftar transaksi katering yang pernah Anda pesan</p>
+      </div>
+
+      <div id="historyOrdersContainer">
+        <div class="text-center p-5 text-muted">
+          <i class="fa fa-spinner fa-spin fa-2x"></i>
+          <p class="mt-2">Memuat riwayat transaksi Anda...</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery.js"></script>
+  <script src="js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+  <script src="js/firebase-init.js"></script>
+
+  <script>
+    function formatRupiah(num) {
+      return new Intl.NumberFormat("id-ID", { style: "currency", currency: "IDR", minimumFractionDigits: 0 }).format(num || 0);
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      auth.onAuthStateChanged(async (user) => {
+        if (!user) {
+          alert("Silakan login untuk melihat riwayat pesanan.");
+          window.location.href = "index.html";
+          return;
+        }
+
+        const container = document.getElementById("historyOrdersContainer");
+
+        db.collection("orders")
+          .where("userId", "==", user.uid)
+          .onSnapshot((snapshot) => {
+            if (snapshot.empty) {
+              container.innerHTML = `
+                <div class="history-card text-center p-5">
+                  <i class="fa fa-shopping-basket fa-3x text-muted"></i>
+                  <p class="mt-3 font-weight-bold">Anda belum pernah membuat pesanan katering.</p>
+                  <a href="index.html#menu" class="btn btn-primary-custom mt-2">Pilih Menu Catering Sekarang</a>
+                </div>
+              `;
+              return;
+            }
+
+            const orders = [];
+            snapshot.forEach(doc => orders.push({ id: doc.id, ...doc.data() }));
+
+            orders.sort((a, b) => {
+              const timeA = a.createdAt?.toMillis ? a.createdAt.toMillis() : 0;
+              const timeB = b.createdAt?.toMillis ? b.createdAt.toMillis() : 0;
+              return timeB - timeA;
+            });
+
+            container.innerHTML = orders.map(o => {
+              const total = formatRupiah(o.totalHarga || o.totalBiaya || 0);
+              const status = o.status || 'Pending';
+              const pay = o.paymentStatus || 'Unpaid';
+
+              let payBadge = pay.toLowerCase() === 'paid' || pay.toLowerCase() === 'lunas'
+                ? '<span class="badge badge-success">Lunas</span>'
+                : '<span class="badge badge-warning">Belum Lunas</span>';
+
+              return `
+                <div class="history-card">
+                  <div class="d-flex justify-content-between align-items-center pb-2 mb-3 border-bottom">
+                    <div>
+                      <strong>#${o.id.substring(0, 8)}</strong>
+                      <span class="text-muted ml-2">${o.tanggalAcara || '-'}</span>
+                    </div>
+                    <div>
+                      ${payBadge}
+                      <span class="badge badge-info">${status}</span>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-8 col-sm-12">
+                      <h4>${o.namaKegiatan || 'Acara Catering'}</h4>
+                      <p><i class="fa fa-cutlery"></i> ${o.namaPaket || '-'}</p>
+                      <p><i class="fa fa-map-marker"></i> Lokasi: ${o.lokasiAcara || '-'}</p>
+                    </div>
+                    <div class="col-md-4 col-sm-12 text-right">
+                      <span class="text-muted d-block">Total Biaya:</span>
+                      <strong class="text-brand h4">${total}</strong>
+                      <div class="mt-2">
+                        <a href="order-success.html?orderId=${o.id}" class="btn btn-xs btn-default">Lihat Pembayaran & Bukti</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              `;
+            }).join("");
+          });
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kelola Pelanggan - TailAdmin Nadya Catering</title>
+
+  <!-- Google Font: Plus Jakarta Sans -->
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#EEF2FF',
+              100: '#E0E7FF',
+              500: '#465FFF',
+              600: '#3A50E0',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="stylesheet" href="css/font-awesome.min.css">
+
+  <style>
+    #mainSidebar {
+      transition: width 0.25s ease, transform 0.25s ease;
+    }
+
+    #mainContentWrapper {
+      transition: margin-left 0.25s ease;
+    }
+
+    .sidebar-collapsed {
+      width: 0 !important;
+      transform: translateX(-100%);
+      overflow: hidden;
+    }
+
+    .content-expanded {
+      margin-left: 0 !important;
+    }
+  </style>
+</head>
+
+<body class="bg-[#F8F9FA] text-[#1D2939] font-sans antialiased">
+  <div class="flex min-h-screen">
+
+    <!-- SIDEBAR -->
+    <aside id="mainSidebar"
+      class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between fixed top-0 bottom-0 left-0 z-40">
+      <div>
+        <div class="h-20 flex items-center gap-3 px-6 border-b border-slate-100">
+          <div
+            class="w-9 h-9 rounded-lg bg-brand-500 flex items-center justify-center text-white shadow-sm flex-shrink-0">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h7"></path>
+            </svg>
+          </div>
+          <span class="text-xl font-extrabold text-slate-800 tracking-tight whitespace-nowrap">TailAdmin</span>
+        </div>
+
+        <div class="p-4">
+          <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider px-3 mb-3">MENU</p>
+          <ul class="space-y-1 text-sm font-semibold">
+            <li>
+              <a href="admin.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-th-large text-base"></i>
+                <span>Dashboard</span>
+              </a>
+            </li>
+            <li>
+              <a href="admin-pesanan.html"
+                class="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <div class="flex items-center gap-3">
+                  <i class="fa fa-shopping-basket text-base"></i>
+                  <span>Kelola Pesanan</span>
+                </div>
+                <span
+                  class="text-[10px] bg-emerald-50 text-emerald-600 font-bold px-2 py-0.5 rounded-full border border-emerald-100">LIVE</span>
+              </a>
+            </li>
+            <li>
+              <a href="admin-menu.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-list-alt text-base"></i>
+                <span>Kelola Menu Paket</span>
+              </a>
+            </li>
+            <li>
+              <a href="admin-pelanggan.html"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl bg-brand-50 text-brand-600 transition">
+                <i class="fa fa-users text-base"></i>
+                <span>Kelola Pelanggan</span>
+              </a>
+            </li>
+            <li>
+              <a href="index.html" target="_blank"
+                class="flex items-center gap-3 px-3.5 py-2.5 rounded-xl text-slate-600 hover:bg-slate-50 hover:text-slate-900 transition">
+                <i class="fa fa-external-link text-base"></i>
+                <span>Lihat Website</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="p-4 border-t border-slate-100">
+        <a href="#" id="adminLogoutBtn"
+          class="flex items-center gap-3 px-3.5 py-2.5 text-sm font-semibold text-rose-500 hover:bg-rose-50 rounded-xl transition">
+          <i class="fa fa-sign-out"></i>
+          <span>Keluar / Logout</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div id="mainContentWrapper" class="flex-1 ml-64 flex flex-col min-h-screen">
+
+      <!-- TOPBAR (PERSIS DENGAN ADMIN.HTML) -->
+      <header class="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between sticky top-0 z-30">
+        <div class="flex items-center gap-4">
+          <button id="btnToggleSidebar" type="button"
+            class="p-2.5 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition cursor-pointer">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h10M4 18h16"></path>
+            </svg>
+          </button>
+
+          <div class="relative w-72 sm:w-80">
+            <i class="fa fa-search absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input id="inputSearchGlobal" type="text" placeholder="Cari nama, email, nomor HP..."
+              class="w-full bg-[#F8FAFC] border border-slate-200 text-sm rounded-xl pl-10 pr-12 py-2 focus:outline-none focus:border-brand-500 focus:bg-white transition">
+            <span
+              class="absolute right-3 top-1/2 -translate-y-1/2 text-[11px] font-bold text-slate-400 bg-white border border-slate-200 px-1.5 py-0.5 rounded-md shadow-xs">⌘K</span>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3 sm:gap-4">
+          <!-- Tombol Ekspor CSV Seluruh Pelanggan -->
+          <button id="btnDownloadData" type="button"
+            class="inline-flex items-center gap-2 px-3 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 bg-white hover:bg-slate-50 transition cursor-pointer">
+            <i class="fa fa-download text-slate-400"></i>
+            <span class="hidden sm:inline">Ekspor CSV</span>
+          </button>
+
+          <!-- Notifikasi -->
+          <div class="relative">
+            <button id="btnNotifToggle" type="button"
+              class="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center text-slate-600 hover:bg-slate-50 relative cursor-pointer">
+              <i class="fa fa-bell-o"></i>
+              <span id="notifDot"
+                class="w-2 h-2 rounded-full bg-brand-500 absolute top-2.5 right-2.5 ring-2 ring-white"></span>
+            </button>
+            <div id="notifDropdown"
+              class="hidden absolute right-0 mt-2 w-72 bg-white rounded-xl shadow-lg border border-slate-100 p-3 z-50">
+              <div class="text-xs font-bold text-slate-500 px-2 py-1 uppercase">Notifikasi Transaksi Baru</div>
+              <div id="notifList" class="divide-y divide-slate-100 text-xs text-slate-600 max-h-64 overflow-y-auto">
+                <div class="py-2 px-2 text-slate-400">Memuat transaksi terbaru...</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Profil User -->
+          <div class="relative pl-2 border-l border-slate-100">
+            <button id="btnUserDropdown" type="button"
+              class="flex items-center gap-3 focus:outline-none cursor-pointer">
+              <div
+                class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-bold overflow-hidden">
+                <img src="images/default-avatar.png"
+                  onerror="this.src='https://ui-avatars.com/api/?name=Admin+Aaron&background=465FFF&color=fff'"
+                  alt="Avatar" class="w-full h-full object-cover">
+              </div>
+              <div class="hidden sm:flex flex-col text-left">
+                <span id="adminMenuName" class="text-sm font-bold text-slate-700">Administrator</span>
+                <span class="text-[11px] text-slate-400">Admin Pengelola</span>
+              </div>
+              <i class="fa fa-angle-down text-slate-400 text-xs"></i>
+            </button>
+
+            <div id="menuUserProfile"
+              class="hidden absolute right-0 mt-2 w-48 bg-white rounded-xl shadow-xl border border-slate-100 py-1.5 z-50 text-sm font-semibold">
+              <a href="profil.html" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50">
+                <i class="fa fa-user-circle-o text-slate-400"></i> Profil Saya
+              </a>
+              <a href="admin-pesanan.html" class="flex items-center gap-2 px-4 py-2 text-slate-600 hover:bg-slate-50">
+                <i class="fa fa-shopping-basket text-slate-400"></i> Data Pesanan
+              </a>
+              <hr class="my-1 border-slate-100">
+              <a href="#" id="dropdownLogoutBtn"
+                class="flex items-center gap-2 px-4 py-2 text-rose-500 hover:bg-rose-50">
+                <i class="fa fa-sign-out"></i> Keluar
+              </a>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="p-6 sm:p-8 space-y-6">
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-indigo-50 text-brand-600 flex items-center justify-center mb-4">
+              <i class="fa fa-users text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Total Pelanggan Terdaftar</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statTotalUsersCard" class="text-3xl font-extrabold text-slate-900">0</h3>
+              <span class="text-xs font-bold text-brand-600 bg-brand-50 px-2 py-0.5 rounded-full">Akun</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mb-4">
+              <i class="fa fa-user-circle text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Pelanggan Aktif Belanja</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statActiveUsersCard" class="text-3xl font-extrabold text-emerald-600">0</h3>
+              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Pernah
+                Order</span>
+            </div>
+          </div>
+
+          <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+            <div class="w-11 h-11 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center mb-4">
+              <i class="fa fa-shield text-lg"></i>
+            </div>
+            <span class="text-xs font-semibold text-slate-400 block mb-1">Akun Administrator</span>
+            <div class="flex items-baseline justify-between">
+              <h3 id="statAdminCountCard" class="text-3xl font-extrabold text-purple-600">0</h3>
+              <span class="text-xs font-bold text-purple-600 bg-purple-50 px-2 py-0.5 rounded-full">Admin</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-2xl p-6 shadow-xs">
+          <div class="flex items-center justify-between mb-6">
+            <div>
+              <h4 class="text-base font-bold text-slate-900">Daftar Akun Pengguna</h4>
+              <p class="text-xs text-slate-400 mt-0.5">Daftar live pengguna Firestore serta akumulasi transaksinya</p>
+            </div>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm">
+              <thead
+                class="bg-[#F8FAFC] border-y border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+                <tr>
+                  <th class="py-3 px-4">Nama Pelanggan</th>
+                  <th class="py-3 px-4">Email</th>
+                  <th class="py-3 px-4">Kontak / HP</th>
+                  <th class="py-3 px-4">Alamat</th>
+                  <th class="py-3 px-4">Total Order</th>
+                  <th class="py-3 px-4">Total Belanja</th>
+                  <th class="py-3 px-4">Role</th>
+                  <th class="py-3 px-4 text-center">Aksi</th>
+                </tr>
+              </thead>
+              <tbody id="usersTableBody" class="divide-y divide-slate-100 font-medium">
+                <tr>
+                  <td colspan="8" class="py-8 text-center text-slate-400 text-xs">
+                    <i class="fa fa-spinner fa-spin text-lg mb-2 block text-brand-500"></i>
+                    Memuat data pelanggan realtime dari Cloud Firestore...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+  </div>
+
+  <!-- MODAL EDIT PELANGGAN -->
+  <div id="userEditModal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div class="bg-white rounded-2xl shadow-xl border border-slate-100 w-full max-w-lg overflow-hidden">
+      <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h5 class="text-base font-extrabold text-slate-800">Edit Profil Pelanggan</h5>
+          <p class="text-xs text-slate-400 mt-0.5">Perbarui informasi data pengguna di Firestore</p>
+        </div>
+        <button type="button" id="btnCloseModal"
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
+      <form id="userEditForm" class="p-6 space-y-4">
+        <input type="hidden" id="editUserId">
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Lengkap</label>
+          <input type="text" id="editNama" required
+            class="w-full bg-[#F8FAFC] border border-slate-200 text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-brand-500 focus:bg-white transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Email
+            (Read-only)</label>
+          <input type="email" id="editEmail" readonly
+            class="w-full bg-slate-100 border border-slate-200 text-sm rounded-xl px-3.5 py-2.5 text-slate-500 cursor-not-allowed">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">No. WhatsApp /
+            Telepon</label>
+          <input type="text" id="editTelepon"
+            class="w-full bg-[#F8FAFC] border border-slate-200 text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-brand-500 focus:bg-white transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Alamat</label>
+          <input type="text" id="editAlamat"
+            class="w-full bg-[#F8FAFC] border border-slate-200 text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-brand-500 focus:bg-white transition">
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Role Pengguna</label>
+          <select id="editRole"
+            class="w-full bg-[#F8FAFC] border border-slate-200 text-sm rounded-xl px-3.5 py-2.5 text-slate-800 focus:outline-none focus:border-brand-500 focus:bg-white transition cursor-pointer">
+            <option value="user">Pelanggan (User)</option>
+            <option value="admin">Administrator</option>
+          </select>
+        </div>
+
+        <div class="pt-4 border-t border-slate-100 flex items-center justify-end gap-3">
+          <button type="button" id="btnCancelModal"
+            class="px-4 py-2.5 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-slate-50 transition cursor-pointer">
+            Batal
+          </button>
+          <button type="submit" id="btnSubmitUser"
+            class="px-5 py-2.5 rounded-xl bg-brand-500 hover:bg-brand-600 text-white text-xs font-bold shadow-sm transition cursor-pointer">
+            Simpan Perubahan
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- MODAL RIWAYAT PESANAN PELANGGAN -->
+  <div id="userOrdersModal"
+    class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+    <div
+      class="bg-white rounded-2xl shadow-xl border border-slate-100 w-full max-w-3xl overflow-hidden flex flex-col max-h-[85vh]">
+      <div class="px-6 py-5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h5 class="text-base font-extrabold text-slate-800" id="userOrdersModalTitle">Riwayat Pesanan Pelanggan</h5>
+          <p class="text-xs text-slate-400 mt-0.5" id="userOrdersModalSubtitle">Daftar transaksi pesanan dari akun ini
+          </p>
+        </div>
+        <button type="button" id="btnCloseOrdersModal"
+          class="w-8 h-8 rounded-lg flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition cursor-pointer">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+
+      <div class="p-6 overflow-y-auto flex-1">
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-sm">
+            <thead
+              class="bg-[#F8FAFC] border-y border-slate-100 text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+              <tr>
+                <th class="py-3 px-3">Order ID</th>
+                <th class="py-3 px-3">Acara & Paket</th>
+                <th class="py-3 px-3">Porsi</th>
+                <th class="py-3 px-3">Total Biaya</th>
+                <th class="py-3 px-3">Pembayaran</th>
+                <th class="py-3 px-3">Status</th>
+              </tr>
+            </thead>
+            <tbody id="userOrdersModalTableBody" class="divide-y divide-slate-100 font-medium">
+              <tr>
+                <td colspan="6" class="py-8 text-center text-slate-400 text-xs">
+                  <i class="fa fa-spinner fa-spin text-lg mb-2 block text-brand-500"></i>
+                  Memuat data pesanan...
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="px-6 py-4 border-t border-slate-100 flex justify-end bg-slate-50">
+        <button type="button" id="btnCloseOrdersModalFooter"
+          class="px-4 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-600 hover:bg-white transition cursor-pointer">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FIREBASE SDKs (v8) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+
+  <script src="js/firebase-init.js"></script>
+  <script src="js/auth.js"></script>
+
+  <script>
+    let allUsersData = [];
+    let userOrdersMap = {};
+    let allRawOrders = [];
+
+    document.addEventListener("DOMContentLoaded", () => {
+      setupLayoutUI();
+      startLoadingData();
+
+      document.getElementById("inputSearchGlobal")?.addEventListener("input", (e) => {
+        filterUsers(e.target.value);
+      });
+      document.getElementById("userEditForm")?.addEventListener("submit", saveUserChanges);
+      document.getElementById("btnDownloadData")?.addEventListener("click", exportCustomersToCSV);
+    });
+
+    function setupLayoutUI() {
+      // Toggle Sidebar
+      const btnToggle = document.getElementById("btnToggleSidebar");
+      const sidebar = document.getElementById("mainSidebar");
+      const content = document.getElementById("mainContentWrapper");
+
+      btnToggle?.addEventListener("click", () => {
+        sidebar?.classList.toggle("sidebar-collapsed");
+        content?.classList.toggle("content-expanded");
+      });
+
+      // User Profile Dropdown
+      const btnUser = document.getElementById("btnUserDropdown");
+      const menuUser = document.getElementById("menuUserProfile");
+      btnUser?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        menuUser?.classList.toggle("hidden");
+        document.getElementById("notifDropdown")?.classList.add("hidden");
+      });
+
+      // Notification Dropdown
+      const btnNotif = document.getElementById("btnNotifToggle");
+      const notifDrop = document.getElementById("notifDropdown");
+      btnNotif?.addEventListener("click", (e) => {
+        e.stopPropagation();
+        notifDrop?.classList.toggle("hidden");
+        menuUser?.classList.add("hidden");
+      });
+
+      document.addEventListener("click", () => {
+        menuUser?.classList.add("hidden");
+        notifDrop?.classList.add("hidden");
+      });
+
+      // Logout Handlers
+      const logoutHandler = (e) => {
+        e.preventDefault();
+        if (confirm("Apakah Anda yakin ingin keluar?")) {
+          auth.signOut().then(() => window.location.href = "index.html");
+        }
+      };
+      document.getElementById("adminLogoutBtn")?.addEventListener("click", logoutHandler);
+      document.getElementById("dropdownLogoutBtn")?.addEventListener("click", logoutHandler);
+
+      // Shortcut ⌘K / Ctrl+K
+      window.addEventListener("keydown", (e) => {
+        if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+          e.preventDefault();
+          document.getElementById("inputSearchGlobal")?.focus();
+        }
+      });
+
+      // Modal Edit User
+      const modal = document.getElementById("userEditModal");
+      const closeModal = () => modal?.classList.add("hidden");
+      document.getElementById("btnCloseModal")?.addEventListener("click", closeModal);
+      document.getElementById("btnCancelModal")?.addEventListener("click", closeModal);
+      modal?.addEventListener("click", (e) => {
+        if (e.target === modal) closeModal();
+      });
+
+      // Modal Orders User
+      const ordersModal = document.getElementById("userOrdersModal");
+      const closeOrdersModal = () => ordersModal?.classList.add("hidden");
+      document.getElementById("btnCloseOrdersModal")?.addEventListener("click", closeOrdersModal);
+      document.getElementById("btnCloseOrdersModalFooter")?.addEventListener("click", closeOrdersModal);
+      ordersModal?.addEventListener("click", (e) => {
+        if (e.target === ordersModal) closeOrdersModal();
+      });
+    }
+
+    async function startLoadingData() {
+      try {
+        const ordersSnap = await db.collection("orders").get();
+        processOrdersData(ordersSnap);
+      } catch (err) {
+        console.warn("Peringatan saat membaca orders awal:", err);
+      }
+
+      try {
+        const usersSnap = await db.collection("users").get();
+        handleUsersSnapshot(usersSnap);
+      } catch (err) {
+        console.error("Gagal get users:", err);
+        const tbody = document.getElementById("usersTableBody");
+        if (tbody) {
+          tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-rose-500 text-xs font-semibold">Gagal memuat data pelanggan: ${escapeHtml(err.message)}</td></tr>`;
+        }
+      }
+
+      db.collection("users").onSnapshot((snapshot) => {
+        handleUsersSnapshot(snapshot);
+      }, (error) => {
+        console.error("Realtime listener users error:", error);
+      });
+
+      db.collection("orders").onSnapshot((snapshot) => {
+        processOrdersData(snapshot);
+        filterUsers();
+        updateNotificationBox(allRawOrders.slice(0, 4));
+      });
+    }
+
+    function processOrdersData(snapshot) {
+      userOrdersMap = {};
+      allRawOrders = [];
+      let activeUserCount = 0;
+
+      snapshot.forEach((doc) => {
+        const o = { id: doc.id, ...doc.data() };
+        allRawOrders.push(o);
+
+        const uid = o.userId;
+        if (uid) {
+          if (!userOrdersMap[uid]) {
+            userOrdersMap[uid] = { count: 0, totalSpend: 0 };
+            activeUserCount++;
+          }
+          userOrdersMap[uid].count += 1;
+          userOrdersMap[uid].totalSpend += Number(o.totalHarga || o.totalBiaya || 0);
+        }
+      });
+
+      const elActiveUsers = document.getElementById("statActiveUsersCard");
+      if (elActiveUsers) elActiveUsers.textContent = activeUserCount.toLocaleString("id-ID");
+    }
+
+    function handleUsersSnapshot(snapshot) {
+      allUsersData = [];
+      let adminCount = 0;
+
+      snapshot.forEach((doc) => {
+        const u = { id: doc.id, ...doc.data() };
+        allUsersData.push(u);
+
+        if ((u.role || "").toLowerCase() === "admin") adminCount++;
+      });
+
+      const elTotalUsers = document.getElementById("statTotalUsersCard");
+      const elAdminCount = document.getElementById("statAdminCountCard");
+
+      if (elTotalUsers) elTotalUsers.textContent = snapshot.size.toLocaleString("id-ID");
+      if (elAdminCount) elAdminCount.textContent = adminCount.toLocaleString("id-ID");
+
+      filterUsers();
+    }
+
+    function filterUsers(searchVal) {
+      const query = (searchVal !== undefined ? searchVal : (document.getElementById("inputSearchGlobal")?.value || "")).toLowerCase().trim();
+      const filtered = allUsersData.filter((u) => {
+        const nama = String(u.nama || u.namaLengkap || "").toLowerCase();
+        const email = String(u.email || "").toLowerCase();
+        const telepon = String(u.notlp || u.telepon || u.noHp || "").toLowerCase();
+        const alamat = String(u.alamat || "").toLowerCase();
+        return nama.includes(query) || email.includes(query) || telepon.includes(query) || alamat.includes(query);
+      });
+      renderUsersTable(filtered);
+    }
+
+    function renderUsersTable(users) {
+      const tbody = document.getElementById("usersTableBody");
+      if (!tbody) return;
+
+      if (!users.length) {
+        tbody.innerHTML = `<tr><td colspan="8" class="py-8 text-center text-slate-400 text-xs">Tidak ada data pelanggan ditemukan.</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = users.map((u) => {
+        const stats = userOrdersMap[u.id] || { count: 0, totalSpend: 0 };
+        const dataJson = encodeURIComponent(JSON.stringify(u));
+        const noTelp = u.notlp || u.telepon || u.noHp || "-";
+        const alamat = u.alamat || u.address || "-";
+        const role = (u.role || "user").toLowerCase();
+
+        let roleBadge = "bg-emerald-50 text-emerald-700 border-emerald-200";
+        if (role === "admin") {
+          roleBadge = "bg-purple-50 text-purple-700 border-purple-200";
+        }
+
+        return `
+          <tr class="hover:bg-slate-50 transition">
+            <td class="py-3.5 px-4 font-bold text-slate-800">
+              <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-xs font-extrabold text-brand-600">
+                  ${escapeHtml((u.nama || "U").charAt(0).toUpperCase())}
+                </div>
+                <span>${escapeHtml(u.nama || u.namaLengkap || "Tanpa Nama")}</span>
+              </div>
+            </td>
+            <td class="py-3.5 px-4 text-slate-600 text-xs">${escapeHtml(u.email || "-")}</td>
+            <td class="py-3.5 px-4 text-slate-600 text-xs">${escapeHtml(String(noTelp))}</td>
+            <td class="py-3.5 px-4 text-slate-600 text-xs max-w-xs truncate">${escapeHtml(alamat)}</td>
+            <td class="py-3.5 px-4">
+              <span class="inline-flex px-2 py-0.5 rounded-full text-xs font-bold bg-brand-50 text-brand-600 border border-brand-100">
+                ${stats.count} Pesanan
+              </span>
+            </td>
+            <td class="py-3.5 px-4 font-extrabold text-slate-900">${formatRupiah(stats.totalSpend)}</td>
+            <td class="py-3.5 px-4">
+              <span class="inline-flex px-2.5 py-0.5 rounded-full text-[11px] font-bold border ${roleBadge} uppercase">
+                ${escapeHtml(role)}
+              </span>
+            </td>
+            <td class="py-3.5 px-4 text-center">
+              <div class="inline-flex items-center gap-1.5">
+                <button type="button" onclick="viewUserOrders('${escapeJs(u.id)}', '${escapeJs(u.nama || u.namaLengkap || 'Pelanggan')}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-blue-50 text-brand-600 hover:bg-blue-100 border border-blue-200 transition cursor-pointer" title="Lihat Riwayat Pesanan">
+                  <i class="fa fa-shopping-bag"></i>
+                </button>
+                <button type="button" onclick="openEditModal('${dataJson}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-amber-50 text-amber-700 hover:bg-amber-100 border border-amber-200 transition cursor-pointer" title="Edit Data">
+                  <i class="fa fa-pencil"></i>
+                </button>
+                <button type="button" onclick="sendResetPassword('${escapeJs(u.email)}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-indigo-50 text-brand-600 hover:bg-indigo-100 border border-indigo-200 transition cursor-pointer" title="Reset Password">
+                  <i class="fa fa-key"></i>
+                </button>
+                <button type="button" onclick="deleteUserDoc('${escapeJs(u.id)}')" class="px-2.5 py-1 text-xs font-bold rounded-lg bg-rose-50 text-rose-600 hover:bg-rose-100 border border-rose-200 transition cursor-pointer" title="Hapus Akun">
+                  <i class="fa fa-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function viewUserOrders(userId, userName) {
+      const modal = document.getElementById("userOrdersModal");
+      const title = document.getElementById("userOrdersModalTitle");
+      const subtitle = document.getElementById("userOrdersModalSubtitle");
+      const tbody = document.getElementById("userOrdersModalTableBody");
+
+      if (title) title.textContent = `Riwayat Pesanan: ${userName}`;
+      if (subtitle) subtitle.textContent = `User ID: #${userId}`;
+
+      const userOrders = allRawOrders.filter(o => o.userId === userId);
+
+      if (!userOrders.length) {
+        tbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 text-xs">Akun ini belum memiliki riwayat transaksi pesanan.</td></tr>`;
+      } else {
+        tbody.innerHTML = userOrders.map(o => {
+          const acara = o.namaKegiatan || o.namaAcara || "-";
+          const paket = o.namaPaket || o.paket || "Paket Catering";
+          const porsi = o.jumlahPorsi || 1;
+          const total = formatRupiah(o.totalHarga || o.totalBiaya || 0);
+          const payStatus = o.paymentStatus || "Unpaid";
+          const status = o.status || "Pending";
+
+          let badgePay = payStatus.toLowerCase() === "paid" || payStatus.toLowerCase() === "lunas"
+            ? "bg-emerald-50 text-emerald-700 border-emerald-200"
+            : "bg-amber-50 text-amber-700 border-amber-200";
+
+          let badgeStatus = "bg-slate-100 text-slate-700 border-slate-200";
+          if (status === "Diproses") badgeStatus = "bg-blue-50 text-blue-700 border-blue-200";
+          if (status === "Selesai") badgeStatus = "bg-emerald-50 text-emerald-700 border-emerald-200";
+          if (status === "Dibatalkan") badgeStatus = "bg-rose-50 text-rose-700 border-rose-200";
+
+          return `
+            <tr class="hover:bg-slate-50 transition">
+              <td class="py-3 px-3 font-bold text-slate-800 text-xs">#${escapeHtml(o.id.substring(0, 7))}</td>
+              <td class="py-3 px-3">
+                <span class="font-bold text-slate-800 text-xs block">${escapeHtml(acara)}</span>
+                <small class="text-slate-400 text-[11px]">${escapeHtml(paket)}</small>
+              </td>
+              <td class="py-3 px-3 text-xs font-semibold text-slate-700">${porsi} Porsi</td>
+              <td class="py-3 px-3 text-xs font-extrabold text-brand-600">${total}</td>
+              <td class="py-3 px-3">
+                <span class="inline-flex px-2 py-0.5 rounded-full text-[11px] font-bold border ${badgePay}">${escapeHtml(payStatus)}</span>
+              </td>
+              <td class="py-3 px-3">
+                <span class="inline-flex px-2 py-0.5 rounded-full text-[11px] font-bold border ${badgeStatus}">${escapeHtml(status)}</span>
+              </td>
+            </tr>
+          `;
+        }).join("");
+      }
+
+      modal?.classList.remove("hidden");
+    }
+
+    function openEditModal(dataJson) {
+      const user = JSON.parse(decodeURIComponent(dataJson));
+      document.getElementById("editUserId").value = user.id;
+      document.getElementById("editNama").value = user.nama || user.namaLengkap || "";
+      document.getElementById("editEmail").value = user.email || "";
+      document.getElementById("editTelepon").value = user.notlp || user.telepon || user.noHp || "";
+      document.getElementById("editAlamat").value = user.alamat || user.address || "";
+      document.getElementById("editRole").value = (user.role || "user").toLowerCase();
+
+      document.getElementById("userEditModal")?.classList.remove("hidden");
+    }
+
+    async function saveUserChanges(e) {
+      e.preventDefault();
+      const uid = document.getElementById("editUserId").value;
+      const btn = document.getElementById("btnSubmitUser");
+      const oldText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Menyimpan...';
+
+      const telpValue = document.getElementById("editTelepon").value.trim();
+      const data = {
+        nama: document.getElementById("editNama").value.trim(),
+        notlp: telpValue,
+        telepon: telpValue,
+        noHp: telpValue,
+        alamat: document.getElementById("editAlamat").value.trim(),
+        role: document.getElementById("editRole").value
+      };
+
+      try {
+        await db.collection("users").doc(uid).update(data);
+        document.getElementById("userEditModal")?.classList.add("hidden");
+        alert("Data pelanggan berhasil diperbarui!");
+      } catch (err) {
+        alert("Gagal memperbarui data: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = oldText;
+      }
+    }
+
+    async function sendResetPassword(email) {
+      if (!email || email === "-") {
+        alert("Email pelanggan tidak ditemukan.");
+        return;
+      }
+      if (confirm(`Kirim email reset password ke ${email}?`)) {
+        try {
+          await auth.sendPasswordResetEmail(email);
+          alert(`Link reset password berhasil dikirim ke: ${email}`);
+        } catch (err) {
+          alert("Gagal mengirim email reset password: " + err.message);
+        }
+      }
+    }
+
+    async function deleteUserDoc(uid) {
+      if (confirm("Apakah Anda yakin ingin menghapus akun pelanggan ini dari database Firestore?")) {
+        try {
+          await db.collection("users").doc(uid).delete();
+          alert("Akun pelanggan berhasil dihapus.");
+        } catch (err) {
+          alert("Gagal menghapus pelanggan: " + err.message);
+        }
+      }
+    }
+
+    function updateNotificationBox(recentOrders) {
+      const list = document.getElementById("notifList");
+      if (!list) return;
+
+      if (!recentOrders.length) {
+        list.innerHTML = `<div class="py-2 px-2 text-slate-400 text-xs">Belum ada pesanan terbaru.</div>`;
+        return;
+      }
+
+      list.innerHTML = recentOrders.map((o) => `
+        <div class="py-2 px-2 hover:bg-slate-50 border-b border-slate-100 last:border-0">
+          <p class="font-bold text-slate-800 text-xs">${escapeHtml(o.namaPemesan || o.nama || "Pelanggan")}</p>
+          <p class="text-[11px] text-slate-500">${escapeHtml(o.namaKegiatan || o.namaPaket || "Pesanan Catering")} • <strong class="text-brand-600">${formatRupiah(o.totalHarga || o.totalBiaya || 0)}</strong></p>
+        </div>
+      `).join("");
+    }
+
+    // Ekspor Data Seluruh Pelanggan ke CSV
+    function exportCustomersToCSV() {
+      if (!allUsersData || !allUsersData.length) {
+        alert("Tidak ada data pelanggan untuk diekspor.");
+        return;
+      }
+
+      const headers = ["User ID", "Nama Lengkap", "Email", "Nomor Telepon", "Alamat", "Total Transaksi", "Total Belanja (Rp)", "Role"];
+      const rows = allUsersData.map((u) => {
+        const stats = userOrdersMap[u.id] || { count: 0, totalSpend: 0 };
+        const telp = u.notlp || u.telepon || u.noHp || "-";
+        return [
+          `"${u.id}"`,
+          `"${u.nama || u.namaLengkap || '-'}"`,
+          `"${u.email || '-'}"`,
+          `"${telp}"`,
+          `"${u.alamat || '-'}"`,
+          `"${stats.count}"`,
+          `"${formatRupiah(stats.totalSpend)}"`,
+          `"${u.role || 'user'}"`
+        ];
+      });
+
+      const csvContent = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map((e) => e.join(","))].join("\n");
+      const link = document.createElement("a");
+      link.setAttribute("href", encodeURI(csvContent));
+      link.setAttribute("download", `laporan_pelanggan_${new Date().toISOString().slice(0, 10)}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function formatRupiah(num) {
+      return new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0
+      }).format(num || 0);
+    }
+
+    function escapeHtml(val) {
+      return String(val ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+    }
+
+    function escapeJs(val) {
+      return String(val ?? "")
+        .replace(/\\/g, "\\\\")
+        .replace(/'/g, "\\'")
+        .replace(/\r/g, "\\r")
+        .replace(/\n/g, "\\n");
+    }
+  </script>
+</body>
+
+</html>
