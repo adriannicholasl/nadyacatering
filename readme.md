@@ -194,6 +194,55 @@ flowchart TD
     J --> K
     K --> L([Selesai])
 ```
+```mermaid
+usecaseDiagram
+    actor Tamu as "Pengunjung / Tamu"
+    actor Pelanggan as "Pelanggan (Customer)"
+    actor Admin as "Administrator"
+
+    rectangle "Sistem Web Nadya Catering" {
+        usecase UC1 as "Melihat Beranda & Katalog Paket"
+        usecase UC2 as "Melihat Detail & Menu Makanan"
+        usecase UC3 as "Mendaftar Akun Baru (Register)"
+        usecase UC4 as "Masuk ke Akun (Login)"
+        usecase UC5 as "Mengelola Profil Pengguna"
+        usecase UC6 as "Menambah Paket ke Keranjang"
+        usecase UC7 as "Checkout & Mengisi Lokasi Acara"
+        usecase UC8 as "Membuat Pesanan & Konfirmasi WhatsApp"
+        usecase UC9 as "Mengunggah Bukti Pembayaran"
+        usecase UC10 as "Melihat Riwayat Pesanan Saya"
+        
+        usecase UC11 as "Mengelola Dashboard Statistik"
+        usecase UC12 as "Mengelola Data & Kategori Paket"
+        usecase UC13 as "Mengelola Menu Sub-Koleksi Items"
+        usecase UC14 as "Memverifikasi Pesanan & Pembayaran"
+        usecase UC15 as "Mengelola Data Pelanggan"
+    }
+
+    Tamu --> UC1
+    Tamu --> UC2
+    Tamu --> UC3
+    Tamu --> UC4
+
+    Pelanggan --> UC1
+    Pelanggan --> UC2
+    Pelanggan --> UC4
+    Pelanggan --> UC5
+    Pelanggan --> UC6
+    Pelanggan --> UC7
+    Pelanggan --> UC8
+    Pelanggan --> UC9
+    Pelanggan --> UC10
+
+    Admin --> UC11
+    Admin --> UC12
+    Admin --> UC13
+    Admin --> UC14
+    Admin --> UC15
+
+    UC6 .> UC4 : "include (harus login)"
+    UC7 .> UC4 : "include (harus login)"
+    UC10 .> UC4 : "include (harus login)"
 
 ---
 
