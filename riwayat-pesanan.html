@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Riwayat Pesanan Saya - Nadya Catering Pineleng</title>
+  <title>Riwayat Pesanan Saya - NADYA Catering Pineleng</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/custom-ui.css">
@@ -12,6 +12,7 @@
 
 <body>
 
+  <!-- NAVBAR TANPA IKON -->
   <nav class="navbar custom-navbar navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -21,19 +22,20 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="index.html#menu">Pesan Menu Lagi</a></li>
-          <li><a href="profil.html">Profil Saya</a></li>
-          <li><a href="index.html">Beranda</a></li>
+          <li><a href="index.html#menu" class="btn-custom btn-custom-sm btn-custom-outline">Pesan Menu Lagi</a></li>
+          <li><a href="profil.html" class="btn-custom btn-custom-sm btn-custom-outline">Profil Saya</a></li>
+          <li><a href="index.html" class="btn-custom btn-custom-sm btn-custom-outline">Beranda</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <div class="history-page">
+  <div class="history-page" style="padding: 40px 0 80px;">
     <div class="container">
-      <div class="mb-4">
-        <h2><i class="fa fa-history"></i> Riwayat Pesanan Saya</h2>
-        <p>Daftar transaksi katering yang pernah Anda pesan</p>
+      <div style="margin-bottom:24px;">
+        <h2 style="font-size:24px; font-weight:800; margin-bottom:4px;"><i class="fa fa-history"
+            style="color:#ff5200;"></i> Riwayat Pesanan Saya</h2>
+        <p style="color:#64748b; font-size:14px; margin:0;">Daftar transaksi katering yang pernah Anda pesan</p>
       </div>
 
       <div id="historyOrdersContainer">
@@ -75,7 +77,7 @@
                 <div class="history-card text-center p-5">
                   <i class="fa fa-shopping-basket fa-3x text-muted"></i>
                   <p class="mt-3 font-weight-bold">Anda belum pernah membuat pesanan katering.</p>
-                  <a href="index.html#menu" class="btn btn-primary-custom mt-2">Pilih Menu Catering Sekarang</a>
+                  <a href="index.html#menu" class="btn-custom btn-custom-primary mt-2">Pilih Menu Catering Sekarang</a>
                 </div>
               `;
               return;
@@ -95,35 +97,38 @@
               const status = o.status || 'Pending';
               const pay = o.paymentStatus || 'Unpaid';
 
-              let payBadge = pay.toLowerCase() === 'paid' || pay.toLowerCase() === 'lunas'
-                ? '<span class="badge badge-success">Lunas</span>'
-                : '<span class="badge badge-warning">Belum Lunas</span>';
+              let payBadge = ['paid', 'lunas'].includes(pay.toLowerCase())
+                ? '<span class="badge badge-success" style="padding:5px 10px; font-size:11px;">Lunas</span>'
+                : '<span class="badge badge-warning" style="padding:5px 10px; font-size:11px;">Belum Lunas</span>';
+
+              const btnText = o.buktiPembayaranUrl ? 'Lihat Bukti & Detail' : 'Upload Bukti Bayar';
 
               return `
                 <div class="history-card">
-                  <div class="d-flex justify-content-between align-items-center pb-2 mb-3 border-bottom">
+                  <div style="display:flex; justify-content:space-between; align-items:center; padding-bottom:12px; margin-bottom:14px; border-bottom:1px solid #f1f5f9;">
                     <div>
-                      <strong>#${o.id.substring(0, 8)}</strong>
-                      <span class="text-muted ml-2">${o.tanggalAcara || '-'}</span>
+                      <strong style="color:#ff5200; font-size:14px;">#${o.id.substring(0, 8)}</strong>
+                      <span style="color:#64748b; margin-left:10px; font-size:12.5px;"><i class="fa fa-calendar"></i> ${o.tanggalAcara || '-'}</span>
                     </div>
                     <div>
                       ${payBadge}
-                      <span class="badge badge-info">${status}</span>
+                      <span class="badge badge-info" style="padding:5px 10px; font-size:11px;">${status}</span>
                     </div>
                   </div>
 
-                  <div class="row">
-                    <div class="col-md-8 col-sm-12">
-                      <h4>${o.namaKegiatan || 'Acara Catering'}</h4>
-                      <p><i class="fa fa-cutlery"></i> ${o.namaPaket || '-'}</p>
-                      <p><i class="fa fa-map-marker"></i> Lokasi: ${o.lokasiAcara || '-'}</p>
+                  <div class="row align-items-center">
+                    <div class="col-md-7 col-sm-12">
+                      <h4 style="font-size:16px; margin-bottom:6px;">${o.namaKegiatan || 'Acara Catering'}</h4>
+                      <p style="margin-bottom:4px; font-size:13px;"><i class="fa fa-cutlery" style="color:#ff5200;"></i> ${o.namaPaket || 'Paket Catering'}</p>
+                      <p style="margin-bottom:0; font-size:12.5px; color:#64748b;"><i class="fa fa-map-marker" style="color:#ff5200;"></i> Lokasi: ${o.lokasiAcara || '-'}</p>
                     </div>
-                    <div class="col-md-4 col-sm-12 text-right">
-                      <span class="text-muted d-block">Total Biaya:</span>
-                      <strong class="text-brand h4">${total}</strong>
-                      <div class="mt-2">
-                        <a href="order-success.html?orderId=${o.id}" class="btn btn-xs btn-default">Lihat Pembayaran & Bukti</a>
-                      </div>
+                    <div class="col-md-5 col-sm-12 text-right" style="margin-top:10px;">
+                      <span style="font-size:12px; color:#64748b; display:block;">Total Biaya:</span>
+                      <strong style="color:#ff5200; font-size:18px; display:block; margin-bottom:12px;">${total}</strong>
+                      
+                      <a href="order-success.html?orderId=${o.id}" class="btn-custom btn-custom-sm btn-custom-outline">
+                        <i class="fa fa-file-text-o"></i> ${btnText}
+                      </a>
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-document.addEventListener("DOMContentLoaded", async function () {
+document.addEventListener("DOMContentLoaded", function () {
   const params = new URLSearchParams(window.location.search);
   const paketId = params.get("id");
 
@@ -22,29 +22,89 @@ document.addEventListener("DOMContentLoaded", async function () {
 
   let currentPaketData = null;
 
-  // --- HELPER LOCALSTORAGE KERANJANG ---
-  function getCart() {
-    return JSON.parse(localStorage.getItem("nadya_cart") || "[]");
+  // 1. Ambil Data Dokumen Utama Paket
+  db.collection("paket")
+    .doc(paketId)
+    .get()
+    .then((doc) => {
+      if (!doc.exists) {
+        alert("Data paket tidak tersedia.");
+        window.location.href = "index.html";
+        return;
+      }
+
+      currentPaketData = doc.data();
+      if (paketNama) paketNama.textContent = currentPaketData.nama || "Paket Catering";
+      if (paketDeskripsi) paketDeskripsi.textContent = currentPaketData.deskripsi || "";
+      if (paketImage) paketImage.src = currentPaketData.imageUrl || "images/default-menu.png";
+
+      const formattedHarga = new Intl.NumberFormat("id-ID", {
+        style: "currency",
+        currency: "IDR",
+        minimumFractionDigits: 0,
+      }).format(currentPaketData.harga || 0);
+
+      if (paketHarga) paketHarga.textContent = formattedHarga;
+    })
+    .catch((err) => {
+      console.error("Gagal memuat dokumen paket:", err);
+    });
+
+  // 2. Ambil Sub-koleksi "items" Secara Langsung (Realtime Listener)
+  db.collection("paket")
+    .doc(paketId)
+    .collection("items")
+    .onSnapshot(
+      (snapshot) => {
+        if (!itemsContainer) return;
+
+        if (snapshot.empty) {
+          itemsContainer.innerHTML = `
+        <div class="col-xs-12 text-center" style="padding: 30px 0;">
+          <p class="text-muted" style="font-size: 14px;">Belum ada hidangan menu yang ditambahkan ke paket ini.</p>
+        </div>`;
+          return;
+        }
+
+        const items = [];
+        snapshot.forEach((doc) => {
+          items.push({ id: doc.id, ...doc.data() });
+        });
+
+        renderItems(items);
+      },
+      (error) => {
+        console.error("Gagal memuat sub-koleksi items:", error);
+        if (itemsContainer) {
+          itemsContainer.innerHTML = `<div class="col-xs-12 text-center"><p class="text-danger">Gagal memuat menu: ${error.message}</p></div>`;
+        }
+      },
+    );
+
+  // Function Render Item Kartu Makanan
+  function renderItems(items) {
+    itemsContainer.innerHTML = "";
+    items.forEach((item) => {
+      const imgPath = item.imageUrl || item.foto || "images/default-menu.png";
+      const rawName = item.nama || "Menu Makanan";
+      const cleanName = rawName.replace(/_/g, " ");
+
+      itemsContainer.innerHTML += `
+        <div class="col-md-3 col-sm-4 col-xs-6" style="margin-bottom: 25px;">
+          <div class="subitem-card" style="background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); text-align: center;">
+            <div style="width: 100%; height: 160px; overflow: hidden; background: #f8fafc; display: flex; align-items: center; justify-content: center;">
+              <img src="${imgPath}" alt="${cleanName}" onerror="this.src='images/default-menu.png'" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+            </div>
+            <div style="padding: 12px 10px;">
+              <h5 style="font-weight: 700; font-size: 14px; color: #1e293b; margin: 0; line-height: 1.4;">${cleanName}</h5>
+            </div>
+          </div>
+        </div>
+      `;
+    });
   }
 
-  function saveCart(cart) {
-    localStorage.setItem("nadya_cart", JSON.stringify(cart));
-    updateCartBadge();
-  }
-
-  function updateCartBadge() {
-    const cart = getCart();
-    const badge = document.getElementById("cartCountBadge");
-    if (badge) {
-      const totalQty = cart.reduce((sum, item) => sum + item.porsi, 0);
-      badge.textContent = totalQty;
-      badge.style.display = totalQty > 0 ? "inline-block" : "none";
-    }
-  }
-
-  updateCartBadge();
-
-  // --- KONTROL JUMLAH PORSI ---
+  // Kontrol Porsi & Keranjang
   btnMinusPorsi?.addEventListener("click", () => {
     let val = parseInt(porsiInput.value || "1", 10);
     if (val > 1) porsiInput.value = val - 1;
@@ -55,91 +115,23 @@ document.addEventListener("DOMContentLoaded", async function () {
     porsiInput.value = val + 1;
   });
 
-  // --- LOAD DATA PAKET DARI FIRESTORE ---
-  try {
-    const paketDoc = await db.collection("paket").doc(paketId).get();
-    if (!paketDoc.exists) {
-      alert("Data paket tidak tersedia.");
-      window.location.href = "index.html";
-      return;
-    }
-
-    currentPaketData = paketDoc.data();
-    if (paketNama) paketNama.textContent = currentPaketData.nama || "Paket Catering";
-    if (paketDeskripsi) {
-      paketDeskripsi.textContent = currentPaketData.deskripsi || "Cita rasa lezat dan porsi memuaskan untuk acara spesial Anda.";
-    }
-    if (paketImage) {
-      paketImage.src = currentPaketData.imageUrl || "images/default-menu.png";
-    }
-
-    const formattedHarga = new Intl.NumberFormat("id-ID", {
-      style: "currency",
-      currency: "IDR",
-      minimumFractionDigits: 0,
-    }).format(currentPaketData.harga || 0);
-
-    if (paketHarga) paketHarga.textContent = formattedHarga;
-
-    // Load Items Sub-koleksi
-    let itemsSnapshot;
-    try {
-      itemsSnapshot = await db.collection("paket").doc(paketId).collection("items").orderBy("order", "asc").get();
-    } catch (e) {
-      itemsSnapshot = await db.collection("paket").doc(paketId).collection("items").get();
-    }
-
-    if (itemsContainer) {
-      itemsContainer.innerHTML = "";
-
-      if (itemsSnapshot.empty) {
-        itemsContainer.innerHTML = '<div class="col-xs-12 text-center"><p class="text-muted">Daftar menu detail sedang diperbarui.</p></div>';
-      } else {
-        itemsSnapshot.forEach((doc) => {
-          const item = doc.data();
-          itemsContainer.innerHTML += `
-            <div class="col-md-3 col-sm-4 col-xs-6">
-              <div class="subitem-card">
-                <div class="subitem-img-wrapper">
-                  <img src="${item.imageUrl || item.foto || "images/default-menu.png"}" alt="${item.nama || "Menu"}" class="subitem-img">
-                </div>
-                <div class="subitem-body">
-                  <h5 class="subitem-title">${item.nama || "Menu"}</h5>
-                </div>
-              </div>
-            </div>
-          `;
-        });
-      }
-    }
-  } catch (err) {
-    console.error("Gagal memuat detail paket:", err);
-  }
-
-  // --- AKSI TAMBAH KE KERANJANG ---
-  // --- AKSI TAMBAH KE KERANJANG DENGAN CEK LOGIN ---
   btnAddToCart?.addEventListener("click", () => {
     if (!currentPaketData) return;
-
-    // Cek Autentikasi Pengunjung
     const user = auth.currentUser;
     if (!user) {
-      alert("Silakan login atau daftar akun terlebih dahulu untuk menambahkan paket ke keranjang.");
-      $("#loginModal").modal("show");
+      alert("Silakan login terlebih dahulu untuk menambah ke keranjang.");
+      if (typeof $ !== "undefined" && $("#loginModal").length) {
+        $("#loginModal").modal("show");
+      }
       return;
     }
 
     const porsi = parseInt(porsiInput?.value || "1", 10);
-    if (isNaN(porsi) || porsi < 1) {
-      alert("Masukkan jumlah porsi yang valid.");
-      return;
-    }
+    let cart = JSON.parse(localStorage.getItem("nadya_cart") || "[]");
+    const idx = cart.findIndex((i) => i.paketId === paketId);
 
-    let cart = getCart();
-    const existingIndex = cart.findIndex((item) => item.paketId === paketId);
-
-    if (existingIndex > -1) {
-      cart[existingIndex].porsi += porsi;
+    if (idx > -1) {
+      cart[idx].porsi += porsi;
     } else {
       cart.push({
         paketId: paketId,
@@ -150,7 +142,13 @@ document.addEventListener("DOMContentLoaded", async function () {
       });
     }
 
-    saveCart(cart);
+    localStorage.setItem("nadya_cart", JSON.stringify(cart));
+    const badge = document.getElementById("cartCountBadge");
+    if (badge) {
+      const total = cart.reduce((s, i) => s + i.porsi, 0);
+      badge.textContent = total;
+      badge.style.display = total > 0 ? "inline-block" : "none";
+    }
     alert(`Berhasil menambahkan ${porsi} porsi "${currentPaketData.nama}" ke keranjang!`);
   });
 });

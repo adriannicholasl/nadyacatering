@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/animate.css">
 
-  <!-- Custom Standalone Design -->
+  <!-- Custom Standalone Design System -->
   <link rel="stylesheet" href="css/custom-ui.css">
 </head>
 
@@ -42,23 +42,21 @@
         <ul class="nav navbar-nav navbar-right">
           <!-- IKON KERANJANG BELANJA -->
           <li>
-            <a href="cart.html" id="cartNavBtn"
-              style="display: flex; align-items: center; gap: 6px; padding-top: 18px; padding-bottom: 18px;">
-              <i class="fa fa-shopping-cart" style="font-size: 18px; color: var(--primary, #FF5200);"></i>
+            <a href="cart.html" id="cartNavBtn" class="cart-nav-btn">
+              <i class="fa fa-shopping-cart"></i>
               <span>Keranjang</span>
-              <span id="cartCountBadge" class="badge"
-                style="background-color: var(--primary, #FF5200); color: #fff; display: none;">0</span>
+              <span id="cartCountBadge" class="badge" style="display: none;">0</span>
             </a>
           </li>
 
           <!-- USER MENU -->
           <li class="user-menu-wrapper">
-            <a href="javascript:void(0)" id="userMenuBtn" class="btn-auth">
+            <a href="javascript:void(0)" id="userMenuBtn" class="btn-custom btn-custom-sm btn-custom-primary">
               <i class="fa fa-user-circle"></i> <span id="userMenuName">Login</span>
             </a>
             <div class="user-dropdown" id="userDropdown">
               <a href="profil.html"><i class="fa fa-id-card"></i> Profil Saya</a>
-              <a href="riwayat.html"><i class="fa fa-history"></i> Riwayat Pesanan</a>
+              <a href="riwayat-pesanan.html"><i class="fa fa-history"></i> Riwayat Pesanan</a>
               <a href="#" id="logoutBtn" style="color: #EF4444 !important;"><i class="fa fa-sign-out"></i> Logout</a>
             </div>
           </li>
@@ -68,45 +66,42 @@
   </section>
 
   <!-- HERO DETAIL PAKET -->
-  <section style="padding: 50px 0 30px;">
+  <section style="padding: 20px 0 10px;">
     <div class="container">
       <div class="detail-hero-card">
-        <div class="row style-hero-row" style="display: flex; flex-wrap: wrap; align-items: center;">
+        <div class="row" style="display: flex; flex-wrap: wrap; align-items: center;">
           <div class="col-md-5 col-sm-12 text-center" style="margin-bottom: 20px;">
-            <img id="paketImage" src="images/default-menu.png" alt="Detail Paket" class="detail-hero-img">
+            <div class="detail-hero-img-wrapper">
+              <img id="paketImage" src="images/default-menu.png" alt="Detail Paket" class="detail-hero-img">
+            </div>
           </div>
           <div class="col-md-7 col-sm-12">
             <div class="detail-hero-info">
-              <span class="hero-badge">
+              <span class="hero-badge"
+                style="display: inline-block; background: #fff7ed; color: #ff5200; border: 1px solid #ffedd5; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 700; margin-bottom: 12px;">
                 <i class="fa fa-star"></i> Paket Catering Spesial
               </span>
-              <h2 id="paketNama" style="margin-top: 5px; font-weight: 800; font-size: 32px;">Memuat Paket...</h2>
-              <h3 id="paketHarga"
-                style="color: var(--primary); font-weight: 800; margin-bottom: 15px; font-size: 26px;">Rp 0</h3>
-              <p id="paketDeskripsi"
-                style="color: var(--text-muted); font-size: 15px; line-height: 1.7; margin-bottom: 25px;">
+              <h2 id="paketNama" style="margin-top: 0; font-weight: 800; font-size: 26px; color: #0f172a;">Memuat
+                Paket...</h2>
+              <h3 id="paketHarga" style="color: #ff5200; font-weight: 800; margin-bottom: 15px; font-size: 22px;">Rp 0
+              </h3>
+              <p id="paketDeskripsi" style="color: #64748b; font-size: 14px; line-height: 1.7; margin-bottom: 25px;">
                 Deskripsi paket akan muncul di sini.
               </p>
 
               <!-- KONTROL PORSI & TAMBAH KE KERANJANG -->
               <div style="display: flex; align-items: center; gap: 12px; flex-wrap: wrap;">
-                <div
-                  style="display: flex; align-items: center; border: 1px solid #CBD5E1; border-radius: 8px; overflow: hidden; background: #fff;">
-                  <button type="button" id="btnMinusPorsi" class="btn btn-default"
-                    style="border: none; padding: 10px 15px; font-weight: bold;">-</button>
-                  <input type="number" id="porsiInput" value="1" min="1"
-                    style="width: 55px; text-align: center; border: none; font-weight: bold; outline: none;">
-                  <button type="button" id="btnPlusPorsi" class="btn btn-default"
-                    style="border: none; padding: 10px 15px; font-weight: bold;">+</button>
+                <div class="porsi-control-box">
+                  <button type="button" id="btnMinusPorsi" class="porsi-btn">-</button>
+                  <input type="number" id="porsiInput" value="1" min="1" class="porsi-input">
+                  <button type="button" id="btnPlusPorsi" class="porsi-btn">+</button>
                 </div>
 
-                <button id="btnAddToCart" class="btn-order-now"
-                  style="margin: 0; background: var(--primary, #FF5200); border: none;">
+                <button id="btnAddToCart" class="btn-custom btn-custom-primary" style="margin: 0;">
                   <i class="fa fa-cart-plus"></i> Tambah ke Keranjang
                 </button>
 
-                <a href="cart.html" class="btn btn-default"
-                  style="padding: 12px 20px; border-radius: 8px; font-weight: 600; text-decoration: none;">
+                <a href="cart.html" class="btn-custom btn-custom-outline" style="margin: 0;">
                   <i class="fa fa-shopping-cart"></i> Lihat Keranjang
                 </a>
               </div>
@@ -117,13 +112,18 @@
       </div>
 
       <!-- DAFTAR ITEM/MENU -->
-      <div style="margin-top: 40px;">
-        <div class="section-title text-center">
-          <h2>Menu Dalam Paket Ini</h2>
-          <h4>Lauk dan hidangan lezat yang termasuk dalam paket</h4>
+      <div style="margin-top: 35px;">
+        <div class="section-title text-center" style="margin-bottom: 25px;">
+          <h2 style="font-weight: 800; font-size: 22px;">Menu Dalam Paket Ini</h2>
+          <h4 style="color: #64748b; font-size: 14px; margin-top: 5px;">Lauk dan hidangan lezat yang termasuk dalam
+            paket</h4>
         </div>
+
         <div class="row" id="itemsContainer">
-          <!-- Item hidangan akan dirender via JS -->
+          <div class="col-xs-12 text-center" style="padding: 40px 0;">
+            <i class="fa fa-spinner fa-spin fa-2x text-muted"></i>
+            <p style="margin-top: 10px; color: #64748b;">Memuat hidangan menu...</p>
+          </div>
         </div>
       </div>
     </div>

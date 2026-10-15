@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Detail & Konfirmasi Pesanan - Nadya Catering Pineleng</title>
+  <title>Detail & Konfirmasi Pesanan - NADYA Catering Pineleng</title>
   <link rel="stylesheet" href="css/bootstrap.min.css">
   <link rel="stylesheet" href="css/font-awesome.min.css">
   <link rel="stylesheet" href="css/custom-ui.css">
@@ -12,6 +12,7 @@
 
 <body>
 
+  <!-- NAVBAR TANPA IKON -->
   <nav class="navbar custom-navbar navbar-fixed-top">
     <div class="container">
       <div class="navbar-header">
@@ -21,86 +22,91 @@
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="riwayat-pesanan.html"><i class="fa fa-history"></i> Riwayat Pesanan</a></li>
-          <li><a href="index.html"><i class="fa fa-home"></i> Beranda</a></li>
+          <li><a href="riwayat-pesanan.html" class="btn-custom btn-custom-sm btn-custom-outline">Riwayat Pesanan</a>
+          </li>
+          <li><a href="index.html" class="btn-custom btn-custom-sm btn-custom-outline">Beranda</a></li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <div class="order-page">
+  <div class="order-page" style="padding: 40px 0 80px;">
     <div class="container">
       <div class="row">
-        <!-- DETAIL PESANAN -->
+        <!-- RINCIAN DETAIL PESANAN -->
         <div class="col-md-7 col-sm-12">
           <div class="order-card">
-            <div class="d-flex align-items-center mb-3">
-              <h3 id="orderSuccessTitle">Pesanan Berhasil Dicatat!</h3>
-              <p id="orderNumberLabel">ID Pesanan: #...</p>
+            <div
+              style="display:flex; justify-content:space-between; align-items:center; padding-bottom:15px; border-bottom:1px solid #e2e8f0; margin-bottom:18px;">
+              <div>
+                <h3 style="margin:0; font-size:20px;">Detail Pesanan</h3>
+                <span id="orderNumberLabel" style="color:#ff5200; font-weight:800; font-size:14px;">ID Pesanan:
+                  #...</span>
+              </div>
+              <span id="orderStatusBadgeHeader" class="badge badge-warning"
+                style="padding:6px 12px; font-size:12px;">Pending</span>
             </div>
 
-            <div class="alert alert-warning" id="orderStatusAlert">
-              Status: <strong id="orderStatusLabel">Pending (Menunggu Pembayaran / Verifikasi)</strong>
+            <div class="alert alert-info" id="orderStatusAlert" style="border-radius:10px;">
+              Status Transaksi: <strong id="orderStatusLabel">Pending (Menunggu Pembayaran / Verifikasi)</strong>
             </div>
 
             <div id="orderDetailsContent">
-              Memuat detail pesanan...
+              <i class="fa fa-spinner fa-spin"></i> Memuat detail pesanan...
             </div>
 
-            <div class="mt-4 pt-3 border-top">
-              <a id="btnChatWaOrder" href="#" target="_blank" class="btn btn-block btn-success">
-                <i class="fa fa-whatsapp fa-lg"></i> Hubungi / Konfirmasi via WhatsApp
+            <!-- TOMBOL CHAT WHATSAPP -->
+            <div style="margin-top:24px; padding-top:18px; border-top:1px solid #e2e8f0;">
+              <a id="btnChatWaOrder" href="#" target="_blank" class="btn-custom btn-custom-block btn-custom-wa">
+                <i class="fa fa-whatsapp fa-lg"></i> Kirim Rincian Pesanan Lengkap ke WhatsApp Admin
               </a>
             </div>
           </div>
         </div>
 
-        <!-- REKENING & UPLOAD BUKTI -->
+        <!-- REKENING & BUKTI PEMBAYARAN -->
         <div class="col-md-5 col-sm-12">
           <div class="order-card">
-            <h4><i class="fa fa-credit-card"></i> Pilihan Rekening Pembayaran</h4>
-            <p>Silakan transfer sesuai total tagihan ke salah satu rekening resmi Nadya Catering:</p>
+            <h4 style="font-size:16px; margin-bottom:8px;"><i class="fa fa-credit-card" style="color:#ff5200;"></i>
+              Rekening Pembayaran Resmi</h4>
+            <p style="font-size:12.5px; color:#64748b;">Silakan transfer tagihan ke salah satu rekening resmi NADYA
+              Catering:</p>
 
-            <div class="bank-box">
+            <div
+              style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <strong>Bank BCA</strong>
-                <p>7820-1234-56</p>
-                <small>a.n. Nadya Catering Pineleng</small>
+                <strong style="font-size:13px;">Bank BCA</strong>
+                <p style="margin:0; font-weight:800; color:#0f172a;">7820-1234-56</p>
+                <small style="color:#64748b;">a.n. NADYA Catering Pineleng</small>
               </div>
-              <button class="btn btn-xs btn-default" onclick="copyText('7820123456')">Salin</button>
+              <button class="btn-custom btn-custom-sm btn-custom-outline" onclick="copyText('7820123456')"><i
+                  class="fa fa-copy"></i> Salin</button>
             </div>
 
-            <div class="bank-box">
+            <div
+              style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <strong>Bank Mandiri</strong>
-                <p>157-00-0987654-1</p>
-                <small>a.n. Nadya Catering Pineleng</small>
+                <strong style="font-size:13px;">Bank Mandiri</strong>
+                <p style="margin:0; font-weight:800; color:#0f172a;">157-00-0987654-1</p>
+                <small style="color:#64748b;">a.n. NADYA Catering Pineleng</small>
               </div>
-              <button class="btn btn-xs btn-default" onclick="copyText('1570009876541')">Salin</button>
+              <button class="btn-custom btn-custom-sm btn-custom-outline" onclick="copyText('1570009876541')"><i
+                  class="fa fa-copy"></i> Salin</button>
             </div>
 
-            <div class="bank-box">
+            <div
+              style="background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 16px; margin-bottom:10px; display:flex; justify-content:space-between; align-items:center;">
               <div>
-                <strong>DANA / E-Wallet</strong>
-                <p>0821-9535-0990</p>
-                <small>a.n. Nadya Catering</small>
+                <strong style="font-size:13px;">DANA / E-Wallet</strong>
+                <p style="margin:0; font-weight:800; color:#0f172a;">0821-9535-0990</p>
+                <small style="color:#64748b;">a.n. NADYA Catering</small>
               </div>
-              <button class="btn btn-xs btn-default" onclick="copyText('082195350990')">Salin</button>
+              <button class="btn-custom btn-custom-sm btn-custom-outline" onclick="copyText('082195350990')"><i
+                  class="fa fa-copy"></i> Salin</button>
             </div>
 
-            <div class="mt-4 pt-3 border-top">
-              <h5><i class="fa fa-upload"></i> Upload Bukti Pembayaran (Opsional)</h5>
-              <p>Jika Anda sudah melakukan transfer, Anda dapat mengunggah bukti sekarang atau mengirimkannya nanti via
-                WhatsApp.</p>
-
-              <form id="uploadProofForm">
-                <div class="form-group">
-                  <input type="file" id="proofFileInput" class="form-control" accept="image/*" required>
-                </div>
-                <button type="submit" id="btnUploadProof" class="btn btn-block btn-primary-custom">
-                  Unggah Bukti Transfer
-                </button>
-              </form>
+            <div id="paymentProofSection" style="margin-top:20px; padding-top:16px; border-top:1px solid #e2e8f0;">
+              <!-- Kondisi Dinamis Upload vs Foto Bukti Bayar -->
             </div>
           </div>
         </div>
@@ -148,88 +154,151 @@
         document.getElementById("orderNumberLabel").textContent = "ID Pesanan: #" + doc.id;
         document.getElementById("orderStatusLabel").textContent = `${currentOrder.status || 'Pending'} • ${currentOrder.paymentStatus || 'Unpaid'}`;
 
-        const itemsHtml = (currentOrder.items || []).map((it, idx) => `
-          <div>${idx + 1}. <strong>${it.nama}</strong> (${it.porsi} Porsi) - ${formatRupiah(it.harga * it.porsi)}</div>
-        `).join("");
+        const items = currentOrder.items || [];
+        let itemsListText = "";
+        let itemsHtml = "";
+
+        if (Array.isArray(items) && items.length > 0) {
+          itemsListText = items.map((it, idx) => {
+            const name = it.nama || it.namaPaket || currentOrder.namaPaket || "Paket Catering";
+            const qty = it.porsi || currentOrder.jumlahPorsi || 1;
+            const price = (it.harga || 0) * qty;
+            return `${idx + 1}. *${name}* (${qty} Porsi) - ${formatRupiah(price)}`;
+          }).join("\n");
+
+          itemsHtml = items.map((it, idx) => `
+            <div style="padding: 8px 0; border-bottom: 1px solid #f1f5f9; display:flex; justify-content:space-between;">
+              <span>${idx + 1}. <strong>${it.nama || it.namaPaket || currentOrder.namaPaket}</strong> (${it.porsi || currentOrder.jumlahPorsi || 1} Porsi)</span>
+              <strong style="color:#ff5200;">${formatRupiah((it.harga || 0) * (it.porsi || currentOrder.jumlahPorsi || 1))}</strong>
+            </div>
+          `).join("");
+        } else {
+          const mainPackage = currentOrder.namaPaket || 'Paket Catering';
+          const qty = currentOrder.jumlahPorsi || 1;
+          itemsListText = `1. *${mainPackage}* (${qty} Porsi)`;
+          itemsHtml = `<div style="padding: 8px 0;">1. <strong>${mainPackage}</strong> (${qty} Porsi)</div>`;
+        }
+
+        const totalBiaya = currentOrder.totalHarga || currentOrder.totalBiaya || 0;
 
         document.getElementById("orderDetailsContent").innerHTML = `
-          <p><strong>Nama Pemesan:</strong> ${currentOrder.namaPemesan} (${currentOrder.telepon || '-'})</p>
-          <p><strong>Acara:</strong> ${currentOrder.namaKegiatan}</p>
-          <p><strong>Lokasi Acara:</strong> ${currentOrder.lokasiAcara || '-'}</p>
-          <p><strong>Waktu Acara:</strong> ${currentOrder.tanggalAcara}</p>
-          <p><strong>Metode Bayar:</strong> ${currentOrder.metodePembayaran}</p>
-          <p><strong>Catatan:</strong> ${currentOrder.catatan || '-'}</p>
-          <hr>
-          <div><strong>Paket yang dipesan:</strong>${itemsHtml}</div>
-          <p class="font-weight-bold text-brand mt-2">Total Biaya: ${formatRupiah(currentOrder.totalHarga || currentOrder.totalBiaya)}</p>
+          <p style="margin-bottom:6px;"><strong>Nama Pemesan:</strong> ${currentOrder.namaPemesan || '-'} (${currentOrder.telepon || '-'})</p>
+          <p style="margin-bottom:6px;"><strong>Nama Acara / Kegiatan:</strong> ${currentOrder.namaKegiatan || '-'}</p>
+          <p style="margin-bottom:6px;"><strong>Lokasi Pengantaran:</strong> ${currentOrder.lokasiAcara || '-'}</p>
+          <p style="margin-bottom:6px;"><strong>Tanggal & Waktu Acara:</strong> ${currentOrder.tanggalAcara || '-'}</p>
+          <p style="margin-bottom:6px;"><strong>Metode Pembayaran:</strong> ${currentOrder.metodePembayaran || '-'}</p>
+          <p style="margin-bottom:12px;"><strong>Catatan Tambahan:</strong> ${currentOrder.catatan || '-'}</p>
+          <hr style="margin:12px 0;">
+          <div style="margin-bottom:8px;"><strong>Daftar Item Pesanan:</strong></div>
+          ${itemsHtml}
+          <div style="margin-top:16px; padding:16px; background:#fff7ed; border:1px solid #ffedd5; border-radius:12px; text-align:right;">
+            <span style="font-size:12px; color:#64748b;">Total Tagihan Pesanan:</span>
+            <h3 style="color:#ff5200; font-weight:800; margin:4px 0 0;">${formatRupiah(totalBiaya)}</h3>
+          </div>
         `;
 
-        const waText =
-          `*HALO NADYA CATERING PINELENG*%0A` +
-          `Saya ingin mengonfirmasi pesanan berikut:%0A%0A` +
-          `ID Order: #${currentOrder.id}%0A` +
-          `Pemesan: ${currentOrder.namaPemesan}%0A` +
-          `Acara: ${currentOrder.namaKegiatan}%0A` +
-          `Lokasi: ${currentOrder.lokasiAcara}%0A` +
-          `Waktu: ${currentOrder.tanggalAcara}%0A` +
-          `Total Biaya: ${formatRupiah(currentOrder.totalHarga)}%0A` +
-          `Metode: ${currentOrder.metodePembayaran}%0A%0A` +
-          `Mohon dicek dan diarahkan untuk proses selanjutnya. Terima kasih!`;
+        const waOfficialNumber = "6282195350990";
+        const waMessageRaw =
+          `*PESANAN BARU - NADYA CATERING PINELENG*
+----------------------------------------
+*ID Pesanan:* #${currentOrder.id}
+*Pemesan:* ${currentOrder.namaPemesan || '-'}
+*No. WhatsApp:* ${currentOrder.telepon || '-'}
 
-        document.getElementById("btnChatWaOrder").href = `https://wa.me/6282195350990?text=${waText}`;
+*DETAIL ACARA & PENGANTARAN:*
+• *Acara:* ${currentOrder.namaKegiatan || '-'}
+• *Lokasi:* ${currentOrder.lokasiAcara || '-'}
+• *Waktu Acara:* ${currentOrder.tanggalAcara || '-'}
+
+*RINCIAN ITEM PESANAN:*
+${itemsListText}
+
+*RINGKASAN PEMBAYARAN:*
+• *Total Biaya:* ${formatRupiah(totalBiaya)}
+• *Metode Bayar:* ${currentOrder.metodePembayaran || '-'}
+• *Catatan:* ${currentOrder.catatan || '-'}
+----------------------------------------
+Halo Admin NADYA Catering, saya telah membuat pesanan di website. Mohon bantuan dikonfirmasi dan diproses. Terima kasih!`;
+
+        document.getElementById("btnChatWaOrder").href = `https://wa.me/${waOfficialNumber}?text=${encodeURIComponent(waMessageRaw)}`;
+
+        const proofSection = document.getElementById("paymentProofSection");
+        if (currentOrder.buktiPembayaranUrl) {
+          proofSection.innerHTML = `
+            <div style="text-align:center; padding:16px; background:#f0fdf4; border:1px solid #bbf7d0; border-radius:12px;">
+              <h5 style="color:#16a34a; font-weight:800; margin-bottom:6px;"><i class="fa fa-check-circle"></i> Bukti Pembayaran Terunggah</h5>
+              <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Status: <strong>${currentOrder.paymentStatus || 'Menunggu Verifikasi'}</strong></p>
+              <img src="${currentOrder.buktiPembayaranUrl}" alt="Bukti Transfer" class="img-responsive img-thumbnail" style="max-height: 260px; margin: 0 auto 12px; border-radius:8px;">
+              <p style="font-size:11px; color:#64748b; margin:0;">Admin NADYA Catering sedang memverifikasi pembayaran Anda.</p>
+            </div>
+          `;
+        } else {
+          proofSection.innerHTML = `
+            <h5 style="font-size:14px; font-weight:800; margin-bottom:6px;"><i class="fa fa-upload" style="color:#ff5200;"></i> Upload Bukti Pembayaran</h5>
+            <p style="font-size:12px; color:#64748b; margin-bottom:12px;">Jika sudah transfer, unggah foto bukti pembayaran Anda di bawah ini:</p>
+            <form id="uploadProofForm">
+              <div class="form-group" style="margin-bottom:12px;">
+                <input type="file" id="proofFileInput" class="form-control" accept="image/*" required style="border-radius:10px;">
+              </div>
+              <button type="submit" id="btnUploadProof" class="btn-custom btn-custom-block btn-custom-primary">
+                <i class="fa fa-cloud-upload"></i> Unggah Bukti Transfer
+              </button>
+            </form>
+          `;
+
+          document.getElementById("uploadProofForm")?.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const fileInput = document.getElementById("proofFileInput");
+            if (!fileInput.files.length) return alert("Pilih file foto bukti transfer terlebih dahulu.");
+
+            const btn = document.getElementById("btnUploadProof");
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Mengunggah...';
+
+            try {
+              const formData = new FormData();
+              formData.append("fileBukti", fileInput.files[0]);
+
+              const res = await fetch("php/upload_bukti.php", { method: "POST", body: formData });
+              const json = await res.json();
+
+              let proofUrl = "";
+              if (json.status === "success" && json.url) {
+                proofUrl = String(json.url).replace("../", "");
+              } else {
+                proofUrl = `uploads/payment/${fileInput.files[0].name}`;
+              }
+
+              await db.collection("orders").doc(orderId).update({
+                buktiPembayaranUrl: proofUrl,
+                paymentStatus: "Menunggu Verifikasi"
+              });
+
+              await db.collection("payments").add({
+                orderId: orderId,
+                harga: totalBiaya,
+                totalBiaya: totalBiaya,
+                jumlah: totalBiaya,
+                method: currentOrder.metodePembayaran || "Transfer",
+                buktiUrl: proofUrl,
+                status: "Lunas",
+                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+              });
+
+              alert("Bukti transfer berhasil diunggah! Pesanan Anda sedang diverifikasi oleh Admin.");
+              location.reload();
+            } catch (err) {
+              alert("Gagal mengunggah bukti: " + err.message);
+            } finally {
+              btn.disabled = false;
+              btn.innerHTML = '<i class="fa fa-cloud-upload"></i> Unggah Bukti Transfer';
+            }
+          });
+        }
 
       } catch (err) {
         console.error(err);
       }
-
-      document.getElementById("uploadProofForm")?.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const fileInput = document.getElementById("proofFileInput");
-        if (!fileInput.files.length) return alert("Pilih file foto bukti transfer terlebih dahulu.");
-
-        const btn = document.getElementById("btnUploadProof");
-        btn.disabled = true;
-        btn.textContent = "Mengunggah...";
-
-        try {
-          const formData = new FormData();
-          formData.append("fileBukti", fileInput.files[0]);
-
-          const res = await fetch("php/upload_bukti.php", { method: "POST", body: formData });
-          const json = await res.json();
-
-          let proofUrl = "";
-          if (json.status === "success" && json.url) {
-            proofUrl = String(json.url).replace("../", "");
-          } else {
-            proofUrl = `uploads/payment/${fileInput.files[0].name}`;
-          }
-
-          await db.collection("orders").doc(orderId).update({
-            buktiPembayaranUrl: proofUrl,
-            paymentStatus: "Menunggu Verifikasi"
-          });
-
-          await db.collection("payments").add({
-            orderId: orderId,
-            harga: currentOrder.totalHarga || 0,
-            totalBiaya: currentOrder.totalHarga || 0,
-            jumlah: currentOrder.totalHarga || 0,
-            method: currentOrder.metodePembayaran || "Transfer",
-            buktiUrl: proofUrl,
-            status: "Lunas",
-            createdAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-
-          alert("Bukti transfer berhasil diunggah! Pesanan Anda akan diverifikasi oleh Admin.");
-          location.reload();
-        } catch (err) {
-          alert("Gagal mengunggah bukti: " + err.message);
-        } finally {
-          btn.disabled = false;
-          btn.textContent = "Unggah Bukti Transfer";
-        }
-      });
     });
   </script>
 </body>
